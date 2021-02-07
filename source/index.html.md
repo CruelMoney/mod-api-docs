@@ -32,7 +32,7 @@ This example API documentation page was created with [Slate](https://github.com/
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here" \
-  -H "Authorization: API_KEY"
+  -H "Authorization: Bearer API_KEY"
 ```
 
 > Make sure to replace `API_KEY` with your API key.
@@ -41,7 +41,7 @@ Kittn uses API keys to allow access to the API. You can register a new Kittn API
 
 Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-`Authorization: API_KEY`
+`Authorization: Bearer API_KEY`
 
 <aside class="notice">
 You must replace <code>API_KEY</code> with your personal API key.
