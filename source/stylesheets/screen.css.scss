@@ -683,3 +683,18 @@ body .toc-h1[data-title="Moderation"] {
   color: rgba(0, 0, 0, 0.5) !important;
   font-size: 70%;
 }
+
+.toc-wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .toc-footer {
+    margin-top: auto;
+    border-top: 1px solid $border-color;
+
+    li {
+      font-size: 1em;
+      line-height: 2em;
+    }
+  }
+}
