@@ -5,8 +5,9 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - shell
 
 toc_footers:
-  - <a href='https://moderationapi.com/app'>Sign up</a>
-  - <a href='https://moderationapi.com/app'>Go to Dashboard</a>
+  - <a class="only-signed-out" href='https://moderationapi.com/app'>Sign in</a>
+  - <a class="only-signed-out" href='https://moderationapi.com/app'>Try the API</a>
+  - <a class="only-signed-in" href='https://moderationapi.com/app'>Go to Dashboard</a>
 
 includes:
   # - errors

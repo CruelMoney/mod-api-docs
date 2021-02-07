@@ -698,3 +698,18 @@ body .toc-h1[data-title="Moderation"] {
     }
   }
 }
+
+.only-signed-in,
+.only-signed-out {
+  display: none;
+}
+body.signed-in {
+  .only-signed-in {
+    display: block;
+  }
+}
+body.signed-out {
+  .only-signed-out {
+    display: block;
+  }
+}
