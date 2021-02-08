@@ -21,7 +21,7 @@ code_clipboard: true
 
 Welcome to the [Moderation API](https://moderationapi.com).
 
-The moderation API can help you to identify personal information and mask it out - even if the user attempts to bypass detection.
+The moderation API can help you to identify personal information and mask it out - even if the user attempts to evade detection.
 
 1. Define what type data you want to detect.
 2. Send a request to the API with content.
@@ -314,7 +314,7 @@ Each type of data can be detected using 3 different levels:
 | Mode         | Description                                                                                                |
 | ------------ | ---------------------------------------------------------------------------------------------------------- |
 | `NORMAL`     | Detect values that have been formatted correctly.                                                          |
-| `SUSPICIOUS` | Detect values where the writer is trying to bypass detection.                                              |
+| `SUSPICIOUS` | Detect values where the writer is trying to evade detection.                                               |
 | `PARANOID`   | Detect even the slightest chance of containing personal information. This might result in false positives. |
 
 We recommend to start with the `SUSPICIOUS` mode.
