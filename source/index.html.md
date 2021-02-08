@@ -137,7 +137,7 @@ curl "https://moderationapi.com/api/v1/projects" \
   -H "Authorization: Bearer API_KEY"
 ```
 
-> The above endpoint returns a JSON object like this:
+> The above endpoint returns a JSON array like this:
 
 ```json
 [
@@ -160,6 +160,18 @@ curl "https://moderationapi.com/api/v1/projects" \
   }
 ]
 ```
+
+Returns a list of your projects. The projects are returned sorted by creation date, with the most recent project appearing first.
+
+### Parameters
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| \-        | \-   | \-          |
+
+### Returns
+
+An array with all projects. Each entry in the array is a separate projects object. If no more projects are available, the resulting array will be empty. This request should only return an error if the API key is invalid.
 
 ## Get a Project
 

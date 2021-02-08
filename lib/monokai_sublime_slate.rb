@@ -42,7 +42,7 @@ module Rouge
               Comment,                          :fg => :dimgrey
         style Error,
               Generic::Error,
-              Generic::Traceback,               :fg => :carmine
+              Generic::Traceback,               :fg => :dimgrey
         style Generic::Deleted,
               Generic::Inserted,
               Generic::Emph,                    :fg => :dark
@@ -50,7 +50,7 @@ module Rouge
               Keyword::Declaration,
               Keyword::Reserved,
               Name::Constant,
-              Keyword::Type,                    :fg => :soft_cyan
+              Keyword::Type,                    :fg => :bright_pink
         style Literal::Number::Float,
               Literal::Number::Hex,
               Literal::Number::Integer::Long,
@@ -83,13 +83,13 @@ module Rouge
               Text::Whitespace,
               Text,
               Name,                             :fg => :white
-        style Name::Label,                      :fg => :bright_pink
+        style Name::Label,                      :fg => :soft_cyan
         style Operator::Word,
               Name::Tag,
               Keyword,
               Keyword::Namespace,
               Keyword::Pseudo,
-              Operator,                         :fg => :bright_pink
+              Operator,                         :fg => :orange
       end
     end
   end
