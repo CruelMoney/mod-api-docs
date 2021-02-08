@@ -1,8 +1,8 @@
 ---
 title: API Reference
 
-language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
+# language_tabs: # must be one of https://git.io/vQNgJ
+#   # - shell
 
 toc_footers:
   - <a class="only-signed-out" href='https://moderationapi.com/app'>Sign in</a>
@@ -67,9 +67,14 @@ curl "https://moderationapi.com/api/v1/account" \
 
 ```json
 {
-  "status": "success",
-  "message": "Valid API key",
-  "project": "My Project Name"
+  "id": "601fcbcd454faa5be1d36cf6",
+  "created_at": "2021-02-07T11:15:25.561Z",
+  "paid_plan_name": "Lite",
+  "text_api_quota": 100,
+  "text_api_usage_this_month": 45,
+  "current_project": {
+    "name": "My Project Name"
+  }
 }
 ```
 
@@ -79,15 +84,102 @@ It will respond with your quota levels and current usage levels. Usage resets at
 
 # Projects
 
+> Endpoints:
+
+```text
+  GET     /api/v1/projects
+  GET     /api/v1/projects/:id
+  PUT     /api/v1/projects/:id
+  DELETE  /api/v1/projects/:id
+  GET     /api/v1/projects
+```
+
+You can create multiple projects and use the API to moderate at different levels simultaneously.
+Each project has it's own [filter](#filter) that you can tweak to your preference.
+
+New projects have to be created from the dashboard.
+
+## The Project Object
+
+> Project Object:
+
+```json
+{
+  "_id": "601fe2eef2538064a22d496b",
+  "filter": {
+    "email": true,
+    "phone": true,
+    "url": true,
+    "masking": true,
+    "emailMode": "NORMAL",
+    "phoneMode": "NORMAL",
+    "urlMode": "NORMAL",
+    "emailMask": "{{ email hidden }}",
+    "phoneMask": "{{ number hidden }}",
+    "urlMask": "{{ URL hidden }}"
+  },
+  "name": "My Project Name",
+  "apiKey": "project-api-key" // Is replaced with actual API Key
+}
+```
+
+| Attribute  | Type   | Description                                                                     |
+| ---------- | ------ | ------------------------------------------------------------------------------- |
+| **\_id**   | string | Unique identifier for the project.                                              |
+| **filter** | object | The current filter settings for the project. See [filter object](#filter)       |
+| **name**   | string | Detect even the slightest chance of containing personal information.            |
+| **apiKey** | string | The api key to be used with this project. See [authentication](#authentication) |
+
 ## List All Projects
 
-## Create a Project
+```shell
+curl "https://moderationapi.com/api/v1/projects" \
+  -H "Authorization: Bearer API_KEY"
+```
+
+> The above endpoint returns a JSON object like this:
+
+```json
+[
+  {
+    "_id": "601fe2eef2538064a22d496b",
+    "filter": {
+      "email": true,
+      "phone": true,
+      "url": true,
+      "masking": true,
+      "emailMode": "NORMAL",
+      "phoneMode": "NORMAL",
+      "urlMode": "NORMAL",
+      "emailMask": "{{ email hidden }}",
+      "phoneMask": "{{ number hidden }}",
+      "urlMask": "{{ URL hidden }}"
+    },
+    "name": "My Project Name",
+    "apiKey": "project-api-key"
+  }
+]
+```
 
 ## Get a Project
 
 ## Update a Project
 
 ## Delete a Project
+
+# Filter
+
+## Detection modes
+
+Each type of data can be detected using 3 different modes:
+
+| Mode           | Description                                                          |
+| -------------- | -------------------------------------------------------------------- |
+| **Normal**     | Detect even the slightest chance of containing personal information. |
+| **Suspicious** | Detect even the slightest chance of containing personal information. |
+| **Paranoid**   | Detect even the slightest chance of containing personal information. |
+
+Matches - In order of most confident detection.
 
 # Errors
 
@@ -111,21 +203,11 @@ The Kittn API uses the following error codes:
 | 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
 | 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
 
+### Rate limiting
+
 # Moderation
 
 # Text Content
-
-### Detection modes
-
-Each type of data can be detected using 3 different modes:
-
-| Mode           | Description                                                          |
-| -------------- | -------------------------------------------------------------------- |
-| **Normal**     | Detect even the slightest chance of containing personal information. |
-| **Suspicious** | Detect even the slightest chance of containing personal information. |
-| **Paranoid**   | Detect even the slightest chance of containing personal information. |
-
-Matches - In order of most confident detection.
 
 ## Email
 
@@ -140,3 +222,7 @@ Not available yet
 ## Social Media Handles
 
 Not available yet
+
+```
+
+```
