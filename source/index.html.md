@@ -32,7 +32,7 @@ The moderation API can help you to identify personal information and mask it out
 > To test your API key:
 
 ```shell
-curl "https://moderationapi.com/api/auth" \
+curl "https://moderationapi.com/api/v1/auth" \
   -H "Authorization: Bearer API_KEY"
 ```
 
@@ -40,7 +40,8 @@ curl "https://moderationapi.com/api/auth" \
 
 ```json
 {
-  "message": "Authorized",
+  "status": "success",
+  "message": "Valid API key",
   "project": "My Project Name"
 }
 ```
@@ -56,6 +57,25 @@ You must replace <code>API_KEY</code> with your project API key.
 </aside>
 
 # Account
+
+```shell
+curl "https://moderationapi.com/api/v1/account" \
+  -H "Authorization: Bearer API_KEY"
+```
+
+> The above endpoint returns a JSON object like this:
+
+```json
+{
+  "status": "success",
+  "message": "Valid API key",
+  "project": "My Project Name"
+}
+```
+
+To check your account status at any time you can use this endpoint.
+
+It will respond with your quota levels and current usage levels. Usage resets at the start of your billing period.
 
 # Projects
 

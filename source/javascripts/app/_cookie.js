@@ -25,5 +25,23 @@
     } else {
       $("body").addClass("signed-out");
     }
+
+    const projectAPIKey =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMWZlMmVlZjI1MzgwNjRhMjJkNDk2YiIsInVzZXJJZCI6IjYwMWZjYmNkNDU0ZmFhNWJlMWQzNmNmNiIsImlhdCI6MTYxMjcwMjQ0Nn0.rBg1t3-LUOcMTFpkyZ0IRHfK69XHd-4o0USyml44K08";
+    //replace api keys
+    if (projectAPIKey) {
+      document.querySelectorAll(".highlight code").forEach((el) => {
+        el.innerHTML = el.innerHTML.replace(/API_KEY/gi, projectAPIKey);
+      });
+    }
+
+    if (window.location.href.includes("localhost")) {
+      document.querySelectorAll(".highlight code").forEach((el) => {
+        el.innerHTML = el.innerHTML.replace(
+          /https:\/\/moderationapi.com/gi,
+          "http://localhost:3000"
+        );
+      });
+    }
   });
 })();
