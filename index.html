@@ -46,13 +46,13 @@
   color: #75715e;
 }
 .highlight .err {
-  color: #960050;
+  color: #75715e;
 }
 .highlight .gr {
-  color: #960050;
+  color: #75715e;
 }
 .highlight .gt {
-  color: #960050;
+  color: #75715e;
 }
 .highlight .gd {
   color: #49483e;
@@ -64,19 +64,19 @@
   color: #49483e;
 }
 .highlight .kc {
-  color: #66d9ef;
+  color: #f92672;
 }
 .highlight .kd {
-  color: #66d9ef;
+  color: #f92672;
 }
 .highlight .kr {
-  color: #66d9ef;
+  color: #f92672;
 }
 .highlight .no {
-  color: #66d9ef;
+  color: #f92672;
 }
 .highlight .kt {
-  color: #66d9ef;
+  color: #f92672;
 }
 .highlight .mf {
   color: #ae81ff;
@@ -175,25 +175,25 @@
   color: #ffffff;
 }
 .highlight .nl {
-  color: #f92672;
+  color: #66d9ef;
 }
 .highlight .ow {
-  color: #f92672;
+  color: #f6aa11;
 }
 .highlight .nt {
-  color: #f92672;
+  color: #f6aa11;
 }
 .highlight .k, .highlight .kv {
-  color: #f92672;
+  color: #f6aa11;
 }
 .highlight .kn {
-  color: #f92672;
+  color: #f6aa11;
 }
 .highlight .kp {
-  color: #f92672;
+  color: #f6aa11;
 }
 .highlight .o {
-  color: #f92672;
+  color: #f6aa11;
 }
     </style>
     <style media="print">
@@ -282,16 +282,16 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-848e2335.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-0a5a57c3.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-e033bdd3.js"></script>
+      <script src="javascripts/all-c6d1ff61.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
     </script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;]">
+  <body class="index" data-languages="[]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -300,9 +300,6 @@
     </a>
     <div class="toc-wrapper">
       <img src="images/logo-12c3d9ca.png" class="logo" alt="" />
-        <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
-        </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
         </div>
@@ -315,52 +312,265 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
           </li>
           <li>
-            <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
+            <a href="#account" class="toc-h1 toc-link" data-title="Account">Account</a>
           </li>
           <li>
-            <a href="#text-content" class="toc-h1 toc-link" data-title="Text content">Text content</a>
+            <a href="#projects" class="toc-h1 toc-link" data-title="Projects">Projects</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-project-object" class="toc-h2 toc-link" data-title="The Project Object">The Project Object</a>
+                  </li>
+                  <li>
+                    <a href="#list-all-projects" class="toc-h2 toc-link" data-title="List All Projects">List All Projects</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-project" class="toc-h2 toc-link" data-title="Get a Project">Get a Project</a>
+                  </li>
+                  <li>
+                    <a href="#update-a-project" class="toc-h2 toc-link" data-title="Update a Project">Update a Project</a>
+                  </li>
+                  <li>
+                    <a href="#delete-a-project" class="toc-h2 toc-link" data-title="Delete a Project">Delete a Project</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#filter" class="toc-h1 toc-link" data-title="Filter">Filter</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#detection-modes" class="toc-h2 toc-link" data-title="Detection modes">Detection modes</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#rate-limits" class="toc-h2 toc-link" data-title="Rate limits">Rate limits</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
+          </li>
+          <li>
+            <a href="#text-content" class="toc-h1 toc-link" data-title="Text Content">Text Content</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#email" class="toc-h2 toc-link" data-title="Email">Email</a>
+                  </li>
+                  <li>
+                    <a href="#phone-number" class="toc-h2 toc-link" data-title="Phone number">Phone number</a>
+                  </li>
+                  <li>
+                    <a href="#urls" class="toc-h2 toc-link" data-title="URLs">URLs</a>
+                  </li>
+                  <li>
+                    <a href="#addresses" class="toc-h2 toc-link" data-title="Addresses">Addresses</a>
+                  </li>
+                  <li>
+                    <a href="#social-media-handles" class="toc-h2 toc-link" data-title="Social Media Handles">Social Media Handles</a>
+                  </li>
+              </ul>
           </li>
       </ul>
+        <ul class="toc-footer">
+            <li><a class="only-signed-out" href='https://moderationapi.com/app'>Sign in</a></li>
+            <li><a class="only-signed-out" href='https://moderationapi.com/app'>Try the API</a></li>
+            <li><a class="only-signed-in" href='https://moderationapi.com/app'>Go to Dashboard</a></li>
+        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+<p>Welcome to the <a href="https://moderationapi.com">Moderation API</a>.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
+<p>The moderation API can help you to identify personal information and mask it out - even if the user attempts to bypass detection.</p>
 
-<p>This example API documentation page was created with <a href="https://github.com/slatedocs/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
+<ol>
+<li>Define what type data you want to detect.</li>
+<li>Send a request to the API with content.</li>
+<li>We send back the detected values and original content with masked out values.</li>
+</ol>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>To test your API key:</p>
 </blockquote>
-<div class="highlight"><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span> <span class="se">\</span>
-  <span class="nt">-H</span> <span class="s2">"Authorization: API_KEY"</span>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/auth"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
 </code></pre></div>
 <blockquote>
-<p>Make sure to replace <code>API_KEY</code> with your API key.</p>
+<p>The above endpoint returns a JSON object like this:</p>
 </blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Valid API key"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"project"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Moderation API uses keys to allow access to the API. You can get an API key by <a href="https://moderationapi.com/app/projects">creating a project</a> in the moderation dashboard.</p>
 
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
+<p>Moderation API expects the key to be included in all API requests to the server in a header that looks like the following:</p>
 
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: API_KEY</code></p>
+<p><code>Authorization: Bearer API_KEY</code></p>
 
 <aside class="notice">
-You must replace <code>API_KEY</code> with your personal API key.
+You must replace <code>API_KEY</code> with your project API key.
 </aside>
-<h1 id='moderation'>Moderation</h1><h1 id='text-content'>Text content</h1><h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
+<h1 id='account'>Account</h1><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/account"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+</code></pre></div>
+<blockquote>
+<p>The above endpoint returns a JSON object like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fcbcd454faa5be1d36cf6"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2021-02-07T11:15:25.561Z"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"paid_plan_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lite"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"text_api_quota"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"text_api_usage_this_month"</span><span class="p">:</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"current_project"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>To check your account status at any time you can use this endpoint.</p>
 
-<p>The Kittn API uses the following error codes:</p>
+<p>It will respond with your quota levels and current usage levels. Usage resets at the start of your billing period.</p>
+<h1 id='projects'>Projects</h1>
+<blockquote>
+<p>Endpoints:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  GET     /api/v1/projects
+  GET     /api/v1/projects/:id
+  PUT     /api/v1/projects/:id
+  DELETE  /api/v1/projects/:id
+  GET     /api/v1/projects
+</code></pre></div>
+<p>You can create multiple projects and use the API to moderate at different levels simultaneously.
+Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to your preference.</p>
+
+<p>New projects have to be created from the dashboard.</p>
+<h2 id='the-project-object'>The Project Object</h2>
+<blockquote>
+<p>Project Object:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Is</span><span class="w"> </span><span class="err">replaced</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">actual</span><span class="w"> </span><span class="err">API</span><span class="w"> </span><span class="err">Key</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>_id</strong></td>
+<td>string</td>
+<td>Unique identifier for the project.</td>
+</tr>
+<tr>
+<td><strong>filter</strong></td>
+<td>object</td>
+<td>The current filter settings for the project. See <a href="#filter">filter object</a></td>
+</tr>
+<tr>
+<td><strong>name</strong></td>
+<td>string</td>
+<td>Detect even the slightest chance of containing personal information.</td>
+</tr>
+<tr>
+<td><strong>apiKey</strong></td>
+<td>string</td>
+<td>The api key to be used with this project. See <a href="#authentication">authentication</a></td>
+</tr>
+</tbody></table>
+<h2 id='list-all-projects'>List All Projects</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/projects"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+</code></pre></div>
+<blockquote>
+<p>The above endpoint returns a JSON array like this:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre></div>
+<p>Returns a list of your projects. The projects are returned sorted by creation date, with the most recent project appearing first.</p>
+<h3 id='parameters'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<h3 id='returns'>Returns</h3>
+<p>An array with all projects. Each entry in the array is a separate projects object. If no more projects are available, the resulting array will be empty. This request should only return an error if the API key is invalid.</p>
+<h2 id='get-a-project'>Get a Project</h2><h2 id='update-a-project'>Update a Project</h2><h2 id='delete-a-project'>Delete a Project</h2><h1 id='filter'>Filter</h1><h2 id='detection-modes'>Detection modes</h2>
+<p>Each type of data can be detected using 3 different modes:</p>
+
+<table><thead>
+<tr>
+<th>Mode</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>Normal</strong></td>
+<td>Detect even the slightest chance of containing personal information.</td>
+</tr>
+<tr>
+<td><strong>Suspicious</strong></td>
+<td>Detect even the slightest chance of containing personal information.</td>
+</tr>
+<tr>
+<td><strong>Paranoid</strong></td>
+<td>Detect even the slightest chance of containing personal information.</td>
+</tr>
+</tbody></table>
+
+<p>Matches - In order of most confident detection.</p>
+<h1 id='errors'>Errors</h1>
+<p>The API uses the following error codes:</p>
 
 <table><thead>
 <tr>
@@ -368,6 +578,14 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 <th>Meaning</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>200</td>
+<td>OK</td>
+</tr>
+<tr>
+<td>202</td>
+<td>Accepted -- Your request is has been accepted for processing</td>
+</tr>
 <tr>
 <td>400</td>
 <td>Bad Request -- Your request is invalid.</td>
@@ -378,31 +596,19 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 </tr>
 <tr>
 <td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>Forbidden -- The requested resource is for administrators only.</td>
 </tr>
 <tr>
 <td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
+<td>Not Found -- The specified resource could not be found.</td>
 </tr>
 <tr>
 <td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
+<td>Method Not Allowed -- You tried to access a resource with an invalid method.</td>
 </tr>
 <tr>
 <td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
+<td>Too Many Requests -- See <a href="#rate-limits">rate limits</a></td>
 </tr>
 <tr>
 <td>500</td>
@@ -413,12 +619,20 @@ This error section is stored in a separate file in <code>includes/_errors.md</co
 <td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
 </tr>
 </tbody></table>
+<h2 id='rate-limits'>Rate limits</h2>
+<p>The Moderation API rate limit is 100 parallel requests per second.</p>
 
+<p>We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.</p>
+<h3 id='handling-rate-limts'>Handling rate limts</h3>
+<p>A basic technique for integrations to gracefully handle limiting is to watch for <code>429</code> status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.</p>
+<h1 id='moderation'>Moderation</h1><h1 id='text-content'>Text Content</h1><h2 id='email'>Email</h2><h2 id='phone-number'>Phone number</h2><h2 id='urls'>URLs</h2><h2 id='addresses'>Addresses</h2>
+<p>Not available yet</p>
+<h2 id='social-media-handles'>Social Media Handles</h2>
+<p>Not available yet</p>
+<div class="highlight"><pre class="highlight plaintext"><code>
+</code></pre></div>
       </div>
       <div class="dark-box">
-          <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
-          </div>
       </div>
     </div>
   </body>
