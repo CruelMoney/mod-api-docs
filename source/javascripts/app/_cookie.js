@@ -26,10 +26,12 @@
       $("body").addClass("signed-out");
     }
 
-    const isDevelopment = window.location.href.includes("localhost");
+    const isDevelopment =
+      window.location.href.includes("localhost") ||
+      window.location.href.includes("127.0.0.1");
 
     const projectAPIKey = !isDevelopment
-      ? getCookie("project-api-token")
+      ? null
       : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMWZlMmVlZjI1MzgwNjRhMjJkNDk2YiIsInVzZXJJZCI6IjYwMWZjYmNkNDU0ZmFhNWJlMWQzNmNmNiIsImlhdCI6MTYxMjcwMjQ0Nn0.rBg1t3-LUOcMTFpkyZ0IRHfK69XHd-4o0USyml44K08";
 
     //replace api keys
@@ -39,7 +41,7 @@
       });
     }
 
-    if (window.location.href.includes("localhost")) {
+    if (isDevelopment) {
       document.querySelectorAll(".highlight code").forEach(function (el) {
         el.innerHTML = el.innerHTML.replace(
           /https:\/\/moderationapi.com/gi,
