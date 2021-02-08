@@ -446,7 +446,7 @@ body {
 
     th {
       padding: 5px 10px;
-      border-bottom: 1px solid $border-color;
+      border: 1px solid $border-color;
       vertical-align: bottom;
     }
 
@@ -712,4 +712,9 @@ body.signed-out {
   .only-signed-out {
     display: block;
   }
+}
+
+body .content table td,
+body .content table th {
+  border: 1px solid #ccc;
 }

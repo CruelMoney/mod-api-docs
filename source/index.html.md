@@ -19,32 +19,40 @@ code_clipboard: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the [Moderation API](https://moderationapi.com).
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+The moderation API can help you to identify personal information and mask it out - even if the user attempts to bypass detection.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+1. Define what type data you want to detect.
+2. Send a request to the API with content.
+3. We send back the detected values and original content with masked out values.
 
 # Authentication
 
-> To authorize, use this code:
+> To test your API key:
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
+curl "https://moderationapi.com/api/auth" \
   -H "Authorization: Bearer API_KEY"
 ```
 
-> Make sure to replace `API_KEY` with your API key.
+> The above endpoint returns a JSON object like this:
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+```json
+{
+  "message": "Authorized",
+  "project": "My Project Name"
+}
+```
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+Moderation API uses keys to allow access to the API. You can get an API key by [creating a project](https://moderationapi.com/app/projects) in the moderation dashboard.
+
+Moderation API expects the key to be included in all API requests to the server in a header that looks like the following:
 
 `Authorization: Bearer API_KEY`
 
 <aside class="notice">
-You must replace <code>API_KEY</code> with your personal API key.
+You must replace <code>API_KEY</code> with your project API key.
 </aside>
 
 # Account
