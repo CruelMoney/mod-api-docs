@@ -26,8 +26,12 @@
       $("body").addClass("signed-out");
     }
 
-    const projectAPIKey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMWZlMmVlZjI1MzgwNjRhMjJkNDk2YiIsInVzZXJJZCI6IjYwMWZjYmNkNDU0ZmFhNWJlMWQzNmNmNiIsImlhdCI6MTYxMjcwMjQ0Nn0.rBg1t3-LUOcMTFpkyZ0IRHfK69XHd-4o0USyml44K08";
+    const isDevelopment = window.location.href.includes("localhost");
+
+    const projectAPIKey = !isDevelopment
+      ? getCookie("project-api-token")
+      : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMWZlMmVlZjI1MzgwNjRhMjJkNDk2YiIsInVzZXJJZCI6IjYwMWZjYmNkNDU0ZmFhNWJlMWQzNmNmNiIsImlhdCI6MTYxMjcwMjQ0Nn0.rBg1t3-LUOcMTFpkyZ0IRHfK69XHd-4o0USyml44K08";
+
     //replace api keys
     if (projectAPIKey) {
       document.querySelectorAll(".highlight code").forEach(function (el) {
