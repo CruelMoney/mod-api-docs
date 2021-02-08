@@ -284,7 +284,7 @@
     </style>
     <link href="stylesheets/screen-0a5a57c3.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-4c3698d0.js"></script>
+      <script src="javascripts/all-049a59c7.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
@@ -321,7 +321,7 @@
                     <a href="#the-project-object" class="toc-h2 toc-link" data-title="The Project Object">The Project Object</a>
                   </li>
                   <li>
-                    <a href="#list-all-projects" class="toc-h2 toc-link" data-title="List All Projects">List All Projects</a>
+                    <a href="#create-a-project" class="toc-h2 toc-link" data-title="Create a Project">Create a Project</a>
                   </li>
                   <li>
                     <a href="#get-a-project" class="toc-h2 toc-link" data-title="Get a Project">Get a Project</a>
@@ -332,11 +332,17 @@
                   <li>
                     <a href="#delete-a-project" class="toc-h2 toc-link" data-title="Delete a Project">Delete a Project</a>
                   </li>
+                  <li>
+                    <a href="#list-all-projects" class="toc-h2 toc-link" data-title="List All Projects">List All Projects</a>
+                  </li>
               </ul>
           </li>
           <li>
             <a href="#filter" class="toc-h1 toc-link" data-title="Filter">Filter</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#filter-object" class="toc-h2 toc-link" data-title="Filter object">Filter object</a>
+                  </li>
                   <li>
                     <a href="#detection-modes" class="toc-h2 toc-link" data-title="Detection modes">Detection modes</a>
                   </li>
@@ -354,8 +360,11 @@
             <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
           </li>
           <li>
-            <a href="#text-content" class="toc-h1 toc-link" data-title="Text Content">Text Content</a>
+            <a href="#text-moderation" class="toc-h1 toc-link" data-title="Text Moderation">Text Moderation</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#overview" class="toc-h2 toc-link" data-title="Overview">Overview</a>
+                  </li>
                   <li>
                     <a href="#email" class="toc-h2 toc-link" data-title="Email">Email</a>
                   </li>
@@ -401,7 +410,7 @@
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
 </code></pre></div>
 <blockquote>
-<p>The above endpoint returns a JSON object like this:</p>
+<p>Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
@@ -444,9 +453,7 @@ You must replace <code>API_KEY</code> with your project API key.
 </blockquote>
 <div class="highlight"><pre class="highlight plaintext"><code>  GET     /api/v1/projects
   GET     /api/v1/projects/:id
-  PUT     /api/v1/projects/:id
-  DELETE  /api/v1/projects/:id
-  GET     /api/v1/projects
+  POST    /api/v1/projects/:id
 </code></pre></div>
 <p>You can create multiple projects and use the API to moderate at different levels simultaneously.
 Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to your preference.</p>
@@ -454,7 +461,7 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <p>New projects have to be created from the dashboard.</p>
 <h2 id='the-project-object'>The Project Object</h2>
 <blockquote>
-<p>Project Object:</p>
+<p>Project Object Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
@@ -502,11 +509,106 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <td>The api key to be used with this project. See <a href="#authentication">authentication</a></td>
 </tr>
 </tbody></table>
-<h2 id='list-all-projects'>List All Projects</h2><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/projects"</span> <span class="se">\</span>
+<h2 id='create-a-project'>Create a Project</h2>
+<p>Projects can only be created from the Moderation dashboard.</p>
+<h2 id='get-a-project'>Get a Project</h2>
+<blockquote>
+<p><code>GET /api/v1/projects/:id</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/projects/:id"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
 </code></pre></div>
 <blockquote>
-<p>The above endpoint returns a JSON array like this:</p>
+<p>Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Retrieves the details of an existing project. Supply the unique project ID from either a project creation request or the project list, and the API will return the corresponding project information.</p>
+<h3 id='parameters'>Parameters</h3><h4 id='no-parameters'>No parameters</h4><h3 id='returns'>Returns</h3>
+<p>Returns a project object if a valid identifier was provided.</p>
+<h2 id='update-a-project'>Update a Project</h2>
+<blockquote>
+<p><code>POST /api/v1/projects/:id</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/projects/:id"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span>
+  <span class="nt">-d</span> json
+</code></pre></div>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>Updates the specific project by setting the values of the parameters passed. Any parameters not provided will be left unchanged.</p>
+<h3 id='parameters-2'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>name</strong> optional</td>
+<td>string</td>
+<td>Name of project. Only used internally.</td>
+</tr>
+<tr>
+<td><strong>filter</strong> optional</td>
+<td>object</td>
+<td>Filter options to be used for this project. See <a href="#filter-object">filter object</a>.</td>
+</tr>
+</tbody></table>
+<h3 id='returns-2'>Returns</h3>
+<p>Returns the project object if the update succeeded.</p>
+<h2 id='delete-a-project'>Delete a Project</h2>
+<p>Projects can only be deleted from the Moderation dashboard.</p>
+
+<aside class="warning">
+  The project API key will be invalidated and requests using the key will fail.
+</aside>
+<h2 id='list-all-projects'>List All Projects</h2>
+<blockquote>
+<p><code>GET /api/v1/projects</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/projects"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+</code></pre></div>
+<blockquote>
+<p>Response</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
@@ -529,24 +631,88 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 </span><span class="p">]</span><span class="w">
 </span></code></pre></div>
 <p>Returns a list of your projects. The projects are returned sorted by creation date, with the most recent project appearing first.</p>
-<h3 id='parameters'>Parameters</h3>
+<h3 id='parameters-3'>Parameters</h3><h4 id='no-parameters-2'>No Parameters</h4><h3 id='returns-3'>Returns</h3>
+<p>An array with all projects. Each entry in the array is a separate projects object. If no more projects are available, the resulting array will be empty. This request should only return an error if the API key is invalid.</p>
+<h1 id='filter'>Filter</h1>
+<p>The filter is used to control the detection engine and the responses you get from the API.
+You can change the filter from the moderation dashboard or programmatically using the API when <a href="#update-a-project">updating a project</a>.</p>
+<h2 id='filter-object'>Filter object</h2>
+<blockquote>
+<p>Filter Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Attribute</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>-</td>
-<td>-</td>
-<td>-</td>
+<td><strong>email</strong></td>
+<td>boolean</td>
+<td>Turn on email detection</td>
+</tr>
+<tr>
+<td><strong>phone</strong></td>
+<td>boolean</td>
+<td>Turn on phone number detection</td>
+</tr>
+<tr>
+<td><strong>url</strong></td>
+<td>boolean</td>
+<td>Turn on URL detection</td>
+</tr>
+<tr>
+<td><strong>masking</strong></td>
+<td>boolean</td>
+<td>Return the original text with detected values masked.</td>
+</tr>
+<tr>
+<td><strong>emailMode</strong></td>
+<td>string</td>
+<td>The detection mode for emails. Must be a supported <a href="#detection-modes">detection mode</a>.</td>
+</tr>
+<tr>
+<td><strong>phoneMode</strong></td>
+<td>string</td>
+<td>The detection mode for phone numbers. Must be a supported <a href="#detection-modes">detection mode</a>.</td>
+</tr>
+<tr>
+<td><strong>urlMode</strong></td>
+<td>string</td>
+<td>The detection mode for URLs. Must be a supported <a href="#detection-modes">detection mode</a>.</td>
+</tr>
+<tr>
+<td><strong>emailMask</strong></td>
+<td>string</td>
+<td>Set a custom string to replace detected email values with.</td>
+</tr>
+<tr>
+<td><strong>phoneMask</strong></td>
+<td>string</td>
+<td>Set a custom string to replace detected phone values with.</td>
+</tr>
+<tr>
+<td><strong>urlMask</strong></td>
+<td>string</td>
+<td>Set a custom string to replace detected URL values with.</td>
 </tr>
 </tbody></table>
-<h3 id='returns'>Returns</h3>
-<p>An array with all projects. Each entry in the array is a separate projects object. If no more projects are available, the resulting array will be empty. This request should only return an error if the API key is invalid.</p>
-<h2 id='get-a-project'>Get a Project</h2><h2 id='update-a-project'>Update a Project</h2><h2 id='delete-a-project'>Delete a Project</h2><h1 id='filter'>Filter</h1><h2 id='detection-modes'>Detection modes</h2>
-<p>Each type of data can be detected using 3 different modes:</p>
+<h2 id='detection-modes'>Detection modes</h2>
+<p>Each type of data can be detected using 3 different levels:</p>
 
 <table><thead>
 <tr>
@@ -555,20 +721,44 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 </tr>
 </thead><tbody>
 <tr>
-<td><strong>Normal</strong></td>
-<td>Detect even the slightest chance of containing personal information.</td>
+<td><code>NORMAL</code></td>
+<td>Detect values that have been formatted correctly.</td>
 </tr>
 <tr>
-<td><strong>Suspicious</strong></td>
-<td>Detect even the slightest chance of containing personal information.</td>
+<td><code>SUSPICIOUS</code></td>
+<td>Detect values where the writer is trying to bypass detection.</td>
 </tr>
 <tr>
-<td><strong>Paranoid</strong></td>
-<td>Detect even the slightest chance of containing personal information.</td>
+<td><code>PARANOID</code></td>
+<td>Detect even the slightest chance of containing personal information. This might result in false positives.</td>
 </tr>
 </tbody></table>
 
-<p>Matches - In order of most confident detection.</p>
+<p>We recommend to start with the <code>SUSPICIOUS</code> mode.</p>
+<h3 id='examples'>Examples</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Detected by</th>
+<th>Match response</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reach me on example@gmail.com</td>
+<td><code>NORMAL</code>, <code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>example@gmail.com</td>
+</tr>
+<tr>
+<td>reach me on example at gmail dot com</td>
+<td><code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>example at gmail dot com</td>
+</tr>
+<tr>
+<td>reach me on example at that google email domain</td>
+<td><code>PARANOID</code></td>
+<td>example at that google email domain</td>
+</tr>
+</tbody></table>
 <h1 id='errors'>Errors</h1>
 <p>The API uses the following error codes:</p>
 
@@ -578,14 +768,6 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <th>Meaning</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>200</td>
-<td>OK</td>
-</tr>
-<tr>
-<td>202</td>
-<td>Accepted -- Your request is has been accepted for processing</td>
-</tr>
 <tr>
 <td>400</td>
 <td>Bad Request -- Your request is invalid.</td>
@@ -625,7 +807,280 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <p>We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.</p>
 <h3 id='handling-rate-limts'>Handling rate limts</h3>
 <p>A basic technique for integrations to gracefully handle limiting is to watch for <code>429</code> status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.</p>
-<h1 id='moderation'>Moderation</h1><h1 id='text-content'>Text Content</h1><h2 id='email'>Email</h2><h2 id='phone-number'>Phone number</h2><h2 id='urls'>URLs</h2><h2 id='addresses'>Addresses</h2>
+<h1 id='moderation'>Moderation</h1>
+<blockquote>
+<p>Endpoints:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight plaintext"><code>  POST     /api/v1/moderation/text
+</code></pre></div>
+<p>The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you&#39;re looking for.</p>
+
+<p>Currently the API detects <a href="#email">emails</a>, <a href="#phone-number">phone numbers</a>, and <a href="#urls">urls</a>.</p>
+<h1 id='text-moderation'>Text Moderation</h1><h2 id='overview'>Overview</h2>
+<p>All types of text moderation uses the same endpoint <code>/api/v1/moderation/text</code>. What gets moderated depends on the projects <a href="#filter">filter settings</a>.</p>
+
+<blockquote>
+<p><code>POST /api/v1/moderation/text</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/moderation/text"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span>
+  <span class="nt">-d</span> json
+</code></pre></div>
+<blockquote>
+<p>Response</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"success"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1612792574690</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"original"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You can contact me on mr_robot[at]gmail|DOT|com or call me on 12 34 65 78"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You can contact me on {{ email hidden }} or call me on {{ number hidden }}"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SUSPICIOUS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"mr_robot[at]gmail|DOT|com"</span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"12 34 65 78"</span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='parameters-4'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>value</strong></td>
+<td>string</td>
+<td>The text content you want to moderate. Limited to 10.000 characters per request.</td>
+</tr>
+</tbody></table>
+<h3 id='returns-4'>Returns</h3>
+<p>Returns the moderation object. Whether a data type is included depends if it is turned on in the projects <a href="#filter">filter settings</a>.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>status</strong></td>
+<td>string</td>
+<td>error or success.</td>
+</tr>
+<tr>
+<td><strong>content</strong></td>
+<td>string</td>
+<td>The moderated string. If masking is turned on in the <a href="#filter">filter</a> all detected values will be hidden.</td>
+</tr>
+<tr>
+<td><strong>email</strong></td>
+<td>object</td>
+<td><a href="#email">The email moderation response</a>. Only included if email detection is turned on.</td>
+</tr>
+<tr>
+<td><strong>phone</strong></td>
+<td>object</td>
+<td><a href="#phone-number">The phone moderation response</a>. Only included if phone number detection is turned on.</td>
+</tr>
+<tr>
+<td><strong>url</strong></td>
+<td>object</td>
+<td><a href="#urls">The URL moderation response</a>. Only included if url detection is turned on.</td>
+</tr>
+</tbody></table>
+<h2 id='email'>Email</h2>
+<blockquote>
+<p>Email Moderation Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SUSPICIOUS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"mr_robot[at]gmail|DOT|com"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>matches</strong></td>
+<td>array of strings</td>
+<td>The detected values in order of probability of being correct.</td>
+</tr>
+<tr>
+<td><strong>found</strong></td>
+<td>boolean</td>
+<td>Indicates whether the content contains an email. This does not always correspond to if any matches are found - ex. the text might intent to share personal data, but an exact match cannot be found.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The <a href="#detection-modes">detection mode</a> that has been set for emails in the project filter.</td>
+</tr>
+</tbody></table>
+<h3 id='examples-2'>Examples</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Detected by</th>
+<th>Matches</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reach me on example@gmail.com</td>
+<td><code>NORMAL</code>, <code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>example@gmail.com</td>
+</tr>
+<tr>
+<td>reach me on example at gmail dot com</td>
+<td><code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>example at gmail dot com</td>
+</tr>
+<tr>
+<td>reach me on example at that google email domain</td>
+<td><code>PARANOID</code></td>
+<td>example at that google email domain</td>
+</tr>
+</tbody></table>
+<h2 id='phone-number'>Phone number</h2>
+<blockquote>
+<p>Phone Moderation Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"12 34 56 78"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>matches</strong></td>
+<td>array of strings</td>
+<td>The detected values in order of probability of being correct.</td>
+</tr>
+<tr>
+<td><strong>found</strong></td>
+<td>boolean</td>
+<td>Indicates whether the content contains a phone number. This does not always correspond to if any matches are found - ex. the text might intent to share personal data, but an exact match cannot be found.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The <a href="#detection-modes">detection mode</a> that has been set for phone numbers in the project filter.</td>
+</tr>
+</tbody></table>
+<h3 id='examples-3'>Examples</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Detected by</th>
+<th>Matches</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>12 34 56 78</td>
+<td><code>NORMAL</code>, <code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>12 34 56 78</td>
+</tr>
+<tr>
+<td>one two three four five six seven eight</td>
+<td><code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>one two three four five six seven eight</td>
+</tr>
+<tr>
+<td>12 this 34 is 46 an 7 example 8</td>
+<td><code>PARANOID</code></td>
+<td>12 this 34 is 46 an 7 example 8</td>
+</tr>
+</tbody></table>
+<h2 id='urls'>URLs</h2>
+<blockquote>
+<p>URL Moderation Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"http://anonymous.com"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>matches</strong></td>
+<td>array of strings</td>
+<td>The detected values in order of probability of being correct.</td>
+</tr>
+<tr>
+<td><strong>found</strong></td>
+<td>boolean</td>
+<td>Indicates whether the content contains an URL. This does not always correspond to if any matches are found - ex. the text might intent to share a URL, but an exact match cannot be found.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The <a href="#detection-modes">detection mode</a> that has been set for URLs in the project filter.</td>
+</tr>
+</tbody></table>
+<h3 id='examples-4'>Examples</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Detected by</th>
+<th>Matches</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>http://anonymous.com</td>
+<td><code>NORMAL</code>, <code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>http://anonymous.com</td>
+</tr>
+<tr>
+<td>anonymous.com</td>
+<td><code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>anonymous.com</td>
+</tr>
+<tr>
+<td>anonymous(dot)com</td>
+<td><code>PARANOID</code></td>
+<td>anonymous(dot)com</td>
+</tr>
+</tbody></table>
+<h2 id='addresses'>Addresses</h2>
 <p>Not available yet</p>
 <h2 id='social-media-handles'>Social Media Handles</h2>
 <p>Not available yet</p>
