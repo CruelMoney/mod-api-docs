@@ -215,7 +215,15 @@ The Kittn API uses the following error codes:
 | 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
 | 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
 
-### Rate limiting
+## Rate limiting
+
+The Moderation API rate limit is 100 parallel requests per second.
+
+We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.
+
+### Handling rate limts
+
+A basic technique for integrations to gracefully handle limiting is to watch for `429` status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.
 
 # Moderation
 
