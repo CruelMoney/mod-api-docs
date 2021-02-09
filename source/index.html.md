@@ -6,7 +6,7 @@ title: API Reference
 
 toc_footers:
   - <a class="only-signed-out" href='https://moderationapi.com/app'>Sign in</a>
-  - <a class="only-signed-out" href='https://moderationapi.com/app'>Try the API</a>
+  - <a class="only-signed-out" href='https://moderationapi.com'>Try the API</a>
   - <a class="only-signed-in" href='https://moderationapi.com/app'>Go to Dashboard</a>
 
 includes:
