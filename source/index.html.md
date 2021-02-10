@@ -27,6 +27,8 @@ The moderation API can help you to identify personal information and mask it out
 2. Send a request to the API with content.
 3. We send back the detected values and original content with masked out values.
 
+![Chat email detection](/images/chat.png "Chat email detection")
+
 # Authentication
 
 > To test your API key:
