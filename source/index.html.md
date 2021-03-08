@@ -110,13 +110,15 @@ New projects have to be created from the dashboard.
     "email": true,
     "phone": true,
     "url": true,
+    "address": false,
     "masking": true,
     "emailMode": "NORMAL",
     "phoneMode": "NORMAL",
     "urlMode": "NORMAL",
     "emailMask": "{{ email hidden }}",
     "phoneMask": "{{ number hidden }}",
-    "urlMask": "{{ URL hidden }}"
+    "urlMask": "{{ URL hidden }}",
+    "addressMask": "{{ address hidden }}"
   },
   "name": "My Project Name",
   "apiKey": "project-api-key" // Is replaced with actual API Key
@@ -152,13 +154,15 @@ curl "https://moderationapi.com/api/v1/projects/:id" \
     "email": true,
     "phone": true,
     "url": true,
+    "address": false,
     "masking": true,
     "emailMode": "NORMAL",
     "phoneMode": "NORMAL",
     "urlMode": "NORMAL",
     "emailMask": "{{ email hidden }}",
     "phoneMask": "{{ number hidden }}",
-    "urlMask": "{{ URL hidden }}"
+    "urlMask": "{{ URL hidden }}",
+    "addressMask": "{{ address hidden }}"
   },
   "name": "My Project Name",
   "apiKey": "project-api-key"
@@ -195,13 +199,15 @@ curl "https://moderationapi.com/api/v1/projects/:id" \
     "email": true,
     "phone": true,
     "url": true,
+    "address": false,
     "masking": true,
     "emailMode": "NORMAL",
     "phoneMode": "NORMAL",
     "urlMode": "NORMAL",
     "emailMask": "{{ email hidden }}",
     "phoneMask": "{{ number hidden }}",
-    "urlMask": "{{ URL hidden }}"
+    "urlMask": "{{ URL hidden }}",
+    "addressMask": "{{ address hidden }}"
   },
   "name": "My Project Name",
   "apiKey": "project-api-key"
@@ -248,13 +254,15 @@ curl "https://moderationapi.com/api/v1/projects" \
       "email": true,
       "phone": true,
       "url": true,
+      "address": false,
       "masking": true,
       "emailMode": "NORMAL",
       "phoneMode": "NORMAL",
       "urlMode": "NORMAL",
       "emailMask": "{{ email hidden }}",
       "phoneMask": "{{ number hidden }}",
-      "urlMask": "{{ URL hidden }}"
+      "urlMask": "{{ URL hidden }}",
+      "addressMask": "{{ URL hidden }}"
     },
     "name": "My Project Name",
     "apiKey": "project-api-key"
@@ -286,32 +294,38 @@ You can change the filter from the moderation dashboard or programmatically usin
   "email": true,
   "phone": true,
   "url": true,
+  "address": false,
   "masking": true,
   "emailMode": "NORMAL",
   "phoneMode": "NORMAL",
   "urlMode": "NORMAL",
+  "addressMode": "NORMAL",
   "emailMask": "{{ email hidden }}",
   "phoneMask": "{{ number hidden }}",
-  "urlMask": "{{ URL hidden }}"
+  "urlMask": "{{ URL hidden }}",
+  "addressMask": "{{ address hidden }}"
 }
 ```
 
-| Attribute     | Type    | Description                                                                                   |
-| ------------- | ------- | --------------------------------------------------------------------------------------------- |
-| **email**     | boolean | Turn on email detection                                                                       |
-| **phone**     | boolean | Turn on phone number detection                                                                |
-| **url**       | boolean | Turn on URL detection                                                                         |
-| **masking**   | boolean | Return the original text with detected values masked.                                         |
-| **emailMode** | string  | The detection mode for emails. Must be a supported [detection mode](#detection-modes).        |
-| **phoneMode** | string  | The detection mode for phone numbers. Must be a supported [detection mode](#detection-modes). |
-| **urlMode**   | string  | The detection mode for URLs. Must be a supported [detection mode](#detection-modes).          |
-| **emailMask** | string  | Set a custom string to replace detected email values with.                                    |
-| **phoneMask** | string  | Set a custom string to replace detected phone values with.                                    |
-| **urlMask**   | string  | Set a custom string to replace detected URL values with.                                      |
+| Attribute       | Type    | Description                                                                                   |
+| --------------- | ------- | --------------------------------------------------------------------------------------------- |
+| **email**       | boolean | Turn on email detection                                                                       |
+| **phone**       | boolean | Turn on phone number detection                                                                |
+| **url**         | boolean | Turn on URL detection                                                                         |
+| **address**     | boolean | Turn on address detection                                                                     |
+| **masking**     | boolean | Return the original text with detected values masked.                                         |
+| **emailMode**   | string  | The detection mode for emails. Must be a supported [detection mode](#detection-modes).        |
+| **phoneMode**   | string  | The detection mode for phone numbers. Must be a supported [detection mode](#detection-modes). |
+| **urlMode**     | string  | The detection mode for URLs. Must be a supported [detection mode](#detection-modes).          |
+| **addressMode** | string  | The detection mode for addresses. Only `NORMAL` is supported.                                 |
+| **emailMask**   | string  | Set a custom string to replace detected email values with.                                    |
+| **phoneMask**   | string  | Set a custom string to replace detected phone values with.                                    |
+| **urlMask**     | string  | Set a custom string to replace detected URL values with.                                      |
+| **addressMask** | string  | Set a custom string to replace detected address values with.                                  |
 
 ## Detection modes
 
-Each type of data can be detected using 3 different levels:
+Most types of data can be detected using 3 different levels. Some only support one of the three.
 
 | Mode         | Description                                                                                                |
 | ------------ | ---------------------------------------------------------------------------------------------------------- |
@@ -319,7 +333,7 @@ Each type of data can be detected using 3 different levels:
 | `SUSPICIOUS` | Detect values where the writer is trying to evade detection.                                               |
 | `PARANOID`   | Detect even the slightest chance of containing personal information. This might result in false positives. |
 
-We recommend to start with the `SUSPICIOUS` mode.
+We recommend to start with the `NORMAL` mode and increase the level if needed.
 
 ### Examples
 
@@ -405,6 +419,11 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
     "found": false,
     "mode": "NORMAL",
     "matches": []
+  },
+  "address": {
+    "found": false,
+    "mode": "NORMAL",
+    "matches": []
   }
 }
 ```
@@ -426,6 +445,7 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | **email**   | object | [The email moderation response](#email). Only included if email detection is turned on.                    |
 | **phone**   | object | [The phone moderation response](#phone-number). Only included if phone number detection is turned on.      |
 | **url**     | object | [The URL moderation response](#urls). Only included if url detection is turned on.                         |
+| **address** | object | [The address moderation response](#urls). Only included if address detection is turned on.                 |
 
 ## Email
 
@@ -511,11 +531,49 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | anonymous.com        | `SUSPICIOUS` , `PARANOID`           | anonymous.com        |
 | anonymous(dot)com    | `PARANOID`                          | anonymous(dot)com    |
 
-## Addresses
+## Addresse
+
+> Address Moderation Object Example:
+
+```json
+{
+  "address": {
+    "found": true,
+    "mode": "NORMAL",
+    "matches": ["767 5th Ave, New York, NY 10153"]
+  }
+}
+```
+
+Address detection uses an advanced AI trained for detecting addresses specifically. The AI works well on a wide range of addresses, but can increase the API response time. It will detect everything from house numbers to cities and postal codes for both real and imaginary addresses.
+
+<aside class="notice">
+The address AI only works with english texts - if you need additional languages, contact us at support@moderationapi.com
+</aside>
+
+| Parameter   | Type             | Description                                                   |
+| ----------- | ---------------- | ------------------------------------------------------------- |
+| **matches** | array of strings | The detected values in order of probability of being correct. |
+| **found**   | boolean          | Indicates whether the content contains an address.            |
+| **mode**    | string           | Always `NORMAL`                                               |
+
+### Examples
+
+| Value with highlighted `matches`                                  |
+| ----------------------------------------------------------------- |
+| You can visit our store on **`767 5th Ave, New York, NY 10153`**. |
+| They live on the **`Abbey Road`**, but it's a long way from here. |
+| **`Diagon Alley 123`** is hidden behind the brick wall.           |
+
+## Social Media Handles
 
 Not available yet
 
-## Social Media Handles
+## First and Last Names
+
+Not available yet
+
+## Swear Words and Profanity
 
 Not available yet
 
