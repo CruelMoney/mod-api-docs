@@ -107,18 +107,27 @@ New projects have to be created from the dashboard.
 {
   "_id": "601fe2eef2538064a22d496b",
   "filter": {
-    "email": true,
-    "phone": true,
-    "url": true,
-    "address": false,
     "masking": true,
-    "emailMode": "NORMAL",
-    "phoneMode": "NORMAL",
-    "urlMode": "NORMAL",
-    "emailMask": "{{ email hidden }}",
-    "phoneMask": "{{ number hidden }}",
-    "urlMask": "{{ URL hidden }}",
-    "addressMask": "{{ address hidden }}"
+    "email": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ email hidden }}"
+    },
+    "phone": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ phone hidden }}"
+    },
+    "url": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ url hidden }}"
+    },
+    "address": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ address hidden }}"
+    }
   },
   "name": "My Project Name",
   "apiKey": "project-api-key" // Is replaced with actual API Key
@@ -151,18 +160,27 @@ curl "https://moderationapi.com/api/v1/projects/:id" \
 {
   "_id": "601fe2eef2538064a22d496b",
   "filter": {
-    "email": true,
-    "phone": true,
-    "url": true,
-    "address": false,
     "masking": true,
-    "emailMode": "NORMAL",
-    "phoneMode": "NORMAL",
-    "urlMode": "NORMAL",
-    "emailMask": "{{ email hidden }}",
-    "phoneMask": "{{ number hidden }}",
-    "urlMask": "{{ URL hidden }}",
-    "addressMask": "{{ address hidden }}"
+    "email": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ email hidden }}"
+    },
+    "phone": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ phone hidden }}"
+    },
+    "url": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ url hidden }}"
+    },
+    "address": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ address hidden }}"
+    }
   },
   "name": "My Project Name",
   "apiKey": "project-api-key"
@@ -196,18 +214,27 @@ curl "https://moderationapi.com/api/v1/projects/:id" \
 {
   "_id": "601fe2eef2538064a22d496b",
   "filter": {
-    "email": true,
-    "phone": true,
-    "url": true,
-    "address": false,
     "masking": true,
-    "emailMode": "NORMAL",
-    "phoneMode": "NORMAL",
-    "urlMode": "NORMAL",
-    "emailMask": "{{ email hidden }}",
-    "phoneMask": "{{ number hidden }}",
-    "urlMask": "{{ URL hidden }}",
-    "addressMask": "{{ address hidden }}"
+    "email": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ email hidden }}"
+    },
+    "phone": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ phone hidden }}"
+    },
+    "url": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ url hidden }}"
+    },
+    "address": {
+      "enabled": true,
+      "mode": "NORMAL",
+      "mask": "{{ address hidden }}"
+    }
   },
   "name": "My Project Name",
   "apiKey": "project-api-key"
@@ -251,18 +278,27 @@ curl "https://moderationapi.com/api/v1/projects" \
   {
     "_id": "601fe2eef2538064a22d496b",
     "filter": {
-      "email": true,
-      "phone": true,
-      "url": true,
-      "address": false,
       "masking": true,
-      "emailMode": "NORMAL",
-      "phoneMode": "NORMAL",
-      "urlMode": "NORMAL",
-      "emailMask": "{{ email hidden }}",
-      "phoneMask": "{{ number hidden }}",
-      "urlMask": "{{ URL hidden }}",
-      "addressMask": "{{ URL hidden }}"
+      "email": {
+        "enabled": true,
+        "mode": "NORMAL",
+        "mask": "{{ email hidden }}"
+      },
+      "phone": {
+        "enabled": true,
+        "mode": "NORMAL",
+        "mask": "{{ phone hidden }}"
+      },
+      "url": {
+        "enabled": true,
+        "mode": "NORMAL",
+        "mask": "{{ url hidden }}"
+      },
+      "address": {
+        "enabled": true,
+        "mode": "NORMAL",
+        "mask": "{{ address hidden }}"
+      }
     },
     "name": "My Project Name",
     "apiKey": "project-api-key"
@@ -291,37 +327,53 @@ You can change the filter from the moderation dashboard or programmatically usin
 
 ```json
 {
-  "email": true,
-  "phone": true,
-  "url": true,
-  "address": false,
   "masking": true,
-  "emailMode": "NORMAL",
-  "phoneMode": "NORMAL",
-  "urlMode": "NORMAL",
-  "addressMode": "NORMAL",
-  "emailMask": "{{ email hidden }}",
-  "phoneMask": "{{ number hidden }}",
-  "urlMask": "{{ URL hidden }}",
-  "addressMask": "{{ address hidden }}"
+  "email": {
+    "enabled": true,
+    "mode": "NORMAL",
+    "mask": "{{ email hidden }}"
+  },
+  "phone": {
+    "enabled": true,
+    "mode": "NORMAL",
+    "mask": "{{ phone hidden }}"
+  },
+  "url": {
+    "enabled": true,
+    "mode": "NORMAL",
+    "mask": "{{ url hidden }}"
+  },
+  "address": {
+    "enabled": true,
+    "mode": "NORMAL",
+    "mask": "{{ address hidden }}"
+  },
+  "name": {
+    "enabled": true,
+    "mode": "NORMAL",
+    "mask": "{{ name hidden }}",
+    "components": ["first", "middle", "last"]
+  }
 }
 ```
 
-| Attribute       | Type    | Description                                                                                   |
-| --------------- | ------- | --------------------------------------------------------------------------------------------- |
-| **email**       | boolean | Turn on email detection                                                                       |
-| **phone**       | boolean | Turn on phone number detection                                                                |
-| **url**         | boolean | Turn on URL detection                                                                         |
-| **address**     | boolean | Turn on address detection                                                                     |
-| **masking**     | boolean | Return the original text with detected values masked.                                         |
-| **emailMode**   | string  | The detection mode for emails. Must be a supported [detection mode](#detection-modes).        |
-| **phoneMode**   | string  | The detection mode for phone numbers. Must be a supported [detection mode](#detection-modes). |
-| **urlMode**     | string  | The detection mode for URLs. Must be a supported [detection mode](#detection-modes).          |
-| **addressMode** | string  | The detection mode for addresses. Only `NORMAL` is supported.                                 |
-| **emailMask**   | string  | Set a custom string to replace detected email values with.                                    |
-| **phoneMask**   | string  | Set a custom string to replace detected phone values with.                                    |
-| **urlMask**     | string  | Set a custom string to replace detected URL values with.                                      |
-| **addressMask** | string  | Set a custom string to replace detected address values with.                                  |
+| Attribute   | Type    | Description                                           |
+| ----------- | ------- | ----------------------------------------------------- |
+| **masking** | boolean | Return the original text with detected values masked. |
+| **email**   | object  | Data type settings for email detection                |
+| **phone**   | object  | Data type settings for phone number detection         |
+| **url**     | object  | Data type settings for URL detection                  |
+| **address** | object  | Data type settings for address detection              |
+| **name**    | object  | Data type settings for name detection                 |
+
+### Data type settings
+
+| Attribute      | Type            | Description                                                                                                                                    |
+| -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **enabled**    | boolean         | Turn detection of this data type on or off                                                                                                     |
+| **mode**       | string          | The detection mode. Must be a supported [detection mode](#detection-modes).                                                                    |
+| **mask**       | string          | The mask that to be used on detected values if masking is turned on.                                                                           |
+| **components** | array of string | What components of the data type you wish to detect. For example only last names or street names. See each data type for supported components. |
 
 ## Detection modes
 
@@ -378,7 +430,7 @@ A basic technique for integrations to gracefully handle limiting is to watch for
 
 The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you're looking for.
 
-Currently the API detects [emails](#email), [phone numbers](#phone-number), and [urls](#urls).
+Currently the API detects [emails](#email), [phone numbers](#phone-number), [urls](#urls), [addresses](#address), and [names](#person-names),.
 
 # Text Moderation
 
@@ -424,6 +476,11 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
     "found": false,
     "mode": "NORMAL",
     "matches": []
+  },
+  "name": {
+    "found": false,
+    "mode": "NORMAL",
+    "matches": []
   }
 }
 ```
@@ -445,7 +502,8 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | **email**   | object | [The email moderation response](#email). Only included if email detection is turned on.                    |
 | **phone**   | object | [The phone moderation response](#phone-number). Only included if phone number detection is turned on.      |
 | **url**     | object | [The URL moderation response](#urls). Only included if url detection is turned on.                         |
-| **address** | object | [The address moderation response](#urls). Only included if address detection is turned on.                 |
+| **address** | object | [The address moderation response](#address). Only included if address detection is turned on.              |
+| **name**    | object | [The person name moderation response](#person-names). Only included if name detection is turned on.        |
 
 ## Email
 
@@ -531,7 +589,7 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | anonymous.com        | `SUSPICIOUS` , `PARANOID`           | anonymous.com        |
 | anonymous(dot)com    | `PARANOID`                          | anonymous(dot)com    |
 
-## Addresse
+## Address
 
 > Address Moderation Object Example:
 
@@ -548,14 +606,14 @@ Returns the moderation object. Whether a data type is included depends if it is 
 Address detection uses an advanced AI trained for detecting addresses specifically. The AI works well on a wide range of addresses, but can increase the API response time. It will detect everything from house numbers to cities and postal codes for both real and imaginary addresses.
 
 <aside class="notice">
-The address AI only works with english texts - if you need additional languages, contact us at support@moderationapi.com
+The address AI only works best with english texts - if you need additional languages, contact us at support@moderationapi.com
 </aside>
 
-| Parameter   | Type             | Description                                                   |
-| ----------- | ---------------- | ------------------------------------------------------------- |
-| **matches** | array of strings | The detected values in order of probability of being correct. |
-| **found**   | boolean          | Indicates whether the content contains an address.            |
-| **mode**    | string           | Always `NORMAL`                                               |
+| Parameter   | Type             | Description                                                                                   |
+| ----------- | ---------------- | --------------------------------------------------------------------------------------------- |
+| **matches** | array of strings | The detected addresses in the order they're found in the text.                                |
+| **found**   | boolean          | Indicates whether the content contains an address.                                            |
+| **mode**    | string           | The [detection mode](#detection-modes) that has been set for addresses in the project filter. |
 
 ### Examples
 
@@ -565,11 +623,39 @@ The address AI only works with english texts - if you need additional languages,
 | They live on the **`Abbey Road`**, but it's a long way from here. |
 | **`Diagon Alley 123`** is hidden behind the brick wall.           |
 
+## Person Names
+
+> Person names Moderation Object Example:
+
+```json
+{
+  "name": {
+    "found": true,
+    "mode": "NORMAL",
+    "matches": ["Albus Dumbledore"]
+  }
+}
+```
+
+| Parameter   | Type             | Description                                                                               |
+| ----------- | ---------------- | ----------------------------------------------------------------------------------------- |
+| **matches** | array of strings | The detected names in the order they're found in the text.                                |
+| **found**   | boolean          | Indicates whether the content contains a name.                                            |
+| **mode**    | string           | The [detection mode](#detection-modes) that has been set for names in the project filter. |
+
+### Only detect parts of the name
+
+If you only want to hide last names you can change the level detected name components in the filter. Either using the API or in the dashboard.
+
+### Examples
+
+| Value                                | Components                    | Matches                   |
+| ------------------------------------ | ----------------------------- | ------------------------- |
+| My name is Albus Percival Dumbledore | `['first', 'middle', 'last']` | Albus Percival Dumbledore |
+| My name is Albus Percival Dumbledore | `['middle', 'last']`          | Percival Dumbledore       |
+| My name is Albus Percival Dumbledore | `['last']`                    | Dumbledore                |
+
 ## Social Media Handles
-
-Not available yet
-
-## First and Last Names
 
 Not available yet
 
