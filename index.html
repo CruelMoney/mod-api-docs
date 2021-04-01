@@ -344,7 +344,7 @@
                     <a href="#filter-object" class="toc-h2 toc-link" data-title="Filter object">Filter object</a>
                   </li>
                   <li>
-                    <a href="#detection-modes" class="toc-h2 toc-link" data-title="Detection modes">Detection modes</a>
+                    <a href="#detection-levels" class="toc-h2 toc-link" data-title="Detection levels">Detection levels</a>
                   </li>
               </ul>
           </li>
@@ -375,13 +375,13 @@
                     <a href="#urls" class="toc-h2 toc-link" data-title="URLs">URLs</a>
                   </li>
                   <li>
-                    <a href="#addresse" class="toc-h2 toc-link" data-title="Addresse">Addresse</a>
+                    <a href="#address" class="toc-h2 toc-link" data-title="Address">Address</a>
                   </li>
                   <li>
-                    <a href="#social-media-handles" class="toc-h2 toc-link" data-title="Social Media Handles">Social Media Handles</a>
+                    <a href="#person-names" class="toc-h2 toc-link" data-title="Person Names">Person Names</a>
                   </li>
                   <li>
-                    <a href="#first-and-last-names" class="toc-h2 toc-link" data-title="First and Last Names">First and Last Names</a>
+                    <a href="#usernames" class="toc-h2 toc-link" data-title="Usernames">Usernames</a>
                   </li>
                   <li>
                     <a href="#swear-words-and-profanity" class="toc-h2 toc-link" data-title="Swear Words and Profanity">Swear Words and Profanity</a>
@@ -404,8 +404,8 @@
 <p>The moderation API can help you to identify personal information and mask it out - even if the user attempts to evade detection.</p>
 
 <ol>
-<li>Define what type data you want to detect.</li>
-<li>Send a request to the API with content.</li>
+<li>Define what <a href="#filter-object">type of data</a> you want to detect.</li>
+<li><a href="#text-moderation">Send a request</a> to the API with content.</li>
 <li>We send back the detected values and original content with masked out values.</li>
 </ol>
 
@@ -474,18 +474,27 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"addressMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ phone hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ url hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Is</span><span class="w"> </span><span class="err">replaced</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">actual</span><span class="w"> </span><span class="err">API</span><span class="w"> </span><span class="err">Key</span><span class="w">
@@ -534,18 +543,27 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"addressMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ phone hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ url hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w">
@@ -569,18 +587,27 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"addressMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+    </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ phone hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ url hidden }}"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w">
@@ -628,18 +655,27 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
   </span><span class="p">{</span><span class="w">
     </span><span class="nl">"_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"601fe2eef2538064a22d496b"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"filter"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
       </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="p">,</span><span class="w">
-      </span><span class="nl">"addressMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="w">
+      </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ phone hidden }}"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ url hidden }}"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My Project Name"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"apiKey"</span><span class="p">:</span><span class="w"> </span><span class="s2">"project-api-key"</span><span class="w">
@@ -657,19 +693,25 @@ You can change the filter from the moderation dashboard or programmatically usin
 <p>Filter Object Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"url"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"emailMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"phoneMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"urlMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"addressMode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"emailMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"phoneMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ number hidden }}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"urlMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ URL hidden }}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"addressMask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ address hidden }}"</span><span class="w">
+  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ phone hidden }}"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ name hidden }}"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"components"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"first"</span><span class="p">,</span><span class="w"> </span><span class="s2">"middle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"last"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
 <table><thead>
@@ -681,71 +723,75 @@ You can change the filter from the moderation dashboard or programmatically usin
 </thead><tbody>
 <tr>
 <td><strong>email</strong></td>
-<td>boolean</td>
-<td>Turn on email detection</td>
+<td>object</td>
+<td>Data type settings for email detection. <a href="#email">See more</a></td>
 </tr>
 <tr>
 <td><strong>phone</strong></td>
-<td>boolean</td>
-<td>Turn on phone number detection</td>
+<td>object</td>
+<td>Data type settings for phone number detection. <a href="#phone-number">See more</a></td>
 </tr>
 <tr>
 <td><strong>url</strong></td>
-<td>boolean</td>
-<td>Turn on URL detection</td>
+<td>object</td>
+<td>Data type settings for URL detection. <a href="#urls">See more</a></td>
 </tr>
 <tr>
 <td><strong>address</strong></td>
+<td>object</td>
+<td>Data type settings for address detection. <a href="#address">See more</a></td>
+</tr>
+<tr>
+<td><strong>name</strong></td>
+<td>object</td>
+<td>Data type settings for name detection. <a href="#person-names">See more</a></td>
+</tr>
+<tr>
+<td><strong>username</strong></td>
+<td>object</td>
+<td>Data type settings for username detection. <a href="#usernames">See more</a></td>
+</tr>
+<tr>
+<td><strong>profanity</strong></td>
+<td>object</td>
+<td>Data type settings for profanity detection. <a href="#swear-words-and-profanity">See more</a></td>
+</tr>
+</tbody></table>
+<h3 id='data-type-settings'>Data type settings</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>enabled</strong></td>
 <td>boolean</td>
-<td>Turn on address detection</td>
+<td>Turn detection of this data type on or off.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The detection mode. Must be a supported <a href="#detection-levels">detection mode</a>.</td>
 </tr>
 <tr>
 <td><strong>masking</strong></td>
 <td>boolean</td>
-<td>Return the original text with detected values masked.</td>
+<td>Turn masking of this data type on or off.</td>
 </tr>
 <tr>
-<td><strong>emailMode</strong></td>
+<td><strong>mask</strong></td>
 <td>string</td>
-<td>The detection mode for emails. Must be a supported <a href="#detection-modes">detection mode</a>.</td>
+<td>The mask that to be used on detected values if masking is turned on.</td>
 </tr>
 <tr>
-<td><strong>phoneMode</strong></td>
-<td>string</td>
-<td>The detection mode for phone numbers. Must be a supported <a href="#detection-modes">detection mode</a>.</td>
-</tr>
-<tr>
-<td><strong>urlMode</strong></td>
-<td>string</td>
-<td>The detection mode for URLs. Must be a supported <a href="#detection-modes">detection mode</a>.</td>
-</tr>
-<tr>
-<td><strong>addressMode</strong></td>
-<td>string</td>
-<td>The detection mode for addresses. Only <code>NORMAL</code> is supported.</td>
-</tr>
-<tr>
-<td><strong>emailMask</strong></td>
-<td>string</td>
-<td>Set a custom string to replace detected email values with.</td>
-</tr>
-<tr>
-<td><strong>phoneMask</strong></td>
-<td>string</td>
-<td>Set a custom string to replace detected phone values with.</td>
-</tr>
-<tr>
-<td><strong>urlMask</strong></td>
-<td>string</td>
-<td>Set a custom string to replace detected URL values with.</td>
-</tr>
-<tr>
-<td><strong>addressMask</strong></td>
-<td>string</td>
-<td>Set a custom string to replace detected address values with.</td>
+<td><strong>components</strong></td>
+<td>array of string</td>
+<td>What components of the data type you wish to detect. For example only last names or street names. Look up supported components under the specific <a href="#text-moderation">data types</a>.</td>
 </tr>
 </tbody></table>
-<h2 id='detection-modes'>Detection modes</h2>
+<h2 id='detection-levels'>Detection levels</h2>
 <p>Most types of data can be detected using 3 different levels. Some only support one of the three.</p>
 
 <table><thead>
@@ -849,7 +895,17 @@ You can change the filter from the moderation dashboard or programmatically usin
 </code></pre></div>
 <p>The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you&#39;re looking for.</p>
 
-<p>Currently the API detects <a href="#email">emails</a>, <a href="#phone-number">phone numbers</a>, and <a href="#urls">urls</a>.</p>
+<p>Currently the API detects</p>
+
+<ul>
+<li><a href="#email">Emails</a></li>
+<li><a href="#phone-number">Phone numbers</a></li>
+<li><a href="#urls">URLs</a></li>
+<li><a href="#address">Physical Addresses</a></li>
+<li><a href="#person-names">Names</a></li>
+<li><a href="#usernames">Usernames</a></li>
+<li><a href="#swear-words-and-profanity">Profanity</a></li>
+</ul>
 <h1 id='text-moderation'>Text Moderation</h1><h2 id='overview'>Overview</h2>
 <p>All types of text moderation uses the same endpoint <code>/api/v1/moderation/text</code>. What gets moderated depends on the projects <a href="#filter">filter settings</a>.</p>
 
@@ -890,6 +946,11 @@ You can change the filter from the moderation dashboard or programmatically usin
     </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div><h3 id='parameters-4'>Parameters</h3>
@@ -927,24 +988,9 @@ You can change the filter from the moderation dashboard or programmatically usin
 <td>The moderated string. If masking is turned on in the <a href="#filter">filter</a> all detected values will be hidden.</td>
 </tr>
 <tr>
-<td><strong>email</strong></td>
+<td><strong>[data type]</strong></td>
 <td>object</td>
-<td><a href="#email">The email moderation response</a>. Only included if email detection is turned on.</td>
-</tr>
-<tr>
-<td><strong>phone</strong></td>
-<td>object</td>
-<td><a href="#phone-number">The phone moderation response</a>. Only included if phone number detection is turned on.</td>
-</tr>
-<tr>
-<td><strong>url</strong></td>
-<td>object</td>
-<td><a href="#urls">The URL moderation response</a>. Only included if url detection is turned on.</td>
-</tr>
-<tr>
-<td><strong>address</strong></td>
-<td>object</td>
-<td><a href="#urls">The address moderation response</a>. Only included if address detection is turned on.</td>
+<td>Each enabled data type get&#39;s it&#39;s own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below.</td>
 </tr>
 </tbody></table>
 <h2 id='email'>Email</h2>
@@ -979,7 +1025,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 <tr>
 <td><strong>mode</strong></td>
 <td>string</td>
-<td>The <a href="#detection-modes">detection mode</a> that has been set for emails in the project filter.</td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for emails in the project filter.</td>
 </tr>
 </tbody></table>
 <h3 id='examples-2'>Examples</h3>
@@ -1038,7 +1084,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 <tr>
 <td><strong>mode</strong></td>
 <td>string</td>
-<td>The <a href="#detection-modes">detection mode</a> that has been set for phone numbers in the project filter.</td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for phone numbers in the project filter.</td>
 </tr>
 </tbody></table>
 <h3 id='examples-3'>Examples</h3>
@@ -1097,7 +1143,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 <tr>
 <td><strong>mode</strong></td>
 <td>string</td>
-<td>The <a href="#detection-modes">detection mode</a> that has been set for URLs in the project filter.</td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for URLs in the project filter.</td>
 </tr>
 </tbody></table>
 <h3 id='examples-4'>Examples</h3>
@@ -1124,7 +1170,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 <td>anonymous(dot)com</td>
 </tr>
 </tbody></table>
-<h2 id='addresse'>Addresse</h2>
+<h2 id='address'>Address</h2>
 <blockquote>
 <p>Address Moderation Object Example:</p>
 </blockquote>
@@ -1136,10 +1182,10 @@ You can change the filter from the moderation dashboard or programmatically usin
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>Address detection uses an advanced AI trained for detecting addresses specifically. The AI works well on a wide range of addresses, but can increase the API response time. It will detect everything from house numbers to cities and postal codes for both real and imaginary addresses.</p>
+<p>Address detection uses an advanced AI trained specifically for detecting addresses. The AI works well on a wide range of addresses, but can increase the API response time. It will detect everything from house numbers to cities and postal codes for both real and imaginary addresses.</p>
 
 <aside class="notice">
-The address AI only works with english texts - if you need additional languages, contact us at support@moderationapi.com
+The address AI works best with english texts - if you need additional languages, contact us at support@moderationapi.com
 </aside>
 
 <table><thead>
@@ -1152,7 +1198,7 @@ The address AI only works with english texts - if you need additional languages,
 <tr>
 <td><strong>matches</strong></td>
 <td>array of strings</td>
-<td>The detected values in order of probability of being correct.</td>
+<td>The detected addresses in the order they&#39;re found in the text.</td>
 </tr>
 <tr>
 <td><strong>found</strong></td>
@@ -1162,7 +1208,7 @@ The address AI only works with english texts - if you need additional languages,
 <tr>
 <td><strong>mode</strong></td>
 <td>string</td>
-<td>Always <code>NORMAL</code></td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for addresses in the project filter.</td>
 </tr>
 </tbody></table>
 <h3 id='examples-5'>Examples</h3>
@@ -1181,13 +1227,180 @@ The address AI only works with english texts - if you need additional languages,
 <td><strong><code>Diagon Alley 123</code></strong> is hidden behind the brick wall.</td>
 </tr>
 </tbody></table>
-<h2 id='social-media-handles'>Social Media Handles</h2>
-<p>Not available yet</p>
-<h2 id='first-and-last-names'>First and Last Names</h2>
-<p>Not available yet</p>
+<h2 id='person-names'>Person Names</h2>
+<blockquote>
+<p>Person names Moderation Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Albus Dumbledore"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>matches</strong></td>
+<td>array of strings</td>
+<td>The detected names in the order they&#39;re found in the text.</td>
+</tr>
+<tr>
+<td><strong>found</strong></td>
+<td>boolean</td>
+<td>Indicates whether the content contains a name.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for names in the project filter.</td>
+</tr>
+</tbody></table>
+<h3 id='only-detect-parts-of-the-name'>Only detect parts of the name</h3>
+<p>If you only want to hide last names you can change the level detected name components in the filter. Either using the API or in the dashboard.</p>
+<h3 id='examples-6'>Examples</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Components</th>
+<th>Matches</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>My name is Albus Percival Dumbledore</td>
+<td><code>[&#39;first&#39;, &#39;middle&#39;, &#39;last&#39;]</code></td>
+<td>Albus Percival Dumbledore</td>
+</tr>
+<tr>
+<td>My name is Albus Percival Dumbledore</td>
+<td><code>[&#39;middle&#39;, &#39;last&#39;]</code></td>
+<td>Percival Dumbledore</td>
+</tr>
+<tr>
+<td>My name is Albus Percival Dumbledore</td>
+<td><code>[&#39;last&#39;]</code></td>
+<td>Dumbledore</td>
+</tr>
+</tbody></table>
+<h2 id='usernames'>Usernames</h2>
+<p>For examples detect Instagram handles or other social media usernames.</p>
+
+<aside class="notice">
+Experimental: might not identify all cases.
+</aside>
+
+<blockquote>
+<p>Usernames Moderation Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"username"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SUSPICIOUS"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"@chris_93"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>matches</strong></td>
+<td>array of strings</td>
+<td>The detected values in order of probability of being correct.</td>
+</tr>
+<tr>
+<td><strong>found</strong></td>
+<td>boolean</td>
+<td>Indicates whether the content contains a username. This does not always correspond to if any matches are found - ex. the text might intent to share personal data, but an exact match cannot be found.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for usernames in the project filter.</td>
+</tr>
+</tbody></table>
 <h2 id='swear-words-and-profanity'>Swear Words and Profanity</h2>
-<p>Not available yet</p>
+<p>Detect profane and inappropriate words. Does not detect toxic language without swear words - for example: &quot;You are a monkey&quot;. To handle such use-cases we recommend our toxicity analyzer.</p>
+
+<aside class="notice">
+Experimental: might return false positives.
+</aside>
+
+<aside class="notice">
+Only works with english language - additional languages can be added upon request - contact us at support@moderationapi.com
+</aside>
+
+<blockquote>
+<p>Profanity Moderation Object Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"profanity"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"matches"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"fuck"</span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>matches</strong></td>
+<td>array of strings</td>
+<td>The detected profane words.</td>
+</tr>
+<tr>
+<td><strong>found</strong></td>
+<td>boolean</td>
+<td>Indicates whether the content contains profane words.</td>
+</tr>
+<tr>
+<td><strong>mode</strong></td>
+<td>string</td>
+<td>The <a href="#detection-levels">detection mode</a> that has been set for profanity in the project filter.</td>
+</tr>
+</tbody></table>
+<h3 id='examples-7'>Examples</h3>
+<table><thead>
+<tr>
+<th>Value</th>
+<th>Detected by</th>
+<th>Matches</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>fuck</td>
+<td><code>NORMAL</code>, <code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>fuck</td>
+</tr>
+<tr>
+<td>ffuuccckkk</td>
+<td><code>SUSPICIOUS</code> , <code>PARANOID</code></td>
+<td>ffuuccckkk</td>
+</tr>
+<tr>
+<td>kcuf</td>
+<td><code>PARANOID</code></td>
+<td>kcuf</td>
+</tr>
+</tbody></table>
 <div class="highlight"><pre class="highlight plaintext"><code>
+
+
 </code></pre></div>
       </div>
       <div class="dark-box">
