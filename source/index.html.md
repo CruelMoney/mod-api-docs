@@ -23,8 +23,8 @@ Welcome to the [Moderation API](https://moderationapi.com).
 
 The moderation API can help you to identify personal information and mask it out - even if the user attempts to evade detection.
 
-1. Define what type data you want to detect.
-2. Send a request to the API with content.
+1. Define what [type of data](#filter-object) you want to detect.
+2. [Send a request](#text-moderation) to the API with content.
 3. We send back the detected values and original content with masked out values.
 
 ![Chat email detection](/images/chat.png "Chat email detection")
@@ -327,29 +327,21 @@ You can change the filter from the moderation dashboard or programmatically usin
 
 ```json
 {
-  "masking": true,
   "email": {
     "enabled": true,
+    "masking": true,
     "mode": "NORMAL",
     "mask": "{{ email hidden }}"
   },
   "phone": {
     "enabled": true,
+    "masking": true,
     "mode": "NORMAL",
     "mask": "{{ phone hidden }}"
   },
-  "url": {
-    "enabled": true,
-    "mode": "NORMAL",
-    "mask": "{{ url hidden }}"
-  },
-  "address": {
-    "enabled": true,
-    "mode": "NORMAL",
-    "mask": "{{ address hidden }}"
-  },
   "name": {
     "enabled": true,
+    "masking": true,
     "mode": "NORMAL",
     "mask": "{{ name hidden }}",
     "components": ["first", "middle", "last"]
@@ -357,25 +349,27 @@ You can change the filter from the moderation dashboard or programmatically usin
 }
 ```
 
-| Attribute   | Type    | Description                                           |
-| ----------- | ------- | ----------------------------------------------------- |
-| **masking** | boolean | Return the original text with detected values masked. |
-| **email**   | object  | Data type settings for email detection                |
-| **phone**   | object  | Data type settings for phone number detection         |
-| **url**     | object  | Data type settings for URL detection                  |
-| **address** | object  | Data type settings for address detection              |
-| **name**    | object  | Data type settings for name detection                 |
+| Attribute     | Type   | Description                                                                        |
+| ------------- | ------ | ---------------------------------------------------------------------------------- |
+| **email**     | object | Data type settings for email detection. [See more](#email)                         |
+| **phone**     | object | Data type settings for phone number detection. [See more](#phone-number)           |
+| **url**       | object | Data type settings for URL detection. [See more](#urls)                            |
+| **address**   | object | Data type settings for address detection. [See more](#address)                     |
+| **name**      | object | Data type settings for name detection. [See more](#person-names)                   |
+| **username**  | object | Data type settings for username detection. [See more](#usernames)                  |
+| **profanity** | object | Data type settings for profanity detection. [See more](#swear-words-and-profanity) |
 
 ### Data type settings
 
-| Attribute      | Type            | Description                                                                                                                                    |
-| -------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| **enabled**    | boolean         | Turn detection of this data type on or off                                                                                                     |
-| **mode**       | string          | The detection mode. Must be a supported [detection mode](#detection-modes).                                                                    |
-| **mask**       | string          | The mask that to be used on detected values if masking is turned on.                                                                           |
-| **components** | array of string | What components of the data type you wish to detect. For example only last names or street names. See each data type for supported components. |
+| Attribute      | Type            | Description                                                                                                                                                                       |
+| -------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **enabled**    | boolean         | Turn detection of this data type on or off.                                                                                                                                       |
+| **mode**       | string          | The detection mode. Must be a supported [detection mode](#detection-levels).                                                                                                      |
+| **masking**    | boolean         | Turn masking of this data type on or off.                                                                                                                                         |
+| **mask**       | string          | The mask that to be used on detected values if masking is turned on.                                                                                                              |
+| **components** | array of string | What components of the data type you wish to detect. For example only last names or street names. Look up supported components under the specific [data types](#text-moderation). |
 
-## Detection modes
+## Detection levels
 
 Most types of data can be detected using 3 different levels. Some only support one of the three.
 
@@ -430,7 +424,15 @@ A basic technique for integrations to gracefully handle limiting is to watch for
 
 The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you're looking for.
 
-Currently the API detects [emails](#email), [phone numbers](#phone-number), [urls](#urls), [addresses](#address), and [names](#person-names),.
+Currently the API detects
+
+- [Emails](#email)
+- [Phone numbers](#phone-number)
+- [URLs](#urls)
+- [Physical Addresses](#address)
+- [Names](#person-names)
+- [Usernames](#usernames)
+- [Profanity](#swear-words-and-profanity)
 
 # Text Moderation
 
@@ -495,15 +497,11 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
 
 Returns the moderation object. Whether a data type is included depends if it is turned on in the projects [filter settings](#filter).
 
-| Parameter   | Type   | Description                                                                                                |
-| ----------- | ------ | ---------------------------------------------------------------------------------------------------------- |
-| **status**  | string | error or success.                                                                                          |
-| **content** | string | The moderated string. If masking is turned on in the [filter](#filter) all detected values will be hidden. |
-| **email**   | object | [The email moderation response](#email). Only included if email detection is turned on.                    |
-| **phone**   | object | [The phone moderation response](#phone-number). Only included if phone number detection is turned on.      |
-| **url**     | object | [The URL moderation response](#urls). Only included if url detection is turned on.                         |
-| **address** | object | [The address moderation response](#address). Only included if address detection is turned on.              |
-| **name**    | object | [The person name moderation response](#person-names). Only included if name detection is turned on.        |
+| Parameter       | Type   | Description                                                                                                                                                       |
+| --------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **status**      | string | error or success.                                                                                                                                                 |
+| **content**     | string | The moderated string. If masking is turned on in the [filter](#filter) all detected values will be hidden.                                                        |
+| **[data type]** | object | Each enabled data type get's it's own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below. |
 
 ## Email
 
@@ -523,7 +521,7 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | ----------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **matches** | array of strings | The detected values in order of probability of being correct.                                                                                                                                        |
 | **found**   | boolean          | Indicates whether the content contains an email. This does not always correspond to if any matches are found - ex. the text might intent to share personal data, but an exact match cannot be found. |
-| **mode**    | string           | The [detection mode](#detection-modes) that has been set for emails in the project filter.                                                                                                           |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for emails in the project filter.                                                                                                          |
 
 ### Examples
 
@@ -551,7 +549,7 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | ----------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **matches** | array of strings | The detected values in order of probability of being correct.                                                                                                                                              |
 | **found**   | boolean          | Indicates whether the content contains a phone number. This does not always correspond to if any matches are found - ex. the text might intent to share personal data, but an exact match cannot be found. |
-| **mode**    | string           | The [detection mode](#detection-modes) that has been set for phone numbers in the project filter.                                                                                                          |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for phone numbers in the project filter.                                                                                                         |
 
 ### Examples
 
@@ -579,7 +577,7 @@ Returns the moderation object. Whether a data type is included depends if it is 
 | ----------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **matches** | array of strings | The detected values in order of probability of being correct.                                                                                                                              |
 | **found**   | boolean          | Indicates whether the content contains an URL. This does not always correspond to if any matches are found - ex. the text might intent to share a URL, but an exact match cannot be found. |
-| **mode**    | string           | The [detection mode](#detection-modes) that has been set for URLs in the project filter.                                                                                                   |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for URLs in the project filter.                                                                                                  |
 
 ### Examples
 
@@ -603,17 +601,17 @@ Returns the moderation object. Whether a data type is included depends if it is 
 }
 ```
 
-Address detection uses an advanced AI trained for detecting addresses specifically. The AI works well on a wide range of addresses, but can increase the API response time. It will detect everything from house numbers to cities and postal codes for both real and imaginary addresses.
+Address detection uses an advanced AI trained specifically for detecting addresses. The AI works well on a wide range of addresses, but can increase the API response time. It will detect everything from house numbers to cities and postal codes for both real and imaginary addresses.
 
 <aside class="notice">
-The address AI only works best with english texts - if you need additional languages, contact us at support@moderationapi.com
+The address AI works best with english texts - if you need additional languages, contact us at support@moderationapi.com
 </aside>
 
-| Parameter   | Type             | Description                                                                                   |
-| ----------- | ---------------- | --------------------------------------------------------------------------------------------- |
-| **matches** | array of strings | The detected addresses in the order they're found in the text.                                |
-| **found**   | boolean          | Indicates whether the content contains an address.                                            |
-| **mode**    | string           | The [detection mode](#detection-modes) that has been set for addresses in the project filter. |
+| Parameter   | Type             | Description                                                                                    |
+| ----------- | ---------------- | ---------------------------------------------------------------------------------------------- |
+| **matches** | array of strings | The detected addresses in the order they're found in the text.                                 |
+| **found**   | boolean          | Indicates whether the content contains an address.                                             |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for addresses in the project filter. |
 
 ### Examples
 
@@ -637,11 +635,11 @@ The address AI only works best with english texts - if you need additional langu
 }
 ```
 
-| Parameter   | Type             | Description                                                                               |
-| ----------- | ---------------- | ----------------------------------------------------------------------------------------- |
-| **matches** | array of strings | The detected names in the order they're found in the text.                                |
-| **found**   | boolean          | Indicates whether the content contains a name.                                            |
-| **mode**    | string           | The [detection mode](#detection-modes) that has been set for names in the project filter. |
+| Parameter   | Type             | Description                                                                                |
+| ----------- | ---------------- | ------------------------------------------------------------------------------------------ |
+| **matches** | array of strings | The detected names in the order they're found in the text.                                 |
+| **found**   | boolean          | Indicates whether the content contains a name.                                             |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for names in the project filter. |
 
 ### Only detect parts of the name
 
@@ -655,14 +653,72 @@ If you only want to hide last names you can change the level detected name compo
 | My name is Albus Percival Dumbledore | `['middle', 'last']`          | Percival Dumbledore       |
 | My name is Albus Percival Dumbledore | `['last']`                    | Dumbledore                |
 
-## Social Media Handles
+## Usernames
 
-Not available yet
+For examples detect Instagram handles or other social media usernames.
+
+<aside class="notice">
+Experimental: might not identify all cases.
+</aside>
+
+> Usernames Moderation Object Example:
+
+```json
+{
+  "username": {
+    "found": true,
+    "mode": "SUSPICIOUS",
+    "matches": ["@chris_93"]
+  }
+}
+```
+
+| Parameter   | Type             | Description                                                                                                                                                                                            |
+| ----------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **matches** | array of strings | The detected values in order of probability of being correct.                                                                                                                                          |
+| **found**   | boolean          | Indicates whether the content contains a username. This does not always correspond to if any matches are found - ex. the text might intent to share personal data, but an exact match cannot be found. |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for usernames in the project filter.                                                                                                         |
 
 ## Swear Words and Profanity
 
-Not available yet
+Detect profane and inappropriate words. Does not detect toxic language without swear words - for example: "You are a monkey". To handle such use-cases we recommend our toxicity analyzer.
+
+<aside class="notice">
+Experimental: might return false positives.
+</aside>
+
+<aside class="notice">
+Only works with english language - additional languages can be added upon request - contact us at support@moderationapi.com
+</aside>
+
+> Profanity Moderation Object Example:
+
+```json
+{
+  "profanity": {
+    "found": true,
+    "mode": "NORMAL",
+    "matches": ["fuck"]
+  }
+}
+```
+
+| Parameter   | Type             | Description                                                                                    |
+| ----------- | ---------------- | ---------------------------------------------------------------------------------------------- |
+| **matches** | array of strings | The detected profane words.                                                                    |
+| **found**   | boolean          | Indicates whether the content contains profane words.                                          |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for profanity in the project filter. |
+
+### Examples
+
+| Value      | Detected by                         | Matches    |
+| ---------- | ----------------------------------- | ---------- |
+| fuck       | `NORMAL`, `SUSPICIOUS` , `PARANOID` | fuck       |
+| ffuuccckkk | `SUSPICIOUS` , `PARANOID`           | ffuuccckkk |
+| kcuf       | `PARANOID`                          | kcuf       |
 
 ```
+
+
 
 ```
