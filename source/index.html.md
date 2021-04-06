@@ -107,7 +107,6 @@ New projects have to be created from the dashboard.
 {
   "_id": "601fe2eef2538064a22d496b",
   "filter": {
-    "masking": true,
     "email": {
       "enabled": true,
       "mode": "NORMAL",
@@ -160,7 +159,6 @@ curl "https://moderationapi.com/api/v1/projects/:id" \
 {
   "_id": "601fe2eef2538064a22d496b",
   "filter": {
-    "masking": true,
     "email": {
       "enabled": true,
       "mode": "NORMAL",
@@ -214,7 +212,6 @@ curl "https://moderationapi.com/api/v1/projects/:id" \
 {
   "_id": "601fe2eef2538064a22d496b",
   "filter": {
-    "masking": true,
     "email": {
       "enabled": true,
       "mode": "NORMAL",
@@ -278,7 +275,6 @@ curl "https://moderationapi.com/api/v1/projects" \
   {
     "_id": "601fe2eef2538064a22d496b",
     "filter": {
-      "masking": true,
       "email": {
         "enabled": true,
         "mode": "NORMAL",
