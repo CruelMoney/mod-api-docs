@@ -75,8 +75,8 @@
         $best.addClass("active");
         $best.parents(tocListSelector).addClass("active").siblings(tocLinkSelector).addClass('active-parent');
         $best.siblings(tocListSelector).addClass("active");
-        $toc.find(tocListSelector).filter(":not(.active)").slideUp(150);
-        $toc.find(tocListSelector).filter(".active").slideDown(150);
+        // $toc.find(tocListSelector).filter(":not(.active)").slideUp(150);
+        // $toc.find(tocListSelector).filter(".active").slideDown(150);
         if (window.history.replaceState) {
           window.history.replaceState(null, "", best);
         }

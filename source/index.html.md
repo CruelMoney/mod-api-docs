@@ -317,7 +317,7 @@ An array with all projects. Each entry in the array is a separate projects objec
 The filter is used to control the detection engine and the responses you get from the API.
 You can change the filter from the moderation dashboard or programmatically using the API when [updating a project](#update-a-project).
 
-## Filter object
+## Filter Object
 
 > Filter Object Example:
 
@@ -365,7 +365,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 | **mask**       | string          | The mask that to be used on detected values if masking is turned on.                                                                                                              |
 | **components** | array of string | What components of the data type you wish to detect. For example only last names or street names. Look up supported components under the specific [data types](#text-moderation). |
 
-## Detection levels
+## Detection Levels
 
 Most types of data can be detected using 3 different levels. Some only support one of the three.
 
@@ -384,6 +384,10 @@ We recommend to start with the `NORMAL` mode and increase the level if needed.
 | reach me on example@gmail.com                   | `NORMAL`, `SUSPICIOUS` , `PARANOID` | example@gmail.com                   |
 | reach me on example at gmail dot com            | `SUSPICIOUS` , `PARANOID`           | example at gmail dot com            |
 | reach me on example at that google email domain | `PARANOID`                          | example at that google email domain |
+
+## Update a Filter
+
+A filter can be updated using the [project update endpoint](#update-a-project).
 
 # Errors
 
@@ -684,7 +688,9 @@ Experimental: might return false positives.
 </aside>
 
 <aside class="notice">
-Only works with english language - additional languages can be added upon request - contact us at support@moderationapi.com
+Only works with english language - additional languages can be added upon request - contact us at support@moderationapi.com.
+<br>
+Fails gracefully on other languages than english with a normal response with empty matches.
 </aside>
 
 > Profanity Moderation Object Example:
@@ -716,5 +722,65 @@ Only works with english language - additional languages can be added upon reques
 ```
 
 
+
+```
+
+# Analyzing
+
+## Overview
+
+Use our analyzers to make general conclusions about a text. <br>
+All analyzers are found under `/api/v1/analyze/...`
+
+## Detect Language
+
+> `POST /api/v1/analyze/language`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/language" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "This is an english text"
+     }`
+```
+
+> Detect Language Response Example:
+
+```json
+{
+  "code": "en", // in ISO 639
+  "name": "ENGLISH",
+  "score": 96,
+  "reliable": true
+}
+```
+
+Detect what language a text is written in `/api/v1/analyze/language`.
+Probabilistically detects over 160 languages.
+
+<aside class="notice">
+  Does not count against moderation quota.
+</aside>
+
+### Parameters
+
+| Parameter | Type   | Description                                                             |
+| --------- | ------ | ----------------------------------------------------------------------- |
+| **value** | string | The text you want to analyze. Limited to 10.000 characters per request. |
+
+### Returns
+
+Returns an object with the detected language.
+
+| Parameter    | Type    | Description                                                                           |
+| ------------ | ------- | ------------------------------------------------------------------------------------- |
+| **code**     | string? | The ISO 639 of the language. Returns null if the analyzer fails.                      |
+| **name**     | string? | An UPPERCASE name of the language. Returns null if the analyzer fails.                |
+| **score**    | int     | 0-100 score with 100 meaning a high probability of being correct. Returns 0 on fails. |
+| **reliable** | int     | The analyzer is reasonably confident about this guess, e.g. the score is high.        |
+| **error**    | string? | If the analyzer failed an error will be returned.                                     |
+
+```
 
 ```
