@@ -937,6 +937,8 @@ You can change the filter from the moderation dashboard or programmatically usin
   </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1612792574690</span><span class="w">
   </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"content_moderated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"data_found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nl">"original"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You can contact me on mr_robot[at]gmail|DOT|com or call me on 12 34 65 78"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You can contact me on {{ email hidden }} or call me on {{ number hidden }}"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -998,6 +1000,16 @@ You can change the filter from the moderation dashboard or programmatically usin
 <td><strong>content</strong></td>
 <td>string</td>
 <td>The moderated string. If masking is turned on in the <a href="#filter">filter</a> all detected values will be hidden.</td>
+</tr>
+<tr>
+<td><strong>content_moderated</strong></td>
+<td>boolean</td>
+<td>A boolean indicating if the returned content is different from the original text.</td>
+</tr>
+<tr>
+<td><strong>data_found</strong></td>
+<td>boolean</td>
+<td>A boolean indicating if any data has been found. Equal to checking each <code>found</code> field on the data types.</td>
 </tr>
 <tr>
 <td><strong>[data type]</strong></td>
