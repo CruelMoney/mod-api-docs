@@ -457,6 +457,8 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
   "request": {
     "timestamp": 1612792574690
   },
+  "content_moderated": true,
+  "data_found": true,
   "original": "You can contact me on mr_robot[at]gmail|DOT|com or call me on 12 34 65 78",
   "content": "You can contact me on {{ email hidden }} or call me on {{ number hidden }}",
   "email": {
@@ -497,11 +499,13 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
 
 Returns the moderation object. Whether a data type is included depends if it is turned on in the projects [filter settings](#filter).
 
-| Parameter       | Type   | Description                                                                                                                                                       |
-| --------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **status**      | string | error or success.                                                                                                                                                 |
-| **content**     | string | The moderated string. If masking is turned on in the [filter](#filter) all detected values will be hidden.                                                        |
-| **[data type]** | object | Each enabled data type get's it's own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below. |
+| Parameter             | Type    | Description                                                                                                                                                       |
+| --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **status**            | string  | error or success.                                                                                                                                                 |
+| **content**           | string  | The moderated string. If masking is turned on in the [filter](#filter) all detected values will be hidden.                                                        |
+| **content_moderated** | boolean | A boolean indicating if the returned content is different from the original text.                                                                                 |
+| **data_found**        | boolean | A boolean indicating if any data has been found. Equal to checking each `found` field on the data types.                                                          |
+| **[data type]**       | object  | Each enabled data type get's it's own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below. |
 
 ## Email
 
