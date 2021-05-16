@@ -21,7 +21,16 @@ code_clipboard: true
 
 Welcome to the [Moderation API](https://moderationapi.com).
 
-The moderation API can help you to identify personal information and mask it out - even if the user attempts to evade detection.
+The moderation API automates advanced text analysis tasks.
+
+- Identify personal information and mask it out - also if the user attempts to evade detection.
+- Detect toxic content in real time.
+- Detect and remove profanity - also if the user attempts to evade detection.
+- Analyze the quality of a text and prevent spam.
+- Detect the language of a text.
+- Remove sensitive data from text.
+
+The basic workflow is simple:
 
 1. Define what [type of data](#filter-object) you want to detect.
 2. [Send a request](#text-moderation) to the API with content.
