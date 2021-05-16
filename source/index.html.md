@@ -354,6 +354,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 | **name**      | object | Data type settings for name detection. [See more](#person-names)                   |
 | **username**  | object | Data type settings for username detection. [See more](#usernames)                  |
 | **profanity** | object | Data type settings for profanity detection. [See more](#swear-words-and-profanity) |
+| **sensitive** | object | Data type settings for sensitive numbers detection. [See more](#sensitive-numbers) |
 
 ### Data type settings
 
@@ -758,7 +759,7 @@ This model detects a range of sensitive information:
 ## Overview
 
 Use our analyzers to make general conclusions about a text. <br>
-All analyzers can be used from `/api/v1/analyze/{type}` or using the moderation endpoint: `/api/v1/moderation/text` if the analyzer has been to a project in your dashboard.
+All analyzers can be used from `/api/v1/analyze/{type}` or using the moderation endpoint: `/api/v1/moderation/text` if the analyzer model has been added to a project in your dashboard.
 
 ## Language Analyzer
 
