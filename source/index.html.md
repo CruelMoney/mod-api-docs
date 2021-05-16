@@ -27,7 +27,7 @@ The moderation API can help you to identify personal information and mask it out
 2. [Send a request](#text-moderation) to the API with content.
 3. We send back the detected values and original content with masked out values.
 
-![Chat email detection](/images/chat.png "Chat email detection")
+![Moderation api detection](/images/example.png "Moderation API detection")
 
 # Authentication
 
@@ -688,10 +688,6 @@ Experimental: might not identify all cases.
 Detect profane and inappropriate words. Does not detect toxic language without swear words - for example: "You are a monkey". To handle such use-cases we recommend our toxicity analyzer.
 
 <aside class="notice">
-Experimental: might return false positives.
-</aside>
-
-<aside class="notice">
 Only works with english language - additional languages can be added upon request - contact us at support@moderationapi.com.
 <br>
 Fails gracefully on other languages than english with a normal response with empty matches.
@@ -723,18 +719,46 @@ Fails gracefully on other languages than english with a normal response with emp
 | ffuuccckkk | `SUSPICIOUS` , `PARANOID`           | ffuuccckkk |
 | kcuf       | `PARANOID`                          | kcuf       |
 
+## Sensitive numbers
+
+This model detects a range of sensitive information:
+
+- **Personal Numbers**: detect social security numbers, driver IDs, passport numbers, etc.
+- **Bank Accounts**: detect account numbers and routing numbers.
+- **Payment Cards**: detect card numbers, expiry dates and CVV.
+- **Passwords**: detect passwords and 4-digit pin codes.
+- **Digital Addresses**: detect IP-addresses and MAC addresses.
+
+> Sensitive Numbers Moderation Object Example:
+
+```json
+{
+  "sensitive": {
+    "found": true,
+    "mode": "NORMAL",
+    "matches": ["password1234", "4242 4242 4242 4242"],
+    "components": [
+      {
+        "password": "password1234",
+        "credit_debit_number": "4242 4242 4242 4242"
+      }
+    ]
+  }
+}
 ```
 
-
-
-```
+| Parameter   | Type             | Description                                                                                            |
+| ----------- | ---------------- | ------------------------------------------------------------------------------------------------------ |
+| **matches** | array of strings | The detected values words.                                                                             |
+| **found**   | boolean          | Indicates whether the content contains sensitive numbers.                                              |
+| **mode**    | string           | The [detection mode](#detection-levels) that has been set for sensitive numbers in the project filter. |
 
 # Analyzing
 
 ## Overview
 
 Use our analyzers to make general conclusions about a text. <br>
-All analyzers are found under `/api/v1/analyze/...`
+All analyzers can be used from `/api/v1/analyze/{type}` or using the moderation endpoint: `/api/v1/moderation/text` if the analyzer has been to a project in your dashboard.
 
 ## Detect Language
 
@@ -754,7 +778,7 @@ curl "https://moderationapi.com/api/v1/analyze/language" \
 ```json
 {
   "code": "en", // in ISO 639
-  "name": "ENGLISH",
+  "label": "ENGLISH",
   "score": 96,
   "reliable": true
 }
@@ -780,7 +804,7 @@ Returns an object with the detected language.
 | Parameter    | Type    | Description                                                                           |
 | ------------ | ------- | ------------------------------------------------------------------------------------- |
 | **code**     | string? | The ISO 639 of the language. Returns null if the analyzer fails.                      |
-| **name**     | string? | An UPPERCASE name of the language. Returns null if the analyzer fails.                |
+| **label**    | string? | An UPPERCASE name of the language. Returns null if the analyzer fails.                |
 | **score**    | int     | 0-100 score with 100 meaning a high probability of being correct. Returns 0 on fails. |
 | **reliable** | int     | The analyzer is reasonably confident about this guess, e.g. the score is high.        |
 | **error**    | string? | If the analyzer failed an error will be returned.                                     |
