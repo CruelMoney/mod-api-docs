@@ -785,7 +785,7 @@ curl "https://moderationapi.com/api/v1/analyze/language" \
 ```
 
 Detect what language a text is written in `/api/v1/analyze/language`.
-Probabilistically detects over 160 languages.
+Probabilistically detects over 160 languages. We're not listing all the languages here, but if you need a comprehensive list, please message us.
 
 <aside class="notice">
   Does not count against moderation quota.
@@ -843,15 +843,15 @@ Works on the whole text to detect general features like profanity, swearing, rac
 
 ### Labels
 
-| Parameter           | Type   | Description                                                                                                |
-| ------------------- | ------ | ---------------------------------------------------------------------------------------------------------- |
-| **TOXICITY**        | string | The general toxicity. If any other labels have a high score, this one is likely to score high as well.     |
-| **SEVERE_TOXICITY** | string | Very offending and hateful content. Can be used in cases where the normal toxicity label is too sensitive. |
-| **THREAT**          | string | Intending to harm or implying aggressive behavior.                                                         |
-| **PROFANITY**       | string | Containing swearing, curse words, and other obscene language.                                              |
-| **INSULT**          | string | Negative comments about looks or personality, etc.                                                         |
-| **IDENTITY_ATTACK** | string | Racism and other discrimination based on race, religion, gender, etc.                                      |
-| **NEUTRAL**         | string | Nothing toxic was detected.                                                                                |
+| Label               | Description                                                                                                |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **TOXICITY**        | The general toxicity. If any other labels have a high score, this one is likely to score high as well.     |
+| **SEVERE_TOXICITY** | Very offending and hateful content. Can be used in cases where the normal toxicity label is too sensitive. |
+| **THREAT**          | Intending to harm or implying aggressive behavior.                                                         |
+| **PROFANITY**       | Containing swearing, curse words, and other obscene language.                                              |
+| **INSULT**          | Negative comments about looks or personality, etc.                                                         |
+| **IDENTITY_ATTACK** | Racism and other discrimination based on race, religion, gender, etc.                                      |
+| **NEUTRAL**         | Nothing toxic was detected.                                                                                |
 
 ### Parameters
 
@@ -877,7 +877,7 @@ curl "https://moderationapi.com/api/v1/analyze/quality" \
   -H "Authorization: Bearer API_KEY"
   -H "Content-Type: application/json"
   -d `{
-       "value": "This is a short and unsubstantial text."
+       "value": "Want to get rich quick? Go to quickmoney.sx and sign up."
      }`
 ```
 
@@ -885,12 +885,12 @@ curl "https://moderationapi.com/api/v1/analyze/quality" \
 
 ```json
 {
-  "label": "UNSUBSTANTIAL",
+  "label": "SPAM",
   "label_scores": {
-    "UNSUBSTANTIAL": 0.86343884,
-    "INCOHERENT": 0.3330769,
-    "SPAM": 0.017711291,
-    "NEUTRAL": 0.13656116
+    "SPAM": 0.9337343,
+    "INCOHERENT": 0.89032257,
+    "UNSUBSTANTIAL": 0.68944305,
+    "NEUTRAL": 0.0662657
   }
 }
 ```
@@ -899,12 +899,63 @@ Detect spam and insubstantial text, etc. `/api/v1/analyze/quality`.
 
 ### Labels
 
-| Parameter         | Type   | Description                                                           |
-| ----------------- | ------ | --------------------------------------------------------------------- |
-| **UNSUBSTANTIAL** | string | Trival or short content.                                              |
-| **INCOHERENT**    | string | Difficult to understand and nonsensical.                              |
-| **SPAM**          | string | Repetitive, irrelevant content trying to make you visit a website eg. |
-| **NEUTRAL**       | string | The text is relativey high quality.                                   |
+| Label             | Description                                                           |
+| ----------------- | --------------------------------------------------------------------- |
+| **UNSUBSTANTIAL** | Trival or short content.                                              |
+| **INCOHERENT**    | Difficult to understand and nonsensical.                              |
+| **SPAM**          | Repetitive, irrelevant content trying to make you visit a website eg. |
+| **NEUTRAL**       | The text is relativey high quality.                                   |
+
+### Parameters
+
+| Parameter | Type   | Description                                                             |
+| --------- | ------ | ----------------------------------------------------------------------- |
+| **value** | string | The text you want to analyze. Limited to 10.000 characters per request. |
+
+### Returns
+
+Returns an object with the detected label and respective scores.
+
+| Parameter        | Type    | Description                                                                                                   |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
+| **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
+
+## Propriety Analyzer
+
+> `POST /api/v1/analyze/propriety`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/propriety" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "Can I get your number? 💦"
+     }`
+```
+
+> Analyze Propriety Response Example:
+
+```json
+{
+  "label": "FLIRTATION",
+  "label_scores": {
+    "FLIRTATION": 0.7784964,
+    "SEXUALLY_EXPLICIT": 0.315303,
+    "NEUTRAL": 0.2215036
+  }
+}
+```
+
+Detect sexual and flirty language. `/api/v1/analyze/propriety`. Closely related to the toxicity endpoint but specialized to detect more subtle inappropriate comments.
+
+### Labels
+
+| Label                 | Description                                   |
+| --------------------- | --------------------------------------------- |
+| **FLIRTATION**        | Pickup lines, compliments on appearance, etc. |
+| **SEXUALLY_EXPLICIT** | References to sexual acts, body parts, etc.   |
+| **NEUTRAL**           | The text is relativey high quality.           |
 
 ### Parameters
 
