@@ -685,7 +685,7 @@ Experimental: might not identify all cases.
 
 ## Swear Words and Profanity
 
-Detect profane and inappropriate words. Does not detect toxic language without swear words - for example: "You are a monkey". To handle such use-cases we recommend our toxicity analyzer.
+Detect profane and inappropriate words. Does not detect toxic language without swear words - for example: "You are a monkey". To handle such use-cases we recommend our [toxicity analyzer](#toxicity-analyzer).
 
 <aside class="notice">
 Only works with english language - additional languages can be added upon request - contact us at support@moderationapi.com.
@@ -760,7 +760,7 @@ This model detects a range of sensitive information:
 Use our analyzers to make general conclusions about a text. <br>
 All analyzers can be used from `/api/v1/analyze/{type}` or using the moderation endpoint: `/api/v1/moderation/text` if the analyzer has been to a project in your dashboard.
 
-## Detect Language
+## Language Analyzer
 
 > `POST /api/v1/analyze/language`
 
@@ -801,14 +801,69 @@ Probabilistically detects over 160 languages.
 
 Returns an object with the detected language.
 
-| Parameter    | Type    | Description                                                                           |
-| ------------ | ------- | ------------------------------------------------------------------------------------- |
-| **code**     | string? | The ISO 639 of the language. Returns null if the analyzer fails.                      |
-| **label**    | string? | An UPPERCASE name of the language. Returns null if the analyzer fails.                |
-| **score**    | int     | 0-100 score with 100 meaning a high probability of being correct. Returns 0 on fails. |
-| **reliable** | int     | The analyzer is reasonably confident about this guess, e.g. the score is high.        |
-| **error**    | string? | If the analyzer failed an error will be returned.                                     |
+| Parameter    | Type    | Description                                                                       |
+| ------------ | ------- | --------------------------------------------------------------------------------- |
+| **code**     | string? | The ISO 639 of the language. Returns null if the analyzer fails.                  |
+| **label**    | string? | An UPPERCASE name of the language. Returns null if the analyzer fails.            |
+| **score**    | int     | 0-1 score with 1 meaning a high probability of being correct. Returns 0 on fails. |
+| **reliable** | int     | The analyzer is reasonably confident about this guess, e.g. the score is high.    |
+| **error**    | string? | If the analyzer failed an error will be returned.                                 |
 
+## Toxicity Analyzer
+
+> `POST /api/v1/analyze/toxicity`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/toxicity" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "I will make you regret that"
+     }`
 ```
 
+> Detect Toxicity Response Example:
+
+```json
+{
+  "label": "THREAT",
+  "label_scores": {
+    "TOXICITY": 0.40321377,
+    "SEVERE_TOXICITY": 0.20321377,
+    "THREAT": 0.82345974,
+    "PROFANITY": 0.16329151,
+    "INSULT": 0.1286492,
+    "IDENTITY_ATTACK": 0.12677783,
+    "NEUTRAL": 0.17654026
+  }
+}
 ```
+
+Works on the whole text to detect general features like profanity, swearing, racism, threats etc. `/api/v1/analyze/toxicity`. Contrary to our [profanity filter](#swear-words-and-profanity) the toxicity analyzer will detect cases where the profanity is not as pronounced.
+
+### Labels
+
+| Parameter           | Type   | Description                                                                                                |
+| ------------------- | ------ | ---------------------------------------------------------------------------------------------------------- |
+| **TOXICITY**        | string | The general toxicity. If any other labels have a high score, this one is likely to score high as well.     |
+| **SEVERE_TOXICITY** | string | Very offending and hateful content. Can be used in cases where the normal toxicity label is too sensitive. |
+| **THREAT**          | string | Intending to harm or implying aggressive behavior.                                                         |
+| **PROFANITY**       | string | Containing swearing, curse words, and other obscene language.                                              |
+| **INSULT**          | string | Negative comments about looks or personality, etc.                                                         |
+| **IDENTITY_ATTACK** | string | Racism and other discrimination based on race, religion, gender, etc.                                      |
+| **NEUTRAL**         | string | Nothing toxic was detected.                                                                                |
+
+### Parameters
+
+| Parameter | Type   | Description                                                             |
+| --------- | ------ | ----------------------------------------------------------------------- |
+| **value** | string | The text you want to analyze. Limited to 10.000 characters per request. |
+
+### Returns
+
+Returns an object with the detected language.
+
+| Parameter        | Type    | Description                                                                                                   |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
+| **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
