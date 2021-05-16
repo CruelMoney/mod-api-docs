@@ -861,7 +861,60 @@ Works on the whole text to detect general features like profanity, swearing, rac
 
 ### Returns
 
-Returns an object with the detected language.
+Returns an object with the detected label and respective scores.
+
+| Parameter        | Type    | Description                                                                                                   |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
+| **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
+
+## Quality Analyzer
+
+> `POST /api/v1/analyze/quality`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/quality" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "This is a short and unsubstantial text."
+     }`
+```
+
+> Analyze Quality Response Example:
+
+```json
+{
+  "label": "UNSUBSTANTIAL",
+  "label_scores": {
+    "UNSUBSTANTIAL": 0.86343884,
+    "INCOHERENT": 0.3330769,
+    "SPAM": 0.017711291,
+    "NEUTRAL": 0.13656116
+  }
+}
+```
+
+Detect spam and insubstantial text, etc. `/api/v1/analyze/quality`.
+
+### Labels
+
+| Parameter         | Type   | Description                                                           |
+| ----------------- | ------ | --------------------------------------------------------------------- |
+| **UNSUBSTANTIAL** | string | Trival or short content.                                              |
+| **INCOHERENT**    | string | Difficult to understand and nonsensical.                              |
+| **SPAM**          | string | Repetitive, irrelevant content trying to make you visit a website eg. |
+| **NEUTRAL**       | string | The text is relativey high quality.                                   |
+
+### Parameters
+
+| Parameter | Type   | Description                                                             |
+| --------- | ------ | ----------------------------------------------------------------------- |
+| **value** | string | The text you want to analyze. Limited to 10.000 characters per request. |
+
+### Returns
+
+Returns an object with the detected label and respective scores.
 
 | Parameter        | Type    | Description                                                                                                   |
 | ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
