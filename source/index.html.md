@@ -836,14 +836,11 @@ curl "https://moderationapi.com/api/v1/analyze/toxicity" \
 
 ```json
 {
-  "label": "THREAT",
+  "label": "TOXICITY",
   "label_scores": {
-    "TOXICITY": 0.40321377,
-    "SEVERE_TOXICITY": 0.20321377,
-    "THREAT": 0.82345974,
+    "TOXICITY": 0.80321377,
     "PROFANITY": 0.16329151,
-    "INSULT": 0.1286492,
-    "IDENTITY_ATTACK": 0.12677783,
+    "DISCRIMINATION": 0.12677783,
     "NEUTRAL": 0.17654026
   }
 }
@@ -853,15 +850,12 @@ Works on the whole text to detect general features like profanity, swearing, rac
 
 ### Labels
 
-| Label               | Description                                                                                                |
-| ------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **TOXICITY**        | The general toxicity. If any other labels have a high score, this one is likely to score high as well.     |
-| **SEVERE_TOXICITY** | Very offending and hateful content. Can be used in cases where the normal toxicity label is too sensitive. |
-| **THREAT**          | Intending to harm or implying aggressive behavior.                                                         |
-| **PROFANITY**       | Containing swearing, curse words, and other obscene language.                                              |
-| **INSULT**          | Negative comments about looks or personality, etc.                                                         |
-| **IDENTITY_ATTACK** | Racism and other discrimination based on race, religion, gender, etc.                                      |
-| **NEUTRAL**         | Nothing toxic was detected.                                                                                |
+| Label              | Description                                                                                            |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| **TOXICITY**       | The general toxicity. If any other labels have a high score, this one is likely to score high as well. |
+| **PROFANITY**      | Containing swearing, curse words, and other obscene language.                                          |
+| **DISCRIMINATION** | Racism and other discrimination based on race, religion, gender, etc.                                  |
+| **NEUTRAL**        | Nothing toxic was detected.                                                                            |
 
 ### Parameters
 
