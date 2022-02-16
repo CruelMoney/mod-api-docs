@@ -71,46 +71,27 @@ You must replace <code>API_KEY</code> with your project API key.
 
 We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.
 
-If you call the API client-side using javascript it will most likely return a CORS error.
+Even though it's not recommended, it is still possible to call the API client-side from javascript. See the example to the right.
 
-To avoid CORS errors, you should set up a proxy to call the API, and ideally store your API key on the server. See an example with [Next.js](https://nextjs.org) to the right:
-
-In the future we might support public API keys to be used client-side. If this is something you need, please send a message to support@moderationapi.com.
-
-> Proxy setup for Next.js (INSECURE):
+> Detecting emails using javascript and fetch:
 
 ```javascript
-# next.config.js
-
-module.exports = {
-    async rewrites() {
-        return [
-            {
-                source: '/api/:path*',
-                destination: 'https://moderationapi.com/api/v1/:path*',
-            },
-        ];
-    },
-};
-
-
-# javascript running in the browser
-
-const text = 'Hello my email is chris@moderationapi.com. What is yours?';
+const text = "Hello my email is chris@moderationapi.com. What is yours?";
 
 const data = await fetch(
-    `/api/moderation/text?value=${encodeURIComponent(text)}`,
-    {
-        // Ideally the api key should not be included here, but only server side.
-        headers: {
-            Authorization: `Bearer ${API_KEY}`,
-        },
-    }
+  `https://moderationapi.com/api/v1/moderation/text?value=${encodeURIComponent(
+    text
+  )}`,
+  {
+    // Ideally the api key should not be included here, but only server side.
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  }
 );
 
 const { content } = await data.json();
 // content = "Hello my email is {{ email hidden }}. What is yours?"
-
 ```
 
 # Account
