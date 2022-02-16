@@ -310,6 +310,11 @@
           </li>
           <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#calling-the-api-from-browsers" class="toc-h2 toc-link" data-title="Calling the API from browsers">Calling the API from browsers</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#account" class="toc-h1 toc-link" data-title="Account">Account</a>
@@ -472,7 +477,50 @@
 <aside class="notice">
 You must replace <code>API_KEY</code> with your project API key.
 </aside>
-<h1 id='account'>Account</h1><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/account"</span> <span class="se">\</span>
+<h2 id='calling-the-api-from-browsers'>Calling the API from browsers</h2>
+<p>We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.</p>
+
+<p>If you call the API client-side using javascript it will most likely return a CORS error.</p>
+
+<p>To avoid CORS errors, you should set up a proxy to call the API, and ideally store your API key on the server. See an example with <a href="https://nextjs.org">Next.js</a> to the right:</p>
+
+<p>In the future we might support public API keys to be used client-side. If this is something you need, please send a message to support@moderationapi.com.</p>
+
+<blockquote>
+<p>Proxy setup for Next.js (INSECURE):</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="err">#</span> <span class="nx">next</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">js</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="k">async</span> <span class="nx">rewrites</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">{</span>
+                <span class="na">source</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/api/:path*</span><span class="dl">'</span><span class="p">,</span>
+                <span class="na">destination</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://moderationapi.com/api/v1/:path*</span><span class="dl">'</span><span class="p">,</span>
+            <span class="p">},</span>
+        <span class="p">];</span>
+    <span class="p">},</span>
+<span class="p">};</span>
+
+
+<span class="err">#</span> <span class="nx">javascript</span> <span class="nx">running</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">browser</span>
+
+<span class="kd">const</span> <span class="nx">text</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">Hello my email is chris@moderationapi.com. What is yours?</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span>
+    <span class="s2">`/api/moderation/text?value=</span><span class="p">${</span><span class="nb">encodeURIComponent</span><span class="p">(</span><span class="nx">text</span><span class="p">)}</span><span class="s2">`</span><span class="p">,</span>
+    <span class="p">{</span>
+        <span class="c1">// Ideally the api key should not be included here, but only server side.</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+            <span class="na">Authorization</span><span class="p">:</span> <span class="s2">`Bearer </span><span class="p">${</span><span class="nx">API_KEY</span><span class="p">}</span><span class="s2">`</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+<span class="p">);</span>
+
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">content</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="c1">// content = "Hello my email is {{ email hidden }}. What is yours?"</span>
+
+</code></pre></div><h1 id='account'>Account</h1><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/account"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
 </code></pre></div>
 <blockquote>
