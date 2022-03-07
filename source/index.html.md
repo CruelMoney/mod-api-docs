@@ -443,7 +443,7 @@ The API uses the following error codes:
 
 ## Rate limits
 
-The Moderation API rate limit is 100 parallel requests per second.
+The default API rate limit is 10 requests per 10 seconds.
 
 We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.
 
