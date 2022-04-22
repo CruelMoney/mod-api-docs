@@ -118,7 +118,7 @@ curl "https://moderationapi.com/api/v1/account" \
 
 To check your account status at any time you can use this endpoint.
 
-It will respond with your quota levels and current usage levels. Usage resets at the start of your billing period.
+It will respond with your quota levels and current usage levels. Usage resets the 1st each month UTC time..
 
 # Projects
 
