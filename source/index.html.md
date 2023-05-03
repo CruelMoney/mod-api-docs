@@ -391,6 +391,7 @@ You can change the filter from the moderation dashboard or programmatically usin
 | **username**  | object | Data type settings for username detection. [See more](#usernames)                  |
 | **profanity** | object | Data type settings for profanity detection. [See more](#swear-words-and-profanity) |
 | **sensitive** | object | Data type settings for sensitive numbers detection. [See more](#sensitive-numbers) |
+| **[modelId]** | object | Data type settings for a custom model. [See more](#custom-models)                  |
 
 ### Data type settings
 
@@ -1002,3 +1003,69 @@ Returns an object with the detected label and respective scores.
 | ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
 | **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
 | **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
+
+# Custom models
+
+## Overview
+
+Consider creating custom models tailored to your specific needs, aiming to improve accuracy under special use cases. <br>
+Custom models work similar to the default analyzers, but you can train them to detect specific labels. <br>
+All custom models can be used from `/api/v1/analyze/{modelId}` or using the moderation endpoint: `/api/v1/moderation/text` if the model has been added to a project in your dashboard.
+
+## Creating a custom model
+
+Create and train custom models from your dashboard. In the dashboard you can create your own labels, and import data to train the model on.<br>
+The model will work best if you can provide minimum 100 examples for each label you want to detect. <br>
+
+## Using a custom model
+
+> `POST /api/v1/analyze/[modelId]`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/[modelId]" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "How are you doing?"
+     }`
+```
+
+> Custom model Response Example:
+
+```json
+{
+  "label": "LABEL_1",
+  "label_scores": {
+    "LABEL_1": 0.7784964,
+    "LABEL_2": 0.315303,
+    "LABEL_3": 0.2215036
+  }
+}
+```
+
+It is recommended to use custom models by adding them to a project in your dashboard. <br>
+
+### Parameters
+
+| Parameter | Type   | Description                   |
+| --------- | ------ | ----------------------------- |
+| **value** | string | The text you want to analyze. |
+
+### Returns
+
+Returns an object with the detected label and respective scores.
+
+| Parameter        | Type    | Description                                                                                                   |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
+| **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
+
+## Limits
+
+### Characters
+
+Your monthly quota is measured based on a count of 1 for every 1000 characters. <br>
+
+### Training examples
+
+Custom models can have a maximum of 5000 training examples, which should be sufficient for most scenarios. However, if you require additional training examples, please reach out to our support team. Additionally, each training example can have a maximum length of 10,000 characters.
