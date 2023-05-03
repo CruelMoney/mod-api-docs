@@ -419,6 +419,23 @@
                   </li>
               </ul>
           </li>
+          <li>
+            <a href="#custom-models" class="toc-h1 toc-link" data-title="Custom models">Custom models</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#overview-3" class="toc-h2 toc-link" data-title="Overview">Overview</a>
+                  </li>
+                  <li>
+                    <a href="#creating-a-custom-model" class="toc-h2 toc-link" data-title="Creating a custom model">Creating a custom model</a>
+                  </li>
+                  <li>
+                    <a href="#using-a-custom-model" class="toc-h2 toc-link" data-title="Using a custom model">Using a custom model</a>
+                  </li>
+                  <li>
+                    <a href="#limits" class="toc-h2 toc-link" data-title="Limits">Limits</a>
+                  </li>
+              </ul>
+          </li>
       </ul>
         <ul class="toc-footer">
             <li><a class="only-signed-out" href='https://moderationapi.com/app'>Sign in</a></li>
@@ -822,6 +839,11 @@ You can change the filter from the moderation dashboard or programmatically usin
 <td><strong>sensitive</strong></td>
 <td>object</td>
 <td>Data type settings for sensitive numbers detection. <a href="#sensitive-numbers">See more</a></td>
+</tr>
+<tr>
+<td><strong>[modelId]</strong></td>
+<td>object</td>
+<td>Data type settings for a custom model. <a href="#custom-models">See more</a></td>
 </tr>
 </tbody></table>
 <h3 id='data-type-settings'>Data type settings</h3>
@@ -1855,6 +1877,76 @@ Probabilistically detects over 160 languages. We&#39;re not listing all the lang
 <td>An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct.</td>
 </tr>
 </tbody></table>
+<h1 id='custom-models'>Custom models</h1><h2 id='overview-3'>Overview</h2>
+<p>Consider creating custom models tailored to your specific needs, aiming to improve accuracy under special use cases. <br>
+Custom models work similar to the default analyzers, but you can train them to detect specific labels. <br>
+All custom models can be used from <code>/api/v1/analyze/{modelId}</code> or using the moderation endpoint: <code>/api/v1/moderation/text</code> if the model has been added to a project in your dashboard.</p>
+<h2 id='creating-a-custom-model'>Creating a custom model</h2>
+<p>Create and train custom models from your dashboard. In the dashboard you can create your own labels, and import data to train the model on.<br>
+The model will work best if you can provide minimum 100 examples for each label you want to detect. <br></p>
+<h2 id='using-a-custom-model'>Using a custom model</h2>
+<blockquote>
+<p><code>POST /api/v1/analyze/[modelId]</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/analyze/[modelId]"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span>
+  <span class="nt">-d</span> <span class="sb">`</span><span class="o">{</span>
+       <span class="s2">"value"</span>: <span class="s2">"How are you doing?"</span>
+     <span class="o">}</span><span class="sb">`</span>
+</code></pre></div>
+<blockquote>
+<p>Custom model Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LABEL_1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"label_scores"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"LABEL_1"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7784964</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"LABEL_2"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.315303</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"LABEL_3"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2215036</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>It is recommended to use custom models by adding them to a project in your dashboard. <br></p>
+<h3 id='parameters-9'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>value</strong></td>
+<td>string</td>
+<td>The text you want to analyze.</td>
+</tr>
+</tbody></table>
+<h3 id='returns-9'>Returns</h3>
+<p>Returns an object with the detected label and respective scores.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>label</strong></td>
+<td>string?</td>
+<td>The most probable label. Returns null if the analyzer fails.</td>
+</tr>
+<tr>
+<td><strong>label_scores</strong></td>
+<td>obejct</td>
+<td>An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct.</td>
+</tr>
+</tbody></table>
+<h2 id='limits'>Limits</h2><h3 id='characters'>Characters</h3>
+<p>Your monthly quota is measured based on a count of 1 for every 1000 characters. <br></p>
+<h3 id='training-examples'>Training examples</h3>
+<p>Custom models can have a maximum of 5000 training examples, which should be sufficient for most scenarios. However, if you require additional training examples, please reach out to our support team. Additionally, each training example can have a maximum length of 10,000 characters.</p>
 
       </div>
       <div class="dark-box">
