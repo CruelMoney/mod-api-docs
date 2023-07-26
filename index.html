@@ -282,9 +282,9 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-0b6cbbfe.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-d6ca4b22.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
-      <script src="javascripts/all-0fcbebdb.js"></script>
+      <script src="javascripts/all-fa107f8c.js"></script>
 
     <script>
       $(function() { setupCodeCopy(); });
@@ -366,13 +366,15 @@
           </li>
           <li>
             <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
-          </li>
-          <li>
-            <a href="#text-moderation" class="toc-h1 toc-link" data-title="Text Moderation">Text Moderation</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#overview" class="toc-h2 toc-link" data-title="Overview">Overview</a>
                   </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#built-in-models" class="toc-h1 toc-link" data-title="Built-in models">Built-in models</a>
+              <ul class="toc-list-h2">
                   <li>
                     <a href="#email" class="toc-h2 toc-link" data-title="Email">Email</a>
                   </li>
@@ -397,14 +399,6 @@
                   <li>
                     <a href="#sensitive-numbers" class="toc-h2 toc-link" data-title="Sensitive numbers">Sensitive numbers</a>
                   </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#analyzing" class="toc-h1 toc-link" data-title="Analyzing">Analyzing</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#overview-2" class="toc-h2 toc-link" data-title="Overview">Overview</a>
-                  </li>
                   <li>
                     <a href="#language-analyzer" class="toc-h2 toc-link" data-title="Language Analyzer">Language Analyzer</a>
                   </li>
@@ -417,13 +411,19 @@
                   <li>
                     <a href="#propriety-analyzer" class="toc-h2 toc-link" data-title="Propriety Analyzer">Propriety Analyzer</a>
                   </li>
+                  <li>
+                    <a href="#nsfw-analyzer" class="toc-h2 toc-link" data-title="NSFW Analyzer">NSFW Analyzer</a>
+                  </li>
+                  <li>
+                    <a href="#sentiment-analyzer" class="toc-h2 toc-link" data-title="Sentiment Analyzer">Sentiment Analyzer</a>
+                  </li>
               </ul>
           </li>
           <li>
             <a href="#custom-models" class="toc-h1 toc-link" data-title="Custom models">Custom models</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#overview-3" class="toc-h2 toc-link" data-title="Overview">Overview</a>
+                    <a href="#overview-2" class="toc-h2 toc-link" data-title="Overview">Overview</a>
                   </li>
                   <li>
                     <a href="#creating-a-custom-model" class="toc-h2 toc-link" data-title="Creating a custom model">Creating a custom model</a>
@@ -433,6 +433,20 @@
                   </li>
                   <li>
                     <a href="#limits" class="toc-h2 toc-link" data-title="Limits">Limits</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#ai-agents" class="toc-h1 toc-link" data-title="AI Agents">AI Agents</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#overview-3" class="toc-h2 toc-link" data-title="Overview">Overview</a>
+                  </li>
+                  <li>
+                    <a href="#creating-an-ai-agent" class="toc-h2 toc-link" data-title="Creating an AI Agent">Creating an AI Agent</a>
+                  </li>
+                  <li>
+                    <a href="#using-an-ai-agent" class="toc-h2 toc-link" data-title="Using an AI Agent">Using an AI Agent</a>
                   </li>
               </ul>
           </li>
@@ -495,10 +509,6 @@
 You must replace <code>API_KEY</code> with your project API key.
 </aside>
 <h2 id='calling-the-api-from-browsers'>Calling the API from browsers</h2>
-<p>We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.</p>
-
-<p>Even though it&#39;s not recommended, it is still possible to call the API client-side from javascript. See the example to the right.</p>
-
 <blockquote>
 <p>Detecting emails using javascript and fetch:</p>
 </blockquote>
@@ -518,7 +528,15 @@ You must replace <code>API_KEY</code> with your project API key.
 
 <span class="kd">const</span> <span class="p">{</span> <span class="nx">content</span> <span class="p">}</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
 <span class="c1">// content = "Hello my email is {{ email hidden }}. What is yours?"</span>
-</code></pre></div><h1 id='account'>Account</h1><div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/account"</span> <span class="se">\</span>
+</code></pre></div>
+<p>We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.</p>
+
+<p>Even though it&#39;s not recommended, it is still possible to call the API client-side from javascript. See the example to the right.</p>
+<h1 id='account'>Account</h1>
+<blockquote>
+<p>Account endpoint</p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/account"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
 </code></pre></div>
 <blockquote>
@@ -766,7 +784,9 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <p>An array with all projects. Each entry in the array is a separate projects object. If no more projects are available, the resulting array will be empty. This request should only return an error if the API key is invalid.</p>
 <h1 id='filter'>Filter</h1>
 <p>The filter is used to control the detection engine and the responses you get from the API.
-You can change the filter from the moderation dashboard or programmatically using the API when <a href="#update-a-project">updating a project</a>.</p>
+We recommend update your filter from the moderation dashboard here: <a href="https://moderationapi.com/app/projects">https://moderationapi.com/app/projects</a></p>
+
+<p>You can also update the filter programmatically using the API through <a href="#update-a-project">updating a project</a>.</p>
 <h2 id='filter-object'>Filter Object</h2>
 <blockquote>
 <p>Filter Object Example:</p>
@@ -929,7 +949,9 @@ You can change the filter from the moderation dashboard or programmatically usin
 </tr>
 </tbody></table>
 <h2 id='update-a-filter'>Update a Filter</h2>
-<p>A filter can be updated using the <a href="#update-a-project">project update endpoint</a>.</p>
+<p>We recommend update your filter from the moderation dashboard here: <a href="https://moderationapi.com/app/projects">https://moderationapi.com/app/projects</a>.</p>
+
+<p>Otherwise a filter can be updated using the <a href="#update-a-project">project update endpoint</a>.</p>
 <h1 id='errors'>Errors</h1>
 <p>The API uses the following error codes:</p>
 
@@ -978,27 +1000,18 @@ You can change the filter from the moderation dashboard or programmatically usin
 <p>We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.</p>
 <h3 id='handling-rate-limts'>Handling rate limts</h3>
 <p>A basic technique for integrations to gracefully handle limiting is to watch for <code>429</code> status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.</p>
-<h1 id='moderation'>Moderation</h1>
-<blockquote>
-<p>Endpoints:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight plaintext"><code>  POST     /api/v1/moderation/text
-</code></pre></div>
+<h1 id='moderation'>Moderation</h1><h2 id='overview'>Overview</h2>
 <p>The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you&#39;re looking for.</p>
 
-<p>Currently the API detects</p>
+<p>You can analyze text using 3 types of models:</p>
 
 <ul>
-<li><a href="#email">Emails</a></li>
-<li><a href="#phone-number">Phone numbers</a></li>
-<li><a href="#urls">URLs</a></li>
-<li><a href="#address">Physical Addresses</a></li>
-<li><a href="#person-names">Names</a></li>
-<li><a href="#usernames">Usernames</a></li>
-<li><a href="#swear-words-and-profanity">Profanity</a></li>
+<li><a href="#built-in-models">Built-in models</a></li>
+<li><a href="#custom-models">Custom models</a></li>
+<li><a href="#ai-agents">AI Agents</a></li>
 </ul>
-<h1 id='text-moderation'>Text Moderation</h1><h2 id='overview'>Overview</h2>
-<p>All types of text moderation uses the same endpoint <code>/api/v1/moderation/text</code>. What gets moderated depends on the projects <a href="#filter">filter settings</a>.</p>
+
+<p>The models are added to a project in the dashboard, and then used through the endpoint <code>/api/v1/moderation/text</code>.</p>
 
 <blockquote>
 <p><code>POST /api/v1/moderation/text</code></p>
@@ -1018,6 +1031,7 @@ You can change the filter from the moderation dashboard or programmatically usin
   </span><span class="p">},</span><span class="w">
   </span><span class="nl">"content_moderated"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nl">"data_found"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
   </span><span class="nl">"original"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You can contact me on mr_robot[at]gmail|DOT|com or call me on 12 34 65 78"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"You can contact me on {{ email hidden }} or call me on {{ number hidden }}"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
@@ -1091,12 +1105,17 @@ You can change the filter from the moderation dashboard or programmatically usin
 <td>A boolean indicating if any data has been found. Equal to checking each <code>found</code> field on the data types.</td>
 </tr>
 <tr>
-<td><strong>[data type]</strong></td>
+<td><strong>flagged</strong></td>
+<td>boolean</td>
+<td>A boolean indicating if any of the models got triggered by the text. You might need to check the score of each model for a more precise result depending on your use case.</td>
+</tr>
+<tr>
+<td><strong>[model_id]</strong></td>
 <td>object</td>
 <td>Each enabled data type get&#39;s it&#39;s own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below.</td>
 </tr>
 </tbody></table>
-<h2 id='email'>Email</h2>
+<h1 id='built-in-models'>Built-in models</h1><h2 id='email'>Email</h2>
 <blockquote>
 <p>Email Moderation Object Example:</p>
 </blockquote>
@@ -1550,9 +1569,6 @@ Fails gracefully on other languages than english with a normal response with emp
 <td>The <a href="#detection-levels">detection mode</a> that has been set for sensitive numbers in the project filter.</td>
 </tr>
 </tbody></table>
-<h1 id='analyzing'>Analyzing</h1><h2 id='overview-2'>Overview</h2>
-<p>Use our analyzers to make general conclusions about a text. <br>
-All analyzers can be used from <code>/api/v1/analyze/{type}</code> or using the moderation endpoint: <code>/api/v1/moderation/text</code> if the analyzer model has been added to a project in your dashboard.</p>
 <h2 id='language-analyzer'>Language Analyzer</h2>
 <blockquote>
 <p><code>POST /api/v1/analyze/language</code></p>
@@ -1877,37 +1893,51 @@ Probabilistically detects over 160 languages. We&#39;re not listing all the lang
 <td>An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct.</td>
 </tr>
 </tbody></table>
-<h1 id='custom-models'>Custom models</h1><h2 id='overview-3'>Overview</h2>
-<p>Consider creating custom models tailored to your specific needs, aiming to improve accuracy under special use cases. <br>
-Custom models work similar to the default analyzers, but you can train them to detect specific labels. <br>
-All custom models can be used from <code>/api/v1/analyze/{modelId}</code> or using the moderation endpoint: <code>/api/v1/moderation/text</code> if the model has been added to a project in your dashboard.</p>
-<h2 id='creating-a-custom-model'>Creating a custom model</h2>
-<p>Create and train custom models from your dashboard. In the dashboard you can create your own labels, and import data to train the model on.<br>
-The model will work best if you can provide minimum 100 examples for each label you want to detect. <br></p>
-<h2 id='using-a-custom-model'>Using a custom model</h2>
+<h2 id='nsfw-analyzer'>NSFW Analyzer</h2>
 <blockquote>
-<p><code>POST /api/v1/analyze/[modelId]</code></p>
+<p><code>POST /api/v1/analyze/nsfw</code></p>
 </blockquote>
-<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/analyze/[modelId]"</span> <span class="se">\</span>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/analyze/nsfw"</span> <span class="se">\</span>
   <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
   <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span>
   <span class="nt">-d</span> <span class="sb">`</span><span class="o">{</span>
-       <span class="s2">"value"</span>: <span class="s2">"How are you doing?"</span>
+       <span class="s2">"value"</span>: <span class="s2">"How do i make a bomb?"</span>
      <span class="o">}</span><span class="sb">`</span>
 </code></pre></div>
 <blockquote>
-<p>Custom model Response Example:</p>
+<p>Analyze NSFW Response Example:</p>
 </blockquote>
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LABEL_1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"UNSAFE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.67743</span><span class="p">,</span><span class="w">
   </span><span class="nl">"label_scores"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"LABEL_1"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7784964</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"LABEL_2"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.315303</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"LABEL_3"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2215036</span><span class="w">
+    </span><span class="nl">"UNSAFE"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.67743</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"SENSITIVE"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.321657</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"NEUTRAL"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.000897</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre></div>
-<p>It is recommended to use custom models by adding them to a project in your dashboard. <br></p>
+<p>Detect unsafe and sensitive topics. Useful for detecting content that might be inappropriate for children. Sensitive topics include, but are not limited to, violence, weapons, drugs, politics, religion, etc.</p>
+<h3 id='labels-4'>Labels</h3>
+<table><thead>
+<tr>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>UNSAFE</strong></td>
+<td>Violence, weapons, drugs, sexual, etc.</td>
+</tr>
+<tr>
+<td><strong>SENSITIVE</strong></td>
+<td>Politics, religion, etc.</td>
+</tr>
+<tr>
+<td><strong>NEUTRAL</strong></td>
+<td></td>
+</tr>
+</tbody></table>
 <h3 id='parameters-9'>Parameters</h3>
 <table><thead>
 <tr>
@@ -1942,11 +1972,241 @@ The model will work best if you can provide minimum 100 examples for each label 
 <td>obejct</td>
 <td>An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct.</td>
 </tr>
+<tr>
+<td><strong>score</strong></td>
+<td>number</td>
+<td>The score of the most probable label.</td>
+</tr>
+</tbody></table>
+<h2 id='sentiment-analyzer'>Sentiment Analyzer</h2>
+<blockquote>
+<p><code>POST /api/v1/analyze/sentiment</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/analyze/sentiment"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span>
+  <span class="nt">-d</span> <span class="sb">`</span><span class="o">{</span>
+       <span class="s2">"value"</span>: <span class="s2">"It was a dreadful day."</span>
+     <span class="o">}</span><span class="sb">`</span>
+</code></pre></div>
+<blockquote>
+<p>Analyze Sentiment Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NEGATIVE"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999568</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"label_scores"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"NEGATIVE"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.999568</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"NEUTRAL"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"POSITIVE"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>The sentiment analyzer is trained to detect the sentiment of a text. It can detect positive, negative and neutral sentiment.</p>
+<h3 id='labels-5'>Labels</h3>
+<table><thead>
+<tr>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>NEGATIVE</strong></td>
+<td>Negative sentiment</td>
+</tr>
+<tr>
+<td><strong>POSITIVE</strong></td>
+<td>Positive sentiment</td>
+</tr>
+<tr>
+<td><strong>NEUTRAL</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='parameters-10'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>value</strong></td>
+<td>string</td>
+<td>The text you want to analyze.</td>
+</tr>
+</tbody></table>
+<h3 id='returns-10'>Returns</h3>
+<p>Returns an object with the detected label and respective scores.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>label</strong></td>
+<td>string?</td>
+<td>The most probable label. Returns null if the analyzer fails.</td>
+</tr>
+<tr>
+<td><strong>label_scores</strong></td>
+<td>obejct</td>
+<td>An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct.</td>
+</tr>
+<tr>
+<td><strong>score</strong></td>
+<td>number</td>
+<td>The score of the most probable label.</td>
+</tr>
+</tbody></table>
+<h1 id='custom-models'>Custom models</h1><h2 id='overview-2'>Overview</h2>
+<p>Consider creating custom models tailored to your specific needs, aiming to improve accuracy under special use cases. <br>
+Custom models work similar to the default analyzers, but you can train them to detect specific labels. <br>
+All custom models can be used from <code>/api/v1/analyze/{modelId}</code> or using the moderation endpoint: <code>/api/v1/moderation/text</code> if the model has been added to a project in your dashboard.</p>
+<h2 id='creating-a-custom-model'>Creating a custom model</h2>
+<p>Create and train custom models from your dashboard. In the dashboard you can create your own labels, and import data to train the model on.<br>
+The model will work best if you can provide minimum 100 examples for each label you want to detect. <br></p>
+
+<p>See a detailed guide on how to create a custom model here: <a href="https://moderationapi.com/blog/custom-classifier-ai-models/">https://moderationapi.com/blog/custom-classifier-ai-models/</a></p>
+<h2 id='using-a-custom-model'>Using a custom model</h2>
+<blockquote>
+<p><code>POST /api/v1/analyze/[modelId]</code></p>
+</blockquote>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://moderationapi.com/api/v1/analyze/[modelId]"</span> <span class="se">\</span>
+  <span class="nt">-H</span> <span class="s2">"Authorization: Bearer API_KEY"</span>
+  <span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span>
+  <span class="nt">-d</span> <span class="sb">`</span><span class="o">{</span>
+       <span class="s2">"value"</span>: <span class="s2">"How are you doing?"</span>
+     <span class="o">}</span><span class="sb">`</span>
+</code></pre></div>
+<blockquote>
+<p>Custom model Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LABEL_1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"label_scores"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"LABEL_1"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7784964</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"LABEL_2"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.315303</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"LABEL_3"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.2215036</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>It is recommended to use custom models by adding them to a project in your dashboard. <br></p>
+<h3 id='parameters-11'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>value</strong></td>
+<td>string</td>
+<td>The text you want to analyze.</td>
+</tr>
+</tbody></table>
+<h3 id='returns-11'>Returns</h3>
+<p>Returns an object with the detected label and respective scores.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>label</strong></td>
+<td>string?</td>
+<td>The most probable label. Returns null if the analyzer fails.</td>
+</tr>
+<tr>
+<td><strong>label_scores</strong></td>
+<td>obejct</td>
+<td>An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct.</td>
+</tr>
 </tbody></table>
 <h2 id='limits'>Limits</h2><h3 id='characters'>Characters</h3>
 <p>Your monthly quota is measured based on a count of 1 for every 1000 characters. <br></p>
 <h3 id='training-examples'>Training examples</h3>
 <p>Custom models can have a maximum of 5000 training examples, which should be sufficient for most scenarios. However, if you require additional training examples, please reach out to our support team. Additionally, each training example can have a maximum length of 10,000 characters.</p>
+<h1 id='ai-agents'>AI Agents</h1><h2 id='overview-3'>Overview</h2>
+<p>AI Agents are great if you don&#39;t have a lot of training data, or if you want to get started quickly. <br></p>
+
+<p>However they might not perform as well as a properly trained custom model.</p>
+<h2 id='creating-an-ai-agent'>Creating an AI Agent</h2>
+<p>When creating an AI Agent you first have to add your guidelines / rules for the agent to follow. Here it&#39;s best to very sepcific but keep it simple. <br></p>
+
+<p>You can also set a strictness level for the agent. This will determine how strict the agent is when detecting content. For example the easygoing agent might let some mild violations through, while the strict agent will be better safe than sorry.</p>
+<h2 id='using-an-ai-agent'>Using an AI Agent</h2>
+<p>Add your newly created AI agent to a project in the dashboard and consume it from the <a href="#moderation">moderation endpoint</a>.</p>
+
+<blockquote>
+<p>AI Agent Response Example:</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"RULE_1"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"score"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"rule"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No rude comments"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"label_scores"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"NEUTRAL"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"RULE_1"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"RULE_2"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"RULE_3"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div><h3 id='parameters-12'>Parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>value</strong></td>
+<td>string</td>
+<td>The text you want to analyze.</td>
+</tr>
+</tbody></table>
+<h3 id='returns-12'>Returns</h3>
+<p>Returns an object with the result of the agent&#39;s analysis. To stay consistent with the other analyzers, the agent will return a label and a score. The label will be <code>RULE_n</code> where n is the number of the rule that was triggered, and the score will always be 1. <br></p>
+
+<p>If no rules are triggered, the label will be <code>NEUTRAL</code>.</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>label</strong></td>
+<td>string?</td>
+<td>The name of the rule that was triggered. Returns <code>NEUTRAL</code> if no rules were triggered.</td>
+</tr>
+<tr>
+<td><strong>score</strong></td>
+<td>number</td>
+<td>The score of the most probable label. Always 1 or 0.</td>
+</tr>
+<tr>
+<td><strong>rule</strong></td>
+<td>string?</td>
+<td>The description of the rule that was triggered. Returns <code>null</code> if no rules were triggered.</td>
+</tr>
+<tr>
+<td><strong>label_scores</strong></td>
+<td>obejct</td>
+<td>An object containing all the rules with either 0 or 1 as the score.</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
