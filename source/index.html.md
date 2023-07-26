@@ -307,10 +307,10 @@ Updates the specific project by setting the values of the parameters passed. Any
 
 ### Parameters
 
-| Parameter           | Type   | Description                                                                      |
-| ------------------- | ------ | -------------------------------------------------------------------------------- |
-| **name** optional   | string | Name of project. Only used internally.                                           |
-| **filter** optional | object | Filter options to be used for this project. See [filter object](#filter-object). |
+| Parameter           | Type   | Description                                 |
+| ------------------- | ------ | ------------------------------------------- |
+| **name** optional   | string | Name of project. Only used internally.      |
+| **filter** optional | object | Filter options to be used for this project. |
 
 ### Returns
 
