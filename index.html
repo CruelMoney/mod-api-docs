@@ -282,7 +282,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-d6ca4b22.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-f3d4edaf.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-fa107f8c.js"></script>
 
@@ -317,6 +317,17 @@
               </ul>
           </li>
           <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#rate-limits" class="toc-h2 toc-link" data-title="Rate limits">Rate limits</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#resources" class="toc-h1 toc-link" data-title="Resources">Resources</a>
+          </li>
+          <li>
             <a href="#account" class="toc-h1 toc-link" data-title="Account">Account</a>
           </li>
           <li>
@@ -344,31 +355,18 @@
           </li>
           <li>
             <a href="#filter" class="toc-h1 toc-link" data-title="Filter">Filter</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#filter-object" class="toc-h2 toc-link" data-title="Filter Object">Filter Object</a>
-                  </li>
-                  <li>
-                    <a href="#detection-levels" class="toc-h2 toc-link" data-title="Detection Levels">Detection Levels</a>
-                  </li>
-                  <li>
-                    <a href="#update-a-filter" class="toc-h2 toc-link" data-title="Update a Filter">Update a Filter</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#rate-limits" class="toc-h2 toc-link" data-title="Rate limits">Rate limits</a>
-                  </li>
-              </ul>
           </li>
           <li>
             <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
+          </li>
+          <li>
+            <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#overview" class="toc-h2 toc-link" data-title="Overview">Overview</a>
+                    <a href="#parameters-4" class="toc-h2 toc-link" data-title="Parameters">Parameters</a>
+                  </li>
+                  <li>
+                    <a href="#returns-4" class="toc-h2 toc-link" data-title="Returns">Returns</a>
                   </li>
               </ul>
           </li>
@@ -474,10 +472,10 @@
 <li>Remove sensitive data from text.</li>
 </ul>
 
-<p>The basic workflow is simple:</p>
+<p>Workflow is like this</p>
 
 <ol>
-<li>Define what <a href="#filter-object">type of data</a> you want to detect.</li>
+<li>Create a project in the <a href="https://moderationapi.com/app">dashboard</a> and add models to it.</li>
 <li><a href="#text-moderation">Send a request</a> to the API with content.</li>
 <li>We send back the detected values and original content with masked out values.</li>
 </ol>
@@ -532,7 +530,55 @@ You must replace <code>API_KEY</code> with your project API key.
 <p>We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.</p>
 
 <p>Even though it&#39;s not recommended, it is still possible to call the API client-side from javascript. See the example to the right.</p>
-<h1 id='account'>Account</h1>
+<h1 id='errors'>Errors</h1>
+<p>The API uses the following error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Your request is invalid.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Your API key is wrong.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- The requested resource is for administrators only.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified resource could not be found.</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed -- You tried to access a resource with an invalid method.</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests -- See <a href="#rate-limits">rate limits</a></td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+<h2 id='rate-limits'>Rate limits</h2>
+<p>The default API rate limit is 10 requests per 10 seconds.</p>
+
+<p>We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.</p>
+<h3 id='handling-rate-limts'>Handling rate limts</h3>
+<p>A basic technique for integrations to gracefully handle limiting is to watch for <code>429</code> status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.</p>
+<h1 id='resources'>Resources</h1><h1 id='account'>Account</h1>
 <blockquote>
 <p>Account endpoint</p>
 </blockquote>
@@ -786,221 +832,8 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 <p>The filter is used to control the detection engine and the responses you get from the API.
 We recommend update your filter from the moderation dashboard here: <a href="https://moderationapi.com/app/projects">https://moderationapi.com/app/projects</a></p>
 
-<p>You can also update the filter programmatically using the API through <a href="#update-a-project">updating a project</a>.</p>
-<h2 id='filter-object'>Filter Object</h2>
-<blockquote>
-<p>Filter Object Example:</p>
-</blockquote>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ email hidden }}"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"phone"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ phone hidden }}"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"enabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"masking"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mode"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NORMAL"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"mask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{{ name hidden }}"</span><span class="p">,</span><span class="w">
-    </span><span class="nl">"components"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"first"</span><span class="p">,</span><span class="w"> </span><span class="s2">"middle"</span><span class="p">,</span><span class="w"> </span><span class="s2">"last"</span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>email</strong></td>
-<td>object</td>
-<td>Data type settings for email detection. <a href="#email">See more</a></td>
-</tr>
-<tr>
-<td><strong>phone</strong></td>
-<td>object</td>
-<td>Data type settings for phone number detection. <a href="#phone-number">See more</a></td>
-</tr>
-<tr>
-<td><strong>url</strong></td>
-<td>object</td>
-<td>Data type settings for URL detection. <a href="#urls">See more</a></td>
-</tr>
-<tr>
-<td><strong>address</strong></td>
-<td>object</td>
-<td>Data type settings for address detection. <a href="#address">See more</a></td>
-</tr>
-<tr>
-<td><strong>name</strong></td>
-<td>object</td>
-<td>Data type settings for name detection. <a href="#person-names">See more</a></td>
-</tr>
-<tr>
-<td><strong>username</strong></td>
-<td>object</td>
-<td>Data type settings for username detection. <a href="#usernames">See more</a></td>
-</tr>
-<tr>
-<td><strong>profanity</strong></td>
-<td>object</td>
-<td>Data type settings for profanity detection. <a href="#swear-words-and-profanity">See more</a></td>
-</tr>
-<tr>
-<td><strong>sensitive</strong></td>
-<td>object</td>
-<td>Data type settings for sensitive numbers detection. <a href="#sensitive-numbers">See more</a></td>
-</tr>
-<tr>
-<td><strong>[modelId]</strong></td>
-<td>object</td>
-<td>Data type settings for a custom model. <a href="#custom-models">See more</a></td>
-</tr>
-</tbody></table>
-<h3 id='data-type-settings'>Data type settings</h3>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><strong>enabled</strong></td>
-<td>boolean</td>
-<td>Turn detection of this data type on or off.</td>
-</tr>
-<tr>
-<td><strong>mode</strong></td>
-<td>string</td>
-<td>The detection mode. Must be a supported <a href="#detection-levels">detection mode</a>.</td>
-</tr>
-<tr>
-<td><strong>masking</strong></td>
-<td>boolean</td>
-<td>Turn masking of this data type on or off.</td>
-</tr>
-<tr>
-<td><strong>mask</strong></td>
-<td>string</td>
-<td>The mask that to be used on detected values if masking is turned on.</td>
-</tr>
-<tr>
-<td><strong>components</strong></td>
-<td>array of string</td>
-<td>What components of the data type you wish to detect. For example only last names or street names. Look up supported components under the specific <a href="#text-moderation">data types</a>.</td>
-</tr>
-</tbody></table>
-<h2 id='detection-levels'>Detection Levels</h2>
-<p>Most types of data can be detected using 3 different levels. Some only support one of the three.</p>
-
-<table><thead>
-<tr>
-<th>Mode</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td><code>NORMAL</code></td>
-<td>Detect values that have been formatted correctly.</td>
-</tr>
-<tr>
-<td><code>SUSPICIOUS</code></td>
-<td>Detect values where the writer is trying to evade detection.</td>
-</tr>
-<tr>
-<td><code>PARANOID</code></td>
-<td>Detect even the slightest chance of containing personal information. This might result in false positives.</td>
-</tr>
-</tbody></table>
-
-<p>We recommend to start with the <code>NORMAL</code> mode and increase the level if needed.</p>
-<h3 id='examples'>Examples</h3>
-<table><thead>
-<tr>
-<th>Value</th>
-<th>Detected by</th>
-<th>Match response</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>reach me on example@gmail.com</td>
-<td><code>NORMAL</code>, <code>SUSPICIOUS</code> , <code>PARANOID</code></td>
-<td>example@gmail.com</td>
-</tr>
-<tr>
-<td>reach me on example at gmail dot com</td>
-<td><code>SUSPICIOUS</code> , <code>PARANOID</code></td>
-<td>example at gmail dot com</td>
-</tr>
-<tr>
-<td>reach me on example at that google email domain</td>
-<td><code>PARANOID</code></td>
-<td>example at that google email domain</td>
-</tr>
-</tbody></table>
-<h2 id='update-a-filter'>Update a Filter</h2>
-<p>We recommend update your filter from the moderation dashboard here: <a href="https://moderationapi.com/app/projects">https://moderationapi.com/app/projects</a>.</p>
-
-<p>Otherwise a filter can be updated using the <a href="#update-a-project">project update endpoint</a>.</p>
-<h1 id='errors'>Errors</h1>
-<p>The API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The requested resource is for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified resource could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a resource with an invalid method.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- See <a href="#rate-limits">rate limits</a></td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
-<h2 id='rate-limits'>Rate limits</h2>
-<p>The default API rate limit is 10 requests per 10 seconds.</p>
-
-<p>We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.</p>
-<h3 id='handling-rate-limts'>Handling rate limts</h3>
-<p>A basic technique for integrations to gracefully handle limiting is to watch for <code>429</code> status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.</p>
-<h1 id='moderation'>Moderation</h1><h2 id='overview'>Overview</h2>
+<p>You can also update the filter programmatically using the API when <a href="#update-a-project">updating a project</a>.</p>
+<h1 id='moderation'>Moderation</h1><h1 id='overview'>Overview</h1>
 <p>The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you&#39;re looking for.</p>
 
 <p>You can analyze text using 3 types of models:</p>
@@ -1150,7 +983,7 @@ We recommend update your filter from the moderation dashboard here: <a href="htt
 <td>The <a href="#detection-levels">detection mode</a> that has been set for emails in the project filter.</td>
 </tr>
 </tbody></table>
-<h3 id='examples-2'>Examples</h3>
+<h3 id='examples'>Examples</h3>
 <table><thead>
 <tr>
 <th>Value</th>
@@ -1209,7 +1042,7 @@ We recommend update your filter from the moderation dashboard here: <a href="htt
 <td>The <a href="#detection-levels">detection mode</a> that has been set for phone numbers in the project filter.</td>
 </tr>
 </tbody></table>
-<h3 id='examples-3'>Examples</h3>
+<h3 id='examples-2'>Examples</h3>
 <table><thead>
 <tr>
 <th>Value</th>
@@ -1268,7 +1101,7 @@ We recommend update your filter from the moderation dashboard here: <a href="htt
 <td>The <a href="#detection-levels">detection mode</a> that has been set for URLs in the project filter.</td>
 </tr>
 </tbody></table>
-<h3 id='examples-4'>Examples</h3>
+<h3 id='examples-3'>Examples</h3>
 <table><thead>
 <tr>
 <th>Value</th>
@@ -1333,7 +1166,7 @@ The address AI works best with english texts - if you need additional languages,
 <td>The <a href="#detection-levels">detection mode</a> that has been set for addresses in the project filter.</td>
 </tr>
 </tbody></table>
-<h3 id='examples-5'>Examples</h3>
+<h3 id='examples-4'>Examples</h3>
 <table><thead>
 <tr>
 <th>Value with highlighted <code>matches</code></th>
@@ -1386,7 +1219,7 @@ The address AI works best with english texts - if you need additional languages,
 </tbody></table>
 <h3 id='only-detect-parts-of-the-name'>Only detect parts of the name</h3>
 <p>If you only want to hide last names you can change the level detected name components in the filter. Either using the API or in the dashboard.</p>
-<h3 id='examples-6'>Examples</h3>
+<h3 id='examples-5'>Examples</h3>
 <table><thead>
 <tr>
 <th>Value</th>
@@ -1494,7 +1327,7 @@ Fails gracefully on other languages than english with a normal response with emp
 <td>The <a href="#detection-levels">detection mode</a> that has been set for profanity in the project filter.</td>
 </tr>
 </tbody></table>
-<h3 id='examples-7'>Examples</h3>
+<h3 id='examples-6'>Examples</h3>
 <table><thead>
 <tr>
 <th>Value</th>
