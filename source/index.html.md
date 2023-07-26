@@ -30,9 +30,9 @@ The moderation API automates advanced text analysis tasks.
 - Detect the language of a text.
 - Remove sensitive data from text.
 
-The basic workflow is simple:
+Workflow is like this
 
-1. Define what [type of data](#filter-object) you want to detect.
+1. Create a project in the [dashboard](https://moderationapi.com/app) and add models to it.
 2. [Send a request](#text-moderation) to the API with content.
 3. We send back the detected values and original content with masked out values.
 
@@ -93,6 +93,33 @@ const { content } = await data.json();
 We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.
 
 Even though it's not recommended, it is still possible to call the API client-side from javascript. See the example to the right.
+
+# Errors
+
+The API uses the following error codes:
+
+| Error Code | Meaning                                                                                   |
+| ---------- | ----------------------------------------------------------------------------------------- |
+| 400        | Bad Request -- Your request is invalid.                                                   |
+| 401        | Unauthorized -- Your API key is wrong.                                                    |
+| 403        | Forbidden -- The requested resource is for administrators only.                           |
+| 404        | Not Found -- The specified resource could not be found.                                   |
+| 405        | Method Not Allowed -- You tried to access a resource with an invalid method.              |
+| 429        | Too Many Requests -- See [rate limits](#rate-limits)                                      |
+| 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
+| 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
+
+## Rate limits
+
+The default API rate limit is 10 requests per 10 seconds.
+
+We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.
+
+### Handling rate limts
+
+A basic technique for integrations to gracefully handle limiting is to watch for `429` status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.
+
+# Resources
 
 # Account
 
@@ -355,112 +382,11 @@ An array with all projects. Each entry in the array is a separate projects objec
 The filter is used to control the detection engine and the responses you get from the API.
 We recommend update your filter from the moderation dashboard here: [https://moderationapi.com/app/projects](https://moderationapi.com/app/projects)
 
-You can also update the filter programmatically using the API through [updating a project](#update-a-project).
-
-## Filter Object
-
-> Filter Object Example:
-
-```json
-{
-  "email": {
-    "enabled": true,
-    "masking": true,
-    "mode": "NORMAL",
-    "mask": "{{ email hidden }}"
-  },
-  "phone": {
-    "enabled": true,
-    "masking": true,
-    "mode": "NORMAL",
-    "mask": "{{ phone hidden }}"
-  },
-  "name": {
-    "enabled": true,
-    "masking": true,
-    "mode": "NORMAL",
-    "mask": "{{ name hidden }}",
-    "components": ["first", "middle", "last"]
-  }
-}
-```
-
-| Attribute     | Type   | Description                                                                        |
-| ------------- | ------ | ---------------------------------------------------------------------------------- |
-| **email**     | object | Data type settings for email detection. [See more](#email)                         |
-| **phone**     | object | Data type settings for phone number detection. [See more](#phone-number)           |
-| **url**       | object | Data type settings for URL detection. [See more](#urls)                            |
-| **address**   | object | Data type settings for address detection. [See more](#address)                     |
-| **name**      | object | Data type settings for name detection. [See more](#person-names)                   |
-| **username**  | object | Data type settings for username detection. [See more](#usernames)                  |
-| **profanity** | object | Data type settings for profanity detection. [See more](#swear-words-and-profanity) |
-| **sensitive** | object | Data type settings for sensitive numbers detection. [See more](#sensitive-numbers) |
-| **[modelId]** | object | Data type settings for a custom model. [See more](#custom-models)                  |
-
-### Data type settings
-
-| Attribute      | Type            | Description                                                                                                                                                                       |
-| -------------- | --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **enabled**    | boolean         | Turn detection of this data type on or off.                                                                                                                                       |
-| **mode**       | string          | The detection mode. Must be a supported [detection mode](#detection-levels).                                                                                                      |
-| **masking**    | boolean         | Turn masking of this data type on or off.                                                                                                                                         |
-| **mask**       | string          | The mask that to be used on detected values if masking is turned on.                                                                                                              |
-| **components** | array of string | What components of the data type you wish to detect. For example only last names or street names. Look up supported components under the specific [data types](#text-moderation). |
-
-## Detection Levels
-
-Most types of data can be detected using 3 different levels. Some only support one of the three.
-
-| Mode         | Description                                                                                                |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| `NORMAL`     | Detect values that have been formatted correctly.                                                          |
-| `SUSPICIOUS` | Detect values where the writer is trying to evade detection.                                               |
-| `PARANOID`   | Detect even the slightest chance of containing personal information. This might result in false positives. |
-
-We recommend to start with the `NORMAL` mode and increase the level if needed.
-
-### Examples
-
-| Value                                           | Detected by                         | Match response                      |
-| ----------------------------------------------- | ----------------------------------- | ----------------------------------- |
-| reach me on example@gmail.com                   | `NORMAL`, `SUSPICIOUS` , `PARANOID` | example@gmail.com                   |
-| reach me on example at gmail dot com            | `SUSPICIOUS` , `PARANOID`           | example at gmail dot com            |
-| reach me on example at that google email domain | `PARANOID`                          | example at that google email domain |
-
-## Update a Filter
-
-We recommend update your filter from the moderation dashboard here: [https://moderationapi.com/app/projects](https://moderationapi.com/app/projects).
-
-Otherwise a filter can be updated using the [project update endpoint](#update-a-project).
-
-# Errors
-
-The API uses the following error codes:
-
-| Error Code | Meaning                                                                                   |
-| ---------- | ----------------------------------------------------------------------------------------- |
-| 400        | Bad Request -- Your request is invalid.                                                   |
-| 401        | Unauthorized -- Your API key is wrong.                                                    |
-| 403        | Forbidden -- The requested resource is for administrators only.                           |
-| 404        | Not Found -- The specified resource could not be found.                                   |
-| 405        | Method Not Allowed -- You tried to access a resource with an invalid method.              |
-| 429        | Too Many Requests -- See [rate limits](#rate-limits)                                      |
-| 500        | Internal Server Error -- We had a problem with our server. Try again later.               |
-| 503        | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. |
-
-## Rate limits
-
-The default API rate limit is 10 requests per 10 seconds.
-
-We may reduce limits to prevent abuse, or increase limits to enable high-traffic applications. To request an increased rate limit, please contact support.
-
-### Handling rate limts
-
-A basic technique for integrations to gracefully handle limiting is to watch for `429` status codes and build in a retry mechanism. The retry mechanism should follow an exponential backoff schedule to reduce request volume when necessary.
+You can also update the filter programmatically using the API when [updating a project](#update-a-project).
 
 # Moderation
 
-## Overview
+# Overview
 
 The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you're looking for.
 
