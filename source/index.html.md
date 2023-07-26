@@ -31,13 +31,15 @@ The moderation API automates advanced text analysis tasks.
 - Detect the language of a text.
 - Remove sensitive data from text.
 
-Workflow is like this
+The basic workflow is:
 
 1. Create a project in the [dashboard](https://moderationapi.com/app) and add models to it.
 2. [Send a request](#text-moderation) to the API with content.
 3. We send back the detected values and original content with masked out values.
 
-![Moderation api detection](/images/example.png "Moderation API detection")
+## Not a developer?
+
+If you're not a developer, you can still use the API. We have many [integrations and no-code solution](https://moderationapi.com/integrations) that allows you to create projects and moderate content without writing a single line of code.
 
 # Authentication
 
