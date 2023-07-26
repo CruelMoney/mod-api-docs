@@ -78,29 +78,32 @@ body {
     display: block;
     max-width: 70%;
 
-    margin: 50px auto;
+    margin: 25px auto;
   }
 
   & > .search {
     position: relative;
 
     input {
-      background: $nav-bg;
-      border-width: 0 0 1px 0;
-      border-color: $search-box-border-color;
       padding: 6px 0 6px 20px;
       box-sizing: border-box;
       margin: $nav-v-padding $nav-padding;
       width: $nav-width - ($nav-padding * 2);
       outline: none;
       color: $nav-text;
-      border-radius: 0; /* ios has a default border radius */
+
+      background: rgb(247, 250, 252);
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 0px 0px 1px;
+      border: none;
+      border-radius: 7px;
+      padding-left: 26px;
+      margin-bottom: 25px;
     }
 
     &:before {
       position: absolute;
       top: 17px;
-      left: $nav-padding;
+      left: 23px;
       color: $nav-text;
       @extend %icon-search;
     }
@@ -163,7 +166,7 @@ body {
   // this is parent links of the currently selected ToC entry
   .toc-link.active-parent {
     background-color: $nav-active-parent-bg;
-    color: $nav-active-parent-text;
+    color: $nav-active-parent-text !important;
   }
 
   .toc-list-h2 {
@@ -329,6 +332,7 @@ body {
   // to place content above the dark box
   position: relative;
   z-index: 30;
+  padding-right: 28px;
 
   &:after {
     content: "";
@@ -375,9 +379,23 @@ body {
     padding-bottom: 0.5em;
     margin-bottom: $h1-margin-bottom;
     margin-top: 2em;
-    border-top: 1px solid $border-color;
-    border-bottom: 1px solid $border-color;
-    background-color: #fdfdfd;
+    // border-top: 1px solid $border-color;
+    // border-bottom: 1px solid $border-color;
+    // background-color: #fdfdfd;
+    position: relative;
+
+    &::before {
+      content: "";
+      display: block;
+      height: 1px;
+      background-color: $border-color;
+      position: relative;
+      left: 0px;
+      right: 0;
+      width: calc(200% + 28px * 3);
+      margin-bottom: 28px;
+      margin-top: 28px;
+    }
   }
 
   h1:first-child,
@@ -391,7 +409,7 @@ body {
     font-size: 19px;
     margin-top: 4em;
     margin-bottom: 0;
-    border-top: 1px solid $border-color;
+    // border-top: 1px solid $border-color;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
     background-image: linear-gradient(
@@ -505,15 +523,17 @@ body {
     padding-bottom: 1em;
     margin-top: 1.5em;
     margin-bottom: 1.5em;
-    background: $aside-notice-bg;
+    // background: $aside-notice-bg;
     line-height: 1.6;
+    margin-right: calc(50% + 28px);
+    font-weight: bold;
 
-    &.warning {
-      background-color: $aside-warning-bg;
+    padding- &.warning {
+      // background-color: $aside-warning-bg;
     }
 
     &.success {
-      background-color: $aside-success-bg;
+      // background-color: $aside-success-bg;
     }
   }
 
@@ -561,7 +581,7 @@ body {
 
     margin: 0;
     width: $examples-width;
-
+    margin-left: 28px;
     float: right;
     clear: right;
 
@@ -585,14 +605,24 @@ body {
     padding-top: 2em;
     padding-bottom: 2em;
     padding: 2em $main-padding;
+    border-radius: 0px 0px 20px 20px;
+    overflow: hidden;
+    border: 1px solid $code-annotation-bg;
   }
 
   blockquote {
+    border-radius: 20px 20px 0px 0px;
+    overflow: hidden;
     & > p {
       background-color: $code-annotation-bg;
       padding: $code-annotation-padding 2em;
       color: #eee;
     }
+  }
+
+  // blockquote after a highlight
+  .highlight + blockquote {
+    margin-top: 0.5em;
   }
 }
 

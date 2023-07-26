@@ -69,10 +69,6 @@ You must replace <code>API_KEY</code> with your project API key.
 
 ## Calling the API from browsers
 
-We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.
-
-Even though it's not recommended, it is still possible to call the API client-side from javascript. See the example to the right.
-
 > Detecting emails using javascript and fetch:
 
 ```javascript
@@ -94,7 +90,13 @@ const { content } = await data.json();
 // content = "Hello my email is {{ email hidden }}. What is yours?"
 ```
 
+We recommend to only use the API server-side to avoid exposing your API key. Usually your server would call the API with some text before storing it in your database, and optionally store the original text alongside the moderated text.
+
+Even though it's not recommended, it is still possible to call the API client-side from javascript. See the example to the right.
+
 # Account
+
+> Account endpoint
 
 ```shell
 curl "https://moderationapi.com/api/v1/account" \
