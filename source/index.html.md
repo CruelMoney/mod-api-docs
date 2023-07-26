@@ -351,7 +351,9 @@ An array with all projects. Each entry in the array is a separate projects objec
 # Filter
 
 The filter is used to control the detection engine and the responses you get from the API.
-You can change the filter from the moderation dashboard or programmatically using the API when [updating a project](#update-a-project).
+We recommend update your filter from the moderation dashboard here: [https://moderationapi.com/app/projects](https://moderationapi.com/app/projects)
+
+You can also update the filter programmatically using the API through [updating a project](#update-a-project).
 
 ## Filter Object
 
@@ -425,7 +427,9 @@ We recommend to start with the `NORMAL` mode and increase the level if needed.
 
 ## Update a Filter
 
-A filter can be updated using the [project update endpoint](#update-a-project).
+We recommend update your filter from the moderation dashboard here: [https://moderationapi.com/app/projects](https://moderationapi.com/app/projects).
+
+Otherwise a filter can be updated using the [project update endpoint](#update-a-project).
 
 # Errors
 
@@ -454,29 +458,17 @@ A basic technique for integrations to gracefully handle limiting is to watch for
 
 # Moderation
 
-> Endpoints:
-
-```text
-  POST     /api/v1/moderation/text
-```
+## Overview
 
 The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you're looking for.
 
-Currently the API detects
+You can analyze text using 3 types of models:
 
-- [Emails](#email)
-- [Phone numbers](#phone-number)
-- [URLs](#urls)
-- [Physical Addresses](#address)
-- [Names](#person-names)
-- [Usernames](#usernames)
-- [Profanity](#swear-words-and-profanity)
+- [Built-in models](#built-in-models)
+- [Custom models](#custom-models)
+- [AI Agents](#ai-agents)
 
-# Text Moderation
-
-## Overview
-
-All types of text moderation uses the same endpoint `/api/v1/moderation/text`. What gets moderated depends on the projects [filter settings](#filter).
+The models are added to a project in the dashboard, and then used through the endpoint `/api/v1/moderation/text`.
 
 > `POST /api/v1/moderation/text`
 
@@ -497,6 +489,7 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
   },
   "content_moderated": true,
   "data_found": true,
+  "flagged": true,
   "original": "You can contact me on mr_robot[at]gmail|DOT|com or call me on 12 34 65 78",
   "content": "You can contact me on {{ email hidden }} or call me on {{ number hidden }}",
   "email": {
@@ -537,13 +530,16 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
 
 Returns the moderation object. Whether a data type is included depends if it is turned on in the projects [filter settings](#filter).
 
-| Parameter             | Type    | Description                                                                                                                                                       |
-| --------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **status**            | string  | error or success.                                                                                                                                                 |
-| **content**           | string  | The moderated string. If masking is turned on in the [filter](#filter) all detected values will be hidden.                                                        |
-| **content_moderated** | boolean | A boolean indicating if the returned content is different from the original text.                                                                                 |
-| **data_found**        | boolean | A boolean indicating if any data has been found. Equal to checking each `found` field on the data types.                                                          |
-| **[data type]**       | object  | Each enabled data type get's it's own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below. |
+| Parameter             | Type    | Description                                                                                                                                                                |
+| --------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **status**            | string  | error or success.                                                                                                                                                          |
+| **content**           | string  | The moderated string. If masking is turned on in the [filter](#filter) all detected values will be hidden.                                                                 |
+| **content_moderated** | boolean | A boolean indicating if the returned content is different from the original text.                                                                                          |
+| **data_found**        | boolean | A boolean indicating if any data has been found. Equal to checking each `found` field on the data types.                                                                   |
+| **flagged**           | boolean | A boolean indicating if any of the models got triggered by the text. You might need to check the score of each model for a more precise result depending on your use case. |
+| **[model_id]**        | object  | Each enabled data type get's it's own field in the response. Only included if detection is enabled for the data type. See the responses for each data type below.          |
+
+# Built-in models
 
 ## Email
 
@@ -791,13 +787,6 @@ This model detects a range of sensitive information:
 | **found**   | boolean          | Indicates whether the content contains sensitive numbers.                                              |
 | **mode**    | string           | The [detection mode](#detection-levels) that has been set for sensitive numbers in the project filter. |
 
-# Analyzing
-
-## Overview
-
-Use our analyzers to make general conclusions about a text. <br>
-All analyzers can be used from `/api/v1/analyze/{type}` or using the moderation endpoint: `/api/v1/moderation/text` if the analyzer model has been added to a project in your dashboard.
-
 ## Language Analyzer
 
 > `POST /api/v1/analyze/language`
@@ -1004,6 +993,112 @@ Returns an object with the detected label and respective scores.
 | **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
 | **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
 
+## NSFW Analyzer
+
+> `POST /api/v1/analyze/nsfw`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/nsfw" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "How do i make a bomb?"
+     }`
+```
+
+> Analyze NSFW Response Example:
+
+```json
+{
+  "label": "UNSAFE",
+  "score": 0.67743,
+  "label_scores": {
+    "UNSAFE": 0.67743,
+    "SENSITIVE": 0.321657,
+    "NEUTRAL": 0.000897
+  }
+}
+```
+
+Detect unsafe and sensitive topics. Useful for detecting content that might be inappropriate for children. Sensitive topics include, but are not limited to, violence, weapons, drugs, politics, religion, etc.
+
+### Labels
+
+| Label         | Description                            |
+| ------------- | -------------------------------------- |
+| **UNSAFE**    | Violence, weapons, drugs, sexual, etc. |
+| **SENSITIVE** | Politics, religion, etc.               |
+| **NEUTRAL**   |                                        |
+
+### Parameters
+
+| Parameter | Type   | Description                   |
+| --------- | ------ | ----------------------------- |
+| **value** | string | The text you want to analyze. |
+
+### Returns
+
+Returns an object with the detected label and respective scores.
+
+| Parameter        | Type    | Description                                                                                                   |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
+| **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
+| **score**        | number  | The score of the most probable label.                                                                         |
+
+## Sentiment Analyzer
+
+> `POST /api/v1/analyze/sentiment`
+
+```shell
+curl "https://moderationapi.com/api/v1/analyze/sentiment" \
+  -H "Authorization: Bearer API_KEY"
+  -H "Content-Type: application/json"
+  -d `{
+       "value": "It was a dreadful day."
+     }`
+```
+
+> Analyze Sentiment Response Example:
+
+```json
+{
+  "label": "NEGATIVE",
+  "score": 0.999568,
+  "label_scores": {
+    "NEGATIVE": 0.999568,
+    "NEUTRAL": 0,
+    "POSITIVE": 0
+  }
+}
+```
+
+The sentiment analyzer is trained to detect the sentiment of a text. It can detect positive, negative and neutral sentiment.
+
+### Labels
+
+| Label        | Description        |
+| ------------ | ------------------ |
+| **NEGATIVE** | Negative sentiment |
+| **POSITIVE** | Positive sentiment |
+| **NEUTRAL**  |                    |
+
+### Parameters
+
+| Parameter | Type   | Description                   |
+| --------- | ------ | ----------------------------- |
+| **value** | string | The text you want to analyze. |
+
+### Returns
+
+Returns an object with the detected label and respective scores.
+
+| Parameter        | Type    | Description                                                                                                   |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| **label**        | string? | The most probable label. Returns null if the analyzer fails.                                                  |
+| **label_scores** | obejct  | An object containing all the label scores. From 0-1 score with 1 meaning a high probability of being correct. |
+| **score**        | number  | The score of the most probable label.                                                                         |
+
 # Custom models
 
 ## Overview
@@ -1016,6 +1111,8 @@ All custom models can be used from `/api/v1/analyze/{modelId}` or using the mode
 
 Create and train custom models from your dashboard. In the dashboard you can create your own labels, and import data to train the model on.<br>
 The model will work best if you can provide minimum 100 examples for each label you want to detect. <br>
+
+See a detailed guide on how to create a custom model here: [https://moderationapi.com/blog/custom-classifier-ai-models/](https://moderationapi.com/blog/custom-classifier-ai-models/)
 
 ## Using a custom model
 
@@ -1069,3 +1166,56 @@ Your monthly quota is measured based on a count of 1 for every 1000 characters. 
 ### Training examples
 
 Custom models can have a maximum of 5000 training examples, which should be sufficient for most scenarios. However, if you require additional training examples, please reach out to our support team. Additionally, each training example can have a maximum length of 10,000 characters.
+
+# AI Agents
+
+## Overview
+
+AI Agents are great if you don't have a lot of training data, or if you want to get started quickly. <br>
+
+However they might not perform as well as a properly trained custom model.
+
+## Creating an AI Agent
+
+When creating an AI Agent you first have to add your guidelines / rules for the agent to follow. Here it's best to very sepcific but keep it simple. <br>
+
+You can also set a strictness level for the agent. This will determine how strict the agent is when detecting content. For example the easygoing agent might let some mild violations through, while the strict agent will be better safe than sorry.
+
+## Using an AI Agent
+
+Add your newly created AI agent to a project in the dashboard and consume it from the [moderation endpoint](#moderation).
+
+> AI Agent Response Example:
+
+```json
+{
+  "label": "RULE_1",
+  "score": 1,
+  "rule": "No rude comments",
+  "label_scores": {
+    "NEUTRAL": 0,
+    "RULE_1": 1,
+    "RULE_2": 0,
+    "RULE_3": 0
+  }
+}
+```
+
+### Parameters
+
+| Parameter | Type   | Description                   |
+| --------- | ------ | ----------------------------- |
+| **value** | string | The text you want to analyze. |
+
+### Returns
+
+Returns an object with the result of the agent's analysis. To stay consistent with the other analyzers, the agent will return a label and a score. The label will be `RULE_n` where n is the number of the rule that was triggered, and the score will always be 1. <br>
+
+If no rules are triggered, the label will be `NEUTRAL`.
+
+| Parameter        | Type    | Description                                                                                |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------ |
+| **label**        | string? | The name of the rule that was triggered. Returns `NEUTRAL` if no rules were triggered.     |
+| **score**        | number  | The score of the most probable label. Always 1 or 0.                                       |
+| **rule**         | string? | The description of the rule that was triggered. Returns `null` if no rules were triggered. |
+| **label_scores** | obejct  | An object containing all the rules with either 0 or 1 as the score.                        |
