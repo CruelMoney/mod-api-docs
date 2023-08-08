@@ -1239,9 +1239,9 @@ The webhooks require your server to respond with a 200 status code within 5 seco
 
 We offer integrations with many popular platforms. These integrations will automatically integrate your platform with the moderation queue and set up actions for you. <br>
 
-Please reach out to us if you want access to any of our integrations. <br>
-
 You can see a list of available integrations here: [https://moderationapi.com/integrations](https://moderationapi.com/integrations)
+
+[Please reach out to us if you want access to any of our integrations](https://moderationapi.com/sales).
 
 # Users
 
