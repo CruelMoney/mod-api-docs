@@ -1159,7 +1159,7 @@ If no rules are triggered, the label will be `NEUTRAL`.
 
 Besides automatically detecting and moderating content, you can also submit content for manual moderation. This is useful if you want to have a human in the loop or want to manually review content before it is published.
 
-# Moderation queue
+# Content queue
 
 > ![Content queue](/images/content-queue-2.png "Content queue")
 
