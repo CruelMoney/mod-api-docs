@@ -282,7 +282,7 @@
   color: #859900;
 }
     </style>
-    <link href="stylesheets/screen-f1685365.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/screen-cdbb9ba4.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
       <script src="javascripts/all-fa107f8c.js"></script>
 
@@ -362,7 +362,7 @@
             <a href="#filter" class="toc-h1 toc-link" data-title="Filter">Filter</a>
           </li>
           <li>
-            <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
+            <a href="#detection" class="toc-h1 toc-link" data-title="Detection">Detection</a>
           </li>
           <li>
             <a href="#overview" class="toc-h1 toc-link" data-title="Overview">Overview</a>
@@ -452,6 +452,32 @@
                     <a href="#using-an-ai-agent" class="toc-h2 toc-link" data-title="Using an AI Agent">Using an AI Agent</a>
                   </li>
               </ul>
+          </li>
+          <li>
+            <a href="#moderation" class="toc-h1 toc-link" data-title="Moderation">Moderation</a>
+          </li>
+          <li>
+            <a href="#moderation-queue" class="toc-h1 toc-link" data-title="Moderation queue">Moderation queue</a>
+          </li>
+          <li>
+            <a href="#actions" class="toc-h1 toc-link" data-title="Actions">Actions</a>
+          </li>
+          <li>
+            <a href="#webhooks" class="toc-h1 toc-link" data-title="Webhooks">Webhooks</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#webhook-payload" class="toc-h2 toc-link" data-title="Webhook payload">Webhook payload</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#integrations" class="toc-h1 toc-link" data-title="Integrations">Integrations</a>
+          </li>
+          <li>
+            <a href="#users" class="toc-h1 toc-link" data-title="Users">Users</a>
+          </li>
+          <li>
+            <a href="#example-setup" class="toc-h1 toc-link" data-title="Example setup">Example setup</a>
           </li>
       </ul>
         <ul class="toc-footer">
@@ -839,7 +865,7 @@ Each project has it&#39;s own <a href="#filter">filter</a> that you can tweak to
 We recommend update your filter from the moderation dashboard here: <a href="https://moderationapi.com/app/projects">https://moderationapi.com/app/projects</a></p>
 
 <p>You can also update the filter programmatically using the API when <a href="#update-a-project">updating a project</a>.</p>
-<h1 id='moderation'>Moderation</h1><h1 id='overview'>Overview</h1>
+<h1 id='detection'>Detection</h1><h1 id='overview'>Overview</h1>
 <p>The moderation API works by submitting content to the API and you get back the cleaned content and matches for the type of data you&#39;re looking for.</p>
 
 <p>You can analyze text using 3 types of models:</p>
@@ -904,13 +930,39 @@ We recommend update your filter from the moderation dashboard here: <a href="htt
 <tr>
 <th>Parameter</th>
 <th>Type</th>
+<th>Required</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
 <td><strong>value</strong></td>
 <td>string</td>
+<td>Required</td>
 <td>The text content you want to moderate. Limited to 10.000 characters per request.</td>
+</tr>
+<tr>
+<td><strong>contextId</strong></td>
+<td>string</td>
+<td>Optional</td>
+<td>A common ID for this content. Is utilized by some models to improve accuracy.</td>
+</tr>
+<tr>
+<td><strong>authorId</strong></td>
+<td>string</td>
+<td>Optional</td>
+<td>A common ID for the author of this content. Useful when using the <a href="#moderation">moderation dashboard</a>.</td>
+</tr>
+<tr>
+<td><strong>metadata</strong></td>
+<td>object</td>
+<td>Optional</td>
+<td>Metadata to stored with the content.</td>
+</tr>
+<tr>
+<td><strong>doNotStore</strong></td>
+<td>boolean</td>
+<td>Optional</td>
+<td>If set to true, the content will not be stored in the moderation dashboard.</td>
 </tr>
 </tbody></table>
 <h3 id='returns-4'>Returns</h3>
@@ -2046,6 +2098,166 @@ The model will work best if you can provide minimum 100 examples for each label 
 <td>An object containing all the rules with either 0 or 1 as the score.</td>
 </tr>
 </tbody></table>
+<h1 id='moderation'>Moderation</h1>
+<p>Besides automatically detecting and moderating content, you can also submit content for manual moderation. This is useful if you want to have a human in the loop or want to manually review content before it is published.</p>
+<h1 id='moderation-queue'>Moderation queue</h1>
+<blockquote>
+<p><img src="images/content-queue-2-1fead435.png" title="Content queue" alt="Content queue" /></p>
+</blockquote>
+
+<p>Content submitted through the <a href="#detection">moderation endpoint</a> will also enter the content moderation queue for manual monderation unless you specify <code>doNotStore</code> as <code>true</code> in the request body.</p>
+
+<p>The moderation queue is a streamlined way to manually moderate content that has been flagged by the AI based on your project configuration.</p>
+
+<p>You can create multiple queues for different projects, and assign different moderators to each queue.</p>
+<h1 id='actions'>Actions</h1>
+<p>You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using <a href="#webhooks">webhooks</a> or using one of our <a href="#integrations">platform plugins</a>. However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br></p>
+
+<p>We recommend using actions for things like removing content from your platform, or banning users. <br></p>
+<h1 id='webhooks'>Webhooks</h1>
+<blockquote>
+<p>Webhook payload example</p>
+</blockquote>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QUEUE_ITEM_ACTION"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"item"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"644718a7fc78a41ec9f34a6d"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"labels"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nsfw/UNSAFE"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.7266457980882517</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"manual"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nsfw/SENSITIVE"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"score"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"manual"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="nl">"language"</span><span class="p">:</span><span class="w"> </span><span class="s2">"en"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"content"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Example content"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1691496019049</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"contextId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo-context"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"authorId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"author-123"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p>You can set up webhooks for common events and actions. This is useful if you want to integrate with your own systems. <br></p>
+
+<p>The webhook payload will be sent as a <code>POST</code> request to the URL you specify. <br></p>
+
+<p>The webhooks require your server to respond with a 200 status code within 5 seconds, otherwise they will be retried. Webhooks are tried at most 5 times. <br></p>
+<h3 id='webhook-payload'>Webhook payload</h3>
+<table><thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><strong>id</strong></td>
+<td>string</td>
+<td>The id of the webhook.</td>
+</tr>
+<tr>
+<td><strong>type</strong></td>
+<td>string</td>
+<td>The type of the webhook. Can be <code>QUEUE_ITEM_NEW</code>, <code>QUEUE_ITEM_ACTION</code> or <code>QUEUE_ITEM_COMPLETED</code>.</td>
+</tr>
+<tr>
+<td><strong>item</strong></td>
+<td>object</td>
+<td>The content item that triggered the webhook.</td>
+</tr>
+<tr>
+<td><strong>item.id</strong></td>
+<td>string</td>
+<td>The id of the content item.</td>
+</tr>
+<tr>
+<td><strong>item.flagged</strong></td>
+<td>boolean</td>
+<td>Whether or not the content item has been flagged by your project configuration.</td>
+</tr>
+<tr>
+<td><strong>item.labels</strong></td>
+<td>array</td>
+<td>An array of labels that the content item has been analyzed for - comes from your project configuration.</td>
+</tr>
+<tr>
+<td><strong>item.language</strong></td>
+<td>string</td>
+<td>The ISO2 language code of the content item.</td>
+</tr>
+<tr>
+<td><strong>item.content</strong></td>
+<td>string</td>
+<td>The original content of the content item.</td>
+</tr>
+<tr>
+<td><strong>item.timestamp</strong></td>
+<td>number</td>
+<td>The timestamp of when the content item was submitted.</td>
+</tr>
+<tr>
+<td><strong>item.metadata</strong></td>
+<td>object?</td>
+<td>The metadata of the content item. Specified by you when sending the content for <a href="#detection">moderation</a>.</td>
+</tr>
+<tr>
+<td><strong>item.contextId</strong></td>
+<td>string?</td>
+<td>The context id of the content item. Specified by you when sending the content for <a href="#detection">moderation</a>.</td>
+</tr>
+<tr>
+<td><strong>item.authorId</strong></td>
+<td>string?</td>
+<td>The author id of the content item. Specified by you when sending the content for <a href="#detection">moderation</a>.</td>
+</tr>
+</tbody></table>
+<h1 id='integrations'>Integrations</h1>
+<p>We offer integrations with many popular platforms. These integrations will automatically integrate your platform with the moderation queue and set up actions for you. <br></p>
+
+<p>Please reach out to us if you want access to any of our integrations. <br></p>
+
+<p>You can see a list of available integrations here: <a href="https://moderationapi.com/integrations">https://moderationapi.com/integrations</a></p>
+<h1 id='users'>Users</h1>
+<blockquote>
+<p><img src="images/users-fda43995.png" title="Users queue" alt="Users queue" /></p>
+</blockquote>
+
+<p>The <a href="#detection">moderation endpoint</a> allows you to submit an <code>authorId</code> to associate the content with a user. This will allow you to view all the content submitted by a specific user in the moderation queue. You can also take actions on specific users, such as banning them from your platform using a <a href="#actions">custom action</a>.<br></p>
+
+<p>All users can be viewed in the dashboard under the users tab. Here you can sort by the number of content items submitted by each user, or check the score of each user. <br></p>
+<h1 id='example-setup'>Example setup</h1>
+<p>Moderation queues are very versatile and can be used in many different ways. Feel free to reach out to us if you need any advice on how to set up your workflow. <br></p>
+
+<p>Here is an example of how you could set up a moderation queue for a social media platform.</p>
+
+<ol>
+<li>Create a moderation queue for your project for flagged content within the last 30 days.</li>
+<li>Create a custom action called &quot;Approve content&quot; that will send a webhook to your platform.</li>
+<li>Every time someone posts content, submit it to <code>/api/v1/moderation</code> and if the api responds with a flag, you hide it from your platform.</li>
+<li>The content will show up in the moderation queue for your moderators to review.</li>
+<li>The moderators will then review the content in the moderation queue and can press &quot;Approve content&quot; to send a webhook to your platform to unhide the content or simply accept the flag by pressing &quot;Done&quot; and removing the item from the queue.</li>
+</ol>
+
+<p>Next we can create a moderation queue for letting users report content.</p>
+
+<ol>
+<li>First create a new project, and create a button on your platform that will submit content to <code>/api/v1/moderation</code> with the api key from the new project.</li>
+<li>Create a moderation queue called &quot;Reported content&quot; that is filtered to only display content from the newly created project.</li>
+<li>Create a custom action called &quot;Remove content&quot; that will send a webhook to your platform and hide the content.</li>
+<li>Every time someone reports content, it will show up in the &quot;Reported content&quot; queue and the moderators can press &quot;Remove content&quot; to hide the content from your platform.</li>
+</ol>
 
       </div>
       <div class="dark-box">
