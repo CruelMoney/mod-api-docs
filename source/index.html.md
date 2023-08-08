@@ -1212,7 +1212,7 @@ We recommend using actions for things like removing content from your platform, 
 }
 ```
 
-You can set up webhooks for common events and actions. This is useful if you want to integrate with your own systems. <br>
+You can set up webhooks for common events and actions from the [moderation queue](#content-queue). This is useful if you want to integrate the queue with your own systems. <br>
 
 The webhook payload will be sent as a `POST` request to the URL you specify. <br>
 
