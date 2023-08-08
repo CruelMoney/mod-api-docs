@@ -453,13 +453,13 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
 
 ### Parameters
 
-| Parameter      | Type    | Required | Description                                                                                            |
-| -------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------ |
-| **value**      | string  | Required | The text content you want to moderate. Limited to 10.000 characters per request.                       |
-| **contextId**  | string  | Optional | A common ID for this content. Is utilized by some models to improve accuracy.                          |
-| **authorId**   | string  | Optional | A common ID for the author of this content. Useful when using the [moderation dashboard](#moderation). |
-| **metadata**   | object  | Optional | Metadata to stored with the content.                                                                   |
-| **doNotStore** | boolean | Optional | If set to true, the content will not be stored in the moderation dashboard.                            |
+| Parameter      | Type    | Required | Description                                                                                                                                                       |
+| -------------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **value**      | string  | Required | The text content you want to moderate. Limited to 10.000 characters per request.                                                                                  |
+| **contextId**  | string  | Optional | An ID representing the context, for example the ID of the thread or chat room. Is utilized by some models to improve accuracy by taking the context into account. |
+| **authorId**   | string  | Optional | An ID for the author of this content. Useful when using the [moderation dashboard](#moderation).                                                                  |
+| **metadata**   | object  | Optional | Metadata to stored with the content.                                                                                                                              |
+| **doNotStore** | boolean | Optional | If set to true, the content will not be stored in the moderation dashboard.                                                                                       |
 
 ### Returns
 
