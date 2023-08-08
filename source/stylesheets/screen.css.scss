@@ -708,6 +708,7 @@ body {
 }
 
 body .toc-h1[data-title="Moderation"],
+body .toc-h1[data-title="Detection"],
 body .toc-h1[data-title="Resources"] {
   text-transform: uppercase;
   margin-top: 1.5em;
@@ -748,4 +749,13 @@ body.signed-out {
 body .content table td,
 body .content table th {
   border: 1px solid #ccc;
+}
+
+blockquote img {
+  margin: -13px -2em;
+  min-width: calc(100% + 4em - 2px);
+  height: auto;
+  border-radius: 20px;
+  border: 1px solid $code-annotation-bg;
+  display: block;
 }

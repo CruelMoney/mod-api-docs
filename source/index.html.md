@@ -387,7 +387,7 @@ We recommend update your filter from the moderation dashboard here: [https://mod
 
 You can also update the filter programmatically using the API when [updating a project](#update-a-project).
 
-# Moderation
+# Detection
 
 # Overview
 
@@ -453,9 +453,13 @@ curl "https://moderationapi.com/api/v1/moderation/text" \
 
 ### Parameters
 
-| Parameter | Type   | Description                                                                      |
-| --------- | ------ | -------------------------------------------------------------------------------- |
-| **value** | string | The text content you want to moderate. Limited to 10.000 characters per request. |
+| Parameter      | Type    | Required | Description                                                                                            |
+| -------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------ |
+| **value**      | string  | Required | The text content you want to moderate. Limited to 10.000 characters per request.                       |
+| **contextId**  | string  | Optional | A common ID for this content. Is utilized by some models to improve accuracy.                          |
+| **authorId**   | string  | Optional | A common ID for the author of this content. Useful when using the [moderation dashboard](#moderation). |
+| **metadata**   | object  | Optional | Metadata to stored with the content.                                                                   |
+| **doNotStore** | boolean | Optional | If set to true, the content will not be stored in the moderation dashboard.                            |
 
 ### Returns
 
@@ -1150,3 +1154,118 @@ If no rules are triggered, the label will be `NEUTRAL`.
 | **score**        | number  | The score of the most probable label. Always 1 or 0.                                       |
 | **rule**         | string? | The description of the rule that was triggered. Returns `null` if no rules were triggered. |
 | **label_scores** | obejct  | An object containing all the rules with either 0 or 1 as the score.                        |
+
+# Moderation
+
+Besides automatically detecting and moderating content, you can also submit content for manual moderation. This is useful if you want to have a human in the loop or want to manually review content before it is published.
+
+# Moderation queue
+
+> ![Content queue](/images/content-queue-2.png "Content queue")
+
+Content submitted through the [moderation endpoint](#detection) will also enter the content moderation queue for manual monderation unless you specify `doNotStore` as `true` in the request body.
+
+The moderation queue is a streamlined way to manually moderate content that has been flagged by the AI based on your project configuration.
+
+You can create multiple queues for different projects, and assign different moderators to each queue.
+
+# Actions
+
+You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using [webhooks](#webhooks) or using one of our [platform plugins](#integrations). However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br>
+
+We recommend using actions for things like removing content from your platform, or banning users. <br>
+
+# Webhooks
+
+> Webhook payload example
+
+```json
+{
+  "id": "123",
+  "type": "QUEUE_ITEM_ACTION",
+  "item": {
+    "id": "644718a7fc78a41ec9f34a6d",
+    "flagged": true,
+    "labels": [
+      {
+        "label": "nsfw/UNSAFE",
+        "score": 0.7266457980882517,
+        "flagged": true,
+        "manual": false
+      },
+      {
+        "label": "nsfw/SENSITIVE",
+        "score": 0.01,
+        "flagged": false,
+        "manual": false
+      }
+    ],
+    "language": "en",
+    "content": "Example content",
+    "timestamp": 1691496019049,
+    "metadata": {
+      "key": "value"
+    },
+    "contextId": "demo-context",
+    "authorId": "author-123"
+  }
+}
+```
+
+You can set up webhooks for common events and actions. This is useful if you want to integrate with your own systems. <br>
+
+The webhook payload will be sent as a `POST` request to the URL you specify. <br>
+
+The webhooks require your server to respond with a 200 status code within 5 seconds, otherwise they will be retried. Webhooks are tried at most 5 times. <br>
+
+### Webhook payload
+
+| Field              | Type    | Description                                                                                                 |
+| ------------------ | ------- | ----------------------------------------------------------------------------------------------------------- |
+| **id**             | string  | The id of the webhook.                                                                                      |
+| **type**           | string  | The type of the webhook. Can be `QUEUE_ITEM_NEW`, `QUEUE_ITEM_ACTION` or `QUEUE_ITEM_COMPLETED`.            |
+| **item**           | object  | The content item that triggered the webhook.                                                                |
+| **item.id**        | string  | The id of the content item.                                                                                 |
+| **item.flagged**   | boolean | Whether or not the content item has been flagged by your project configuration.                             |
+| **item.labels**    | array   | An array of labels that the content item has been analyzed for - comes from your project configuration.     |
+| **item.language**  | string  | The ISO2 language code of the content item.                                                                 |
+| **item.content**   | string  | The original content of the content item.                                                                   |
+| **item.timestamp** | number  | The timestamp of when the content item was submitted.                                                       |
+| **item.metadata**  | object? | The metadata of the content item. Specified by you when sending the content for [moderation](#detection).   |
+| **item.contextId** | string? | The context id of the content item. Specified by you when sending the content for [moderation](#detection). |
+| **item.authorId**  | string? | The author id of the content item. Specified by you when sending the content for [moderation](#detection).  |
+
+# Integrations
+
+We offer integrations with many popular platforms. These integrations will automatically integrate your platform with the moderation queue and set up actions for you. <br>
+
+Please reach out to us if you want access to any of our integrations. <br>
+
+You can see a list of available integrations here: [https://moderationapi.com/integrations](https://moderationapi.com/integrations)
+
+# Users
+
+> ![Users queue](/images/users.png "Users queue")
+
+The [moderation endpoint](#detection) allows you to submit an `authorId` to associate the content with a user. This will allow you to view all the content submitted by a specific user in the moderation queue. You can also take actions on specific users, such as banning them from your platform using a [custom action](#actions).<br>
+
+All users can be viewed in the dashboard under the users tab. Here you can sort by the number of content items submitted by each user, or check the score of each user. <br>
+
+# Example setup
+
+Moderation queues are very versatile and can be used in many different ways. Feel free to reach out to us if you need any advice on how to set up your workflow. <br>
+
+Here is an example of how you could set up a moderation queue for a social media platform.
+
+1. Create a moderation queue for your project for flagged content within the last 30 days.
+2. Create a custom action called "Approve content" that will send a webhook to your platform.
+3. Every time someone posts content, submit it to `/api/v1/moderation` and if the api responds with a flag, you hide it from your platform.
+4. The content will show up in the moderation queue for your moderators to review.
+5. The moderators will then review the content in the moderation queue and can press "Approve content" to send a webhook to your platform to unhide the content or simply accept the flag by pressing "Done" and removing the item from the queue.
+
+Next we can create a moderation queue for letting users report content.
+
+1. First create a new project, and create a button on your platform that will submit content to `/api/v1/moderation` with the api key from the new project.
+2. Create a moderation queue called "Reported content" that is filtered to only display content from the newly created project.
+3. Create a custom action called "Remove content" that will send a webhook to your platform and hide the content.
+4. Every time someone reports content, it will show up in the "Reported content" queue and the moderators can press "Remove content" to hide the content from your platform.
