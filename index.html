@@ -2121,6 +2121,7 @@ The model will work best if you can provide minimum 100 examples for each label 
 <div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
   </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"QUEUE_ITEM_ACTION"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1691496019049</span><span class="p">,</span><span class="w">
   </span><span class="nl">"item"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
     </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"644718a7fc78a41ec9f34a6d"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"flagged"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
@@ -2171,6 +2172,11 @@ The model will work best if you can provide minimum 100 examples for each label 
 <td><strong>type</strong></td>
 <td>string</td>
 <td>The type of the webhook. Can be <code>QUEUE_ITEM_NEW</code>, <code>QUEUE_ITEM_ACTION</code> or <code>QUEUE_ITEM_COMPLETED</code>.</td>
+</tr>
+<tr>
+<td><strong>timestamp</strong></td>
+<td>number</td>
+<td>The timestamp of when the webhook was sent.</td>
 </tr>
 <tr>
 <td><strong>item</strong></td>
