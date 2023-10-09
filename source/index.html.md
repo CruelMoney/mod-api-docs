@@ -1183,6 +1183,7 @@ We recommend using actions for things like removing content from your platform, 
 {
   "id": "123",
   "type": "QUEUE_ITEM_ACTION",
+  "timestamp": 1691496019049,
   "item": {
     "id": "644718a7fc78a41ec9f34a6d",
     "flagged": true,
@@ -1224,6 +1225,7 @@ The webhooks require your server to respond with a 200 status code within 5 seco
 | ------------------ | ------- | ----------------------------------------------------------------------------------------------------------- |
 | **id**             | string  | The id of the webhook.                                                                                      |
 | **type**           | string  | The type of the webhook. Can be `QUEUE_ITEM_NEW`, `QUEUE_ITEM_ACTION` or `QUEUE_ITEM_COMPLETED`.            |
+| **timestamp**      | number  | The timestamp of when the webhook was sent.                                                                 |
 | **item**           | object  | The content item that triggered the webhook.                                                                |
 | **item.id**        | string  | The id of the content item.                                                                                 |
 | **item.flagged**   | boolean | Whether or not the content item has been flagged by your project configuration.                             |
