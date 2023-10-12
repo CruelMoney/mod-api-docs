@@ -1237,6 +1237,79 @@ The webhooks require your server to respond with a 200 status code within 5 seco
 | **item.contextId** | string? | The context id of the content item. Specified by you when sending the content for [moderation](#detection). |
 | **item.authorId**  | string? | The author id of the content item. Specified by you when sending the content for [moderation](#detection).  |
 
+### Webhook signing
+
+> Next.js webhook signing example
+
+```js
+import crypto from "crypto";
+import { buffer } from "micro";
+
+const handler = async (req, res) => {
+  try {
+    let rawBody = await buffer(req);
+    rawBody = rawBody.toString("utf8");
+
+    // The signature provided by Moderation API
+    const signature = Buffer.from(
+      req.headers["modapi-signature"] || "",
+      "utf8"
+    );
+
+    if (signature.length > 0) {
+      const digest = Buffer.from(
+        crypto
+          .createHmac("sha256", process.env.MODAPI_WEBHOOK_SECRET)
+          .update(rawBody)
+          .digest("hex"),
+        "utf8"
+      );
+
+      // Compare the provided signature to the one we generated
+      const isValid =
+        signature.length == digest.length &&
+        crypto.timingSafeEqual(signature, digest);
+
+      if (!isValid) {
+        throw new Error(
+          `Request body digest (${digest}) did not match modapi-signature (${signature})`
+        );
+      }
+    }
+
+    const payload = JSON.parse(rawBody);
+
+    console.log({ payload });
+
+    res.json({
+      ok: true,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error,
+      time: new Date(),
+    });
+  }
+};
+
+// disable body parser so we can access raw body
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default handler;
+```
+
+You can verify that the webhook is coming from us by comparing the signature of the payload with the signature provided in the `modapi-signature` header. <br>
+
+The signature is a HMAC SHA256 hash of the payload using your webhook secret as the key. Find you webhook secret under [integrations in your dashboard](https://moderationapi.com/app/moderation/integrations). <br>
+
+### Preventing replay attacks
+
+To prevent replay attacks, you can use the timestamp in the payload of the webhook to ensure that the webhook is not older than 5 minutes. <br>
+
 # Integrations
 
 We offer integrations with many popular platforms. These integrations will automatically integrate your platform with the moderation queue and set up actions for you. <br>
