@@ -468,6 +468,12 @@
                   <li>
                     <a href="#webhook-payload" class="toc-h2 toc-link" data-title="Webhook payload">Webhook payload</a>
                   </li>
+                  <li>
+                    <a href="#webhook-signing" class="toc-h2 toc-link" data-title="Webhook signing">Webhook signing</a>
+                  </li>
+                  <li>
+                    <a href="#preventing-replay-attacks" class="toc-h2 toc-link" data-title="Preventing replay attacks">Preventing replay attacks</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -2229,6 +2235,74 @@ The model will work best if you can provide minimum 100 examples for each label 
 <td>The author id of the content item. Specified by you when sending the content for <a href="#detection">moderation</a>.</td>
 </tr>
 </tbody></table>
+<h3 id='webhook-signing'>Webhook signing</h3>
+<blockquote>
+<p>Next.js webhook signing example</p>
+</blockquote>
+<div class="highlight"><pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">crypto</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">crypto</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">buffer</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">micro</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">handler</span> <span class="o">=</span> <span class="k">async</span> <span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">rawBody</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">buffer</span><span class="p">(</span><span class="nx">req</span><span class="p">);</span>
+    <span class="nx">rawBody</span> <span class="o">=</span> <span class="nx">rawBody</span><span class="p">.</span><span class="nx">toString</span><span class="p">(</span><span class="dl">"</span><span class="s2">utf8</span><span class="dl">"</span><span class="p">);</span>
+
+    <span class="c1">// The signature provided by Moderation API</span>
+    <span class="kd">const</span> <span class="nx">signature</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="k">from</span><span class="p">(</span>
+      <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="dl">"</span><span class="s2">modapi-signature</span><span class="dl">"</span><span class="p">]</span> <span class="o">||</span> <span class="dl">""</span><span class="p">,</span>
+      <span class="dl">"</span><span class="s2">utf8</span><span class="dl">"</span>
+    <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">signature</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">digest</span> <span class="o">=</span> <span class="nx">Buffer</span><span class="p">.</span><span class="k">from</span><span class="p">(</span>
+        <span class="nx">crypto</span>
+          <span class="p">.</span><span class="nx">createHmac</span><span class="p">(</span><span class="dl">"</span><span class="s2">sha256</span><span class="dl">"</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">MODAPI_WEBHOOK_SECRET</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="nx">rawBody</span><span class="p">)</span>
+          <span class="p">.</span><span class="nx">digest</span><span class="p">(</span><span class="dl">"</span><span class="s2">hex</span><span class="dl">"</span><span class="p">),</span>
+        <span class="dl">"</span><span class="s2">utf8</span><span class="dl">"</span>
+      <span class="p">);</span>
+
+      <span class="c1">// Compare the provided signature to the one we generated</span>
+      <span class="kd">const</span> <span class="nx">isValid</span> <span class="o">=</span>
+        <span class="nx">signature</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="nx">digest</span><span class="p">.</span><span class="nx">length</span> <span class="o">&amp;&amp;</span>
+        <span class="nx">crypto</span><span class="p">.</span><span class="nx">timingSafeEqual</span><span class="p">(</span><span class="nx">signature</span><span class="p">,</span> <span class="nx">digest</span><span class="p">);</span>
+
+      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">isValid</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nb">Error</span><span class="p">(</span>
+          <span class="s2">`Request body digest (</span><span class="p">${</span><span class="nx">digest</span><span class="p">}</span><span class="s2">) did not match modapi-signature (</span><span class="p">${</span><span class="nx">signature</span><span class="p">}</span><span class="s2">)`</span>
+        <span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="kd">const</span> <span class="nx">payload</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">rawBody</span><span class="p">);</span>
+
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">({</span> <span class="nx">payload</span> <span class="p">});</span>
+
+    <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span>
+      <span class="na">ok</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="p">});</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">500</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span>
+      <span class="nx">error</span><span class="p">,</span>
+      <span class="na">time</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span>
+    <span class="p">});</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// disable body parser so we can access raw body</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">config</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">api</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">bodyParser</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">handler</span><span class="p">;</span>
+</code></pre></div>
+<p>You can verify that the webhook is coming from us by comparing the signature of the payload with the signature provided in the <code>modapi-signature</code> header. <br></p>
+
+<p>The signature is a HMAC SHA256 hash of the payload using your webhook secret as the key. Find you webhook secret under <a href="https://moderationapi.com/app/moderation/integrations">integrations in your dashboard</a>. <br></p>
+<h3 id='preventing-replay-attacks'>Preventing replay attacks</h3>
+<p>To prevent replay attacks, you can use the timestamp in the payload of the webhook to ensure that the webhook is not older than 5 minutes. <br></p>
 <h1 id='integrations'>Integrations</h1>
 <p>We offer integrations with many popular platforms. These integrations will automatically integrate your platform with the moderation queue and set up actions for you. <br></p>
 
