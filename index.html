@@ -2117,7 +2117,7 @@ The model will work best if you can provide minimum 100 examples for each label 
 
 <p>You can create multiple queues for different projects, and assign different moderators to each queue.</p>
 <h1 id='actions'>Actions</h1>
-<p>You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using <a href="#webhooks">webhooks</a> or using one of our <a href="#integrations">platform plugins</a>. However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br></p>
+<p>You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using <a href="#webhooks">webhooks</a> or use one of our <a href="#integrations">platform plugins</a>. However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br></p>
 
 <p>We recommend using actions for things like removing content from your platform, or banning users. <br></p>
 <h1 id='webhooks'>Webhooks</h1>
@@ -2150,6 +2150,15 @@ The model will work best if you can provide minimum 100 examples for each label 
     </span><span class="nl">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1691496019049</span><span class="p">,</span><span class="w">
     </span><span class="nl">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="nl">"key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"value"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"queue"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My queue"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"123"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Remove content"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"value"</span><span class="p">:</span><span class="w"> </span><span class="s2">"spam"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="nl">"contextId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"demo-context"</span><span class="p">,</span><span class="w">
     </span><span class="nl">"authorId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"author-123"</span><span class="w">
@@ -2233,6 +2242,26 @@ The model will work best if you can provide minimum 100 examples for each label 
 <td><strong>item.authorId</strong></td>
 <td>string?</td>
 <td>The author id of the content item. Specified by you when sending the content for <a href="#detection">moderation</a>.</td>
+</tr>
+<tr>
+<td><strong>queue.id</strong></td>
+<td>string?</td>
+<td>The id of the queue that the content item is in.</td>
+</tr>
+<tr>
+<td><strong>action.id</strong></td>
+<td>string?</td>
+<td>The id of the action that was taken on the content item if the type is QUEUE_ITEM_ACTION</td>
+</tr>
+<tr>
+<td><strong>action.name</strong></td>
+<td>string?</td>
+<td>The name of the action that was taken on the content item if the type is QUEUE_ITEM_ACTION</td>
+</tr>
+<tr>
+<td><strong>action.value</strong></td>
+<td>string?</td>
+<td>The value of the action that was taken on the content item if the type is QUEUE_ITEM_ACTION</td>
 </tr>
 </tbody></table>
 <h3 id='webhook-signing'>Webhook signing</h3>
