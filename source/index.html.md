@@ -1171,7 +1171,7 @@ You can create multiple queues for different projects, and assign different mode
 
 # Actions
 
-You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using [webhooks](#webhooks) or using one of our [platform plugins](#integrations). However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br>
+You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using [webhooks](#webhooks) or use one of our [platform plugins](#integrations). However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br>
 
 We recommend using actions for things like removing content from your platform, or banning users. <br>
 
@@ -1207,6 +1207,15 @@ We recommend using actions for things like removing content from your platform, 
     "metadata": {
       "key": "value"
     },
+    "queue": {
+      "id": "123",
+      "name": "My queue"
+    },
+    "action": {
+      "id": "123",
+      "name": "Remove content",
+      "value": "spam"
+    },
     "contextId": "demo-context",
     "authorId": "author-123"
   }
@@ -1236,6 +1245,10 @@ The webhooks require your server to respond with a 200 status code within 5 seco
 | **item.metadata**  | object? | The metadata of the content item. Specified by you when sending the content for [moderation](#detection).   |
 | **item.contextId** | string? | The context id of the content item. Specified by you when sending the content for [moderation](#detection). |
 | **item.authorId**  | string? | The author id of the content item. Specified by you when sending the content for [moderation](#detection).  |
+| **queue.id**       | string? | The id of the queue that the content item is in.                                                            |
+| **action.id**      | string? | The id of the action that was taken on the content item if the type is QUEUE_ITEM_ACTION                    |
+| **action.name**    | string? | The name of the action that was taken on the content item if the type is QUEUE_ITEM_ACTION                  |
+| **action.value**   | string? | The value of the action that was taken on the content item if the type is QUEUE_ITEM_ACTION                 |
 
 ### Webhook signing
 
