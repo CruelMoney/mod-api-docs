@@ -1167,7 +1167,13 @@ Content submitted through the [moderation endpoint](#detection) will also enter 
 
 The moderation queue is a streamlined way to manually moderate content that has been flagged by the AI based on your project configuration.
 
-You can create multiple queues for different projects, and assign different moderators to each queue.
+You can create multiple queues for different projects, and assign different team members to each queue.
+
+## Images, Videos and Audio
+
+> ![Content queue](/images/content-queue-detail.png "Content queue detail view")
+
+Any content submitted as HTML will be rendered in the queue, including images, videos and audio. This enables you to easily moderate content that contains media.
 
 # Actions
 
