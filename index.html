@@ -458,6 +458,11 @@
           </li>
           <li>
             <a href="#content-queue" class="toc-h1 toc-link" data-title="Content queue">Content queue</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#images-videos-and-audio" class="toc-h2 toc-link" data-title="Images, Videos and Audio">Images, Videos and Audio</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#actions" class="toc-h1 toc-link" data-title="Actions">Actions</a>
@@ -2115,7 +2120,13 @@ The model will work best if you can provide minimum 100 examples for each label 
 
 <p>The moderation queue is a streamlined way to manually moderate content that has been flagged by the AI based on your project configuration.</p>
 
-<p>You can create multiple queues for different projects, and assign different moderators to each queue.</p>
+<p>You can create multiple queues for different projects, and assign different team members to each queue.</p>
+<h2 id='images-videos-and-audio'>Images, Videos and Audio</h2>
+<blockquote>
+<p><img src="images/content-queue-detail-6ab38d07.png" title="Content queue detail view" alt="Content queue" /></p>
+</blockquote>
+
+<p>Any content submitted as HTML will be rendered in the queue, including images, videos and audio. This enables you to easily moderate content that contains media.</p>
 <h1 id='actions'>Actions</h1>
 <p>You can create custom actions to take on content or users. The actions will show up in the moderation queue, and can be used by moderators. The actions does not enforce anything on our end other than showing the action in the moderation queue. It is up to you to implement the actions on your end using <a href="#webhooks">webhooks</a> or use one of our <a href="#integrations">platform plugins</a>. However, you can create custom queues that show only content that has been flagged with a specific action. This way you can move content between queues using actions. <br></p>
 
