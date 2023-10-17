@@ -1232,7 +1232,7 @@ The webhooks require your server to respond with a 200 status code within 5 seco
 
 | Field              | Type    | Description                                                                                                 |
 | ------------------ | ------- | ----------------------------------------------------------------------------------------------------------- |
-| **id**             | string  | The id of the webhook.                                                                                      |
+| **id**             | string  | The unique id of the event.                                                                                 |
 | **type**           | string  | The type of the webhook. Can be `QUEUE_ITEM_NEW`, `QUEUE_ITEM_ACTION` or `QUEUE_ITEM_COMPLETED`.            |
 | **timestamp**      | number  | The timestamp of when the webhook was sent.                                                                 |
 | **item**           | object  | The content item that triggered the webhook.                                                                |
